@@ -4,221 +4,114 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escalation Template Generator</title>
+    <title>Microsoft Scoping</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        .col input,.col select {
+            max-width: 550px;
+            margin-left: auto;
+        }
         .main {
-            margin:0px;
-        }    
+            margin:0;
+        }
+        .form-panel {
+            background: #766061;
+            color:white;
+        }
+        .btn-primary, .btn-primary:focus {
+            background: #766061;
+            outline: none;
+            box-shadow: none;
+            border: 1px solid #5e4d4e;
+        }
+        .btn-primary:hover {
+            background: #5e4d4e;
+            border: 1px solid #362c2c;
+        }
+        .btn-success, .btn-success:focus {
+            background: #805f61;
+            outline: none;
+            box-shadow: none;
+            border: 1px solid #3d2929;
+        }
+        .btn-success:hover {
+            background: #805f61;
+            border: 1px solid #3d2929;
+        }
+        .btn-success {
+            opacity:1;
+        }
+        .btn-link {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            padding:4px 15px;
+            font-size: 22px;
+        }
+        .btn-link:hover {
+            color: black;
+        }
         #copy-case-note {
             float:right;
             min-width:77px;
             transition: all .3s;
         }
-        #customer-repro-steps-list>li {
-            margin-bottom:10px;
-        }
-        #customer-repro-steps-add {
-            margin: 0 auto;
-            display: block;
+        #customer-repro-steps-data {
+            max-width: 580px;
+            margin-left:auto;
         }
     </style>
 </head>
 <body>
 <div class="main">
-    <div class="row">
-        <header>
-            <h1 class="p-2">
-                Escalation Template generator
-            </h1>
-        </header>
-    </div>
-    <div class="row">
+    <div class="row m-0 p-0">
         <!-- FORM Column -->
-        <div class="col-sm-12 col-md-6 p-5">
+        <div class="col-sm-12 col-md-7 p-5 pt-4 form-panel">
+            <h1 class="text-title-medium-70 mg-btm-40 tp-title" style="color: white!important;-webkit-text-fill-color: white;margin-bottom:20px;background-image:none;">
+                <i class="fa-brands fa-microsoft"></i> Microsoft Scoping
+            </h1>
             <main>
                 <p>#### Template ####</p>
                 <ol>
                     <!-- Issue Description Form -->
-                    <li>
-                        <div class="row p-1 form-group">
-                            <div class="col-auto pt-1">
-                                <label for="issue-description-q" id="issue-description-l" class="control-label fw-bold text-danger">Issue Description:</label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control border border-danger" id="issue-description-q" placeholder="Inbound call not working">
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </li>
+                    <li id="issue-description"></li>
                     <!-- Scope Agreement Form -->
-                    <li>
-                        <div class="row p-1 form-group">
-                            <div class="col-auto pt-1">
-                                <label for="scope-agreement-q" id="scope-agreement-l" class="control-label fw-bold text-danger">Scope Agreement:</label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control border border-danger" id="scope-agreement-q" placeholder="Inbound call not working">
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </li>
+                    <li id="scope-agreement"></li>
                     <!-- Issue Started Form -->
-                    <li>
-                        <div class="row p-1 form-group">
-                            <div class="col-auto pt-1">
-                                <label for="first-occurance-q" id="first-occurance-l" class="control-label fw-bold text-danger">Behaviour observed for the first time:</label>
-                            </div>
-                            <div class="col">
-                                <input type="date" class="form-control border border-danger" id="first-occurance-q">
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                    <li><div id="first-occurance"></div>
                         <ul>
                             <!-- Did It Work Before Form -->
-                            <li>
-                                <div class="row p-1 form-group">
-                                    <div class="col-auto pt-1">
-                                        <label for="worked-before-q" id="worked-before-l" class="control-label fw-bold text-danger">Did it work before?</label>
-                                    </div>
-                                    <div class="col">
-                                        <select class="form-select border border-danger" id="worked-before-q">
-                                            <option value="0"></option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </li>
+                            <li id="worked-before"></li>
                             <!-- Can Be Reprod On Demand Form -->
-                            <li>
-                                <div class="row p-1 form-group">
-                                    <div class="col-auto pt-1">
-                                        <label for="ondemand-repro-q" id="ondemand-repro-l" class="control-label fw-bold text-danger">Can the issue be reproduced on demand?</label>
-                                    </div>
-                                    <div class="col">
-                                        <select class="form-select border border-danger" id="ondemand-repro-q">
-                                            <option value="0"></option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="Irregular">Irregular, hard to repro</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </li>
+                            <li id="ondemand-repro"></li>
                             <!-- Customer Repro Steps Form -->
-                            <li>
-                                <p class="control-label fw-bold text-danger">Customer repro steps:</p>
-                                <ol id="customer-repro-steps-list">
-                                    <li id="first-cs-step" class="text-danger">
-                                        <div class="row">
-                                            <div class="col">
-                                                <input id="first-cs-step-input"class="form-control border-danger" placeholder="Customer repro step" type="text">
-                                            </div>
-                                            <div class="col-auto">
-                                                <button id="first-cs-step-button" class="btn-sm btn-danger">Remove</button>
-                                            </div>
-
-                                        </div>
-                                    </li>
-                                    <li id="second-cs-step" class="text-danger">
-                                        <div class="row">
-                                            <div class="col">
-                                                <input id="second-cs-step-input" class="form-control border-danger" placeholder="Customer repro step" type="text">
-                                            </div>
-                                            <div class="col-auto">
-                                                <button id="second-cs-step-button" class="btn-sm btn-danger">Remove</button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li id="third-cs-step" class="text-danger">
-                                        <div class="row">
-                                            <div class="col">
-                                                <input id="third-cs-step-input" class="form-control border-danger" placeholder="Customer repro step" type="text">
-                                            </div>
-                                            <div class="col-auto">
-                                                <button id="third-cs-step-button" class="btn-sm btn-danger">Remove</button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ol>
-
-                                <button id="customer-repro-steps-add" class="btn-sm btn-primary" >Add more</button>
-                            </li>
-                            <li>
-                                <div class="row p-1 form-group">
-                                    <div class="col-auto pt-1">
-                                        <label for="customer-repro-steps-q" id="customer-repro-steps-l" class="control-label fw-bold text-danger">Additional comments about repro steps/behaviour:</label>
-                                    </div>
-                                </div>
-                                <div class="row p-1 form-group">
-                                    <div class="col">
-                                        <textarea class="form-control border-danger" id="customer-repro-steps-q" rows="3"></textarea>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </li>
+                            <li id="customer-repro-steps"></li>
+                            <li id="customer-repro-steps-comment"></li>
                         </ul>
                     </li>
                     <!-- How Many Affected Users Form -->
-                    <li>
-                        <div class="row p-1 form-group">
-                            <div class="col-auto pt-1">
-                                <label for="affected-users-q" id="affected-users-l" class="control-label fw-bold text-danger">How many affected users:</label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control border border-danger" id="affected-users-q" placeholder="All, 10, ~100">
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                    <li><div id="affected-users"></div>
                         <ul>
                             <!-- Example Affected User Form -->
-                            <li>
-                                <div class="row p-1 form-group">
-                                    <div class="col-auto pt-1">
-                                        <label for="example-affected-user-q" id="example-affected-user-l" class="control-label fw-bold text-danger">Example affected user:</label>
-                                    </div>
-                                    <div class="col">
-                                        <input type="text" class="form-control border border-danger" id="example-affected-user-q" placeholder="affected@contoso.com">
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </li>
+                            <li id="example-affected"></li>
                             <!-- Example Not Affected User Form -->
-                            <li>
-                                <div class="row p-1 form-group">
-                                    <div class="col-auto pt-1">
-                                        <label for="example-not-affected-user-q" id="example-not-affected-user-l" class="control-label fw-bold text-danger">Example not affected user:</label>
-                                    </div>
-                                    <div class="col">
-                                        <input type="text" class="form-control border border-danger" id="example-not-affected-user-q" placeholder="not_affected@contoso.com">
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </li>
+                            <li id="example-not-affected"></li>
                             <!-- Get-CsOnlineUser Transcript Form -->
                             <li>
-                                <div class="row p-1">
-                                    <div class="col-auto pt-1">
-                                        <label for="get-csonlineuser-transcript-q" id="get-csonlineuser-transcript-l" class="control-label fw-bold text-danger">
-                                            Get-CsOnlineUser Transcript Attached?
-                                        </label>
-                                        </div>
-                                        <div class="col-auto form-check pt-1">
-                                            <input class="form-check-input border border-danger" id="get-csonlineuser-transcript-q" type="checkbox" value="">
-                                        </div>
-                                        <div class="col">
-                                        <button class="btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#Get-CsOnlineUserTranscriptSample" aria-expanded="false" aria-controls="Get-CsOnlineUserTranscriptSample">
-                                            Transcript sample
+                                <div class="row">
+                                    <div id="get-csonlineuser-transcript"class="col-auto"></div>
+                                    <div class="col">
+                                        <button class="btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#Get-CsOnlineUserTranscriptSample" aria-expanded="false" aria-controls="Get-CsOnlineUserTranscriptSample">
+                                            <i class="fa-solid fa-circle-info"></i>
                                         </button>
-                                        </div>
+                                    </div>
                                         <div class="clearfix"></div>
                                 </div>
                                 <!-- Transcript Toggle -->
-                                <div class="row collapse" id="Get-CsOnlineUserTranscriptSample">
-                                    <div class="card card-body">
+                                <div class="row collapse mb-3" id="Get-CsOnlineUserTranscriptSample" style="color: black;">
+                                    <div class="card card-body bg-transparent text-white fst-italic">
                                         Following transcript will be exported under Desktop\CsOnlineUser-PS.txt
                                         <ul>
                                             <li>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12</li>
@@ -236,75 +129,23 @@
                         </ul>
                     </li>
                     <!-- Skype for Business Form -->
-                    <li>
-                        <div class="row p-1 form-group">
-                            <div class="col-auto pt-2">
-                                <label for="skype-for-business-q" id="skype-for-business-l" class="control-label fw-bold text-danger">Using Skype for Business on-premises?</label>
-                            </div>
-                            <div class="col">
-                                <select class="form-select border border-danger" id="skype-for-business-q">
-                                    <option value="0"></option>
-                                    <option value="Never Used">Never Used</option>
-                                    <option value="Decomissioned, migrated">Decomissioned, migrated</option>
-                                    <option value="Still using, fully on-prem">Still using, fully on-prem</option>
-                                    <option value="Still using, hybrid">Still using, hybrid</option>
-                                    <option value="Still using, hybrid, migrating">Still using, hybrid, migrating</option>
-                                </select>
-                            </div>
-                        </div>
-                    </li>
+                    <li id="skype-for-business"></li>
                     <!-- VDI Form -->
-                    <li>
-                        <div class="row p-1 form-group">
-                            <div class="col-auto pt-2">
-                                <label for="vdi-environment-q" id="vdi-environment-l" class="control-label fw-bold text-danger">Using Virtual Environment?</label>
-                            </div>
-                            <div class="col">
-                                <select class="form-select border border-danger" id="vdi-environment-q">
-                                    <option value="0"></option>
-                                    <option value="Not using">Not using</option>
-                                    <option value="Remote Desktop Server">Remote Desktop Server</option>
-                                    <option value="Citrix">Citrix</option>
-                                    <option value="VMWare">VMWare</option>
-                                </select>
-                            </div>
-                        </div>
-                        <ul id="vdi-environment-scoping" class="d-none">
+                    <li><div id="vdi-environment"></div>
+                        <ul id="vdi-environment-scoping" class="d- none">
                             <!-- Terminal Version Form -->
-                            <li>
-                                <div class="row p-1 form-group">
-                                    <div class="col-auto pt-1">
-                                        <label for="virtual-terminal-version-q" id="virtual-terminal-version-l" class="control-label fw-bold text-danger">Terminal Version:</label>
-                                    </div>
-                                    <div class="col">
-                                        <input type="text" class="form-control border border-danger" id="virtual-terminal-version-q" placeholder="123.123.2">
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </li>
+                            <li id="vdi-terminal-version"></li>
                             <!-- Isolated to VDI Form -->
-                            <li>
-                                <div class="row p-1 form-group">
-                                    <div class="col-auto pt-2">
-                                        <label for="isolated-to-vdi-q" id="isolated-to-vdi-l" class="control-label fw-bold text-danger">Does issue affect the same user outside of VDI dnvoirnment?</label>
-                                    </div>
-                                    <div class="col">
-                                        <select class="form-select border border-danger" id="isolated-to-vdi-q">
-                                            <option value="0"></option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </li>
+                            <li id="isolated-to-vdi"></li>
                         </ul>
                     </li>
+
                 </ul>
             </main>
         </div>
             
         <!-- Case Note Column -->
-        <div class="col-sm-12 col-md-6 p-5">
+        <div class="col-sm-12 col-md-5 p-5">
             
             <!-- Copy Button -->
             <button id="copy-case-note" class="btn btn-primary">Copy</button>
@@ -318,59 +159,50 @@
                 <ul style="margin-left:30px;">
                     <li>
                         Issue Description:
-                        <ul id="issue-description-a">
-                        </ul>
+                        <ul><li id="issue-description-info"></li></ul>
                     </li>
                     <li>
                         Scope Agreement:
-                        <ul id="scope-agreement-a">
-                        </ul>
+                        <ul><li id="scope-agreement-info"></li></ul>
                     </li>
                     <li>
                         Scope:
                         <ul>
                             <li>
-                                Affected users: <span id="affected-users-a" class="min-width-10" data-text=""></span>
+                                Behaviour started: <span id="first-occurance-info" class="min-width-10" data-text=""></span>
+                                <ul>
+                                    <li id="worked-before-info"></li>
+                                    <li id="ondemand-repro-info"></li>
+                                </ul>
+                            </li>
+                            <li>
+                                Customer repro steps:
+                                <ol id="customer-repro-steps-info"></ol>
+                                <ul><li>Additional comments:<br><i id="customer-repro-steps-comment-info"></i></li></ul>
+                            </li>
+                            <li>
+                                Affected users: <span id="affected-users-info" class="min-width-10" data-text=""></span>
                                 <ul>
                                     <li>Example Affected:
-                                        <ul id="example-affected-user-a"></ul>
+                                        <ul><li id="example-affected-info"></li></ul>
                                     </li>
                                 </ul>
                                 <ul>
                                     <li>Example Not Affected:
-                                        <ul id="example-not-affected-user-a"></ul>
+                                        <ul><li id="example-not-affected-info"></li></ul>
                                     </li>
                                 </ul>
-                                <ul id="get-csonlineuser-transcript-a"></ul>
+                                <ul><li id="get-csonlineuser-transcript-info"></li></ul>
                             </li>
-                            <li id="skype-for-business-a">
+                            <li>
                                 Skype for Business:
+                                <ul><li id="skype-for-business-info"></li></ul>
                             </li>
                             <li>
                                 Virtual Environment:
-                                <ul id="vdi-environment-a"></ul>
-                                <ul><ul id="virtual-terminal-version-a"></ul></ul>
-                                <ul><ul id="isolated-to-vdi-a"></ul></ul>
-                            </li>
-                            <li>
-                                Behaviour started: <span id="first-occurance-a" class="min-width-10" data-text=""></span>
-                                <ul id="worked-before-a"></ul>
-                                <ul id="ondemand-repro-a"></ul>
-                            </li>
-                            <li>
-                                Customer repro steps
-                                <ol id="customer-repro-steps-note-list">
-                                    <li id="first-cs-step-note">
-
-                                    </li>
-                                    <li id="second-cs-step-note">
-
-                                    </li>
-                                    <li id="third-cs-step-note">
-
-                                    </li>
-                                </ol>
-                                <ul id="customer-repro-steps-a"></ul>
+                                <span id="vdi-environment-info"></span>
+                                <ul><li>Terminal Version: <span id="vdi-terminal-version-info"></span></li></ul>
+                                <ul><li id="isolated-to-vdi-info"></li></ul>
                             </li>
                         </ul>
                     </li>
@@ -387,526 +219,349 @@
     
 
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+<script type="text/javascript">
+    const   vdiEnvironmentScoping = document.getElementById('vdi-environment-scoping');
+                                  
+ 
+    createScopeQuestion('issue-description', 'Issue Description:', 'text', 'Inbound call not working');
+
+    createScopeQuestion('scope-agreement', 'Scope Agreement:', 'text', 'Inbound calls working');
+    
+    var today = new Date(),
+        date =  today.getFullYear() + '-'+ ('0' + (today.getMonth()+1)).slice(-2) + '-'+ ('0' + today.getDate()).slice(-2);
+    createScopeQuestion('first-occurance', 'Behaviour observed for the first time:', 'date', date);
+
+    var workedBeforeOptions = [
+        ["It worked before", "Yes"],
+        ["It never worked", "No"]
+    ];
+    createScopeQuestion('worked-before', 'Did it work before?', 'select', "Choose option", workedBeforeOptions);
+
+    var ondemandReproOptions = [
+        ["It can be reproduced on demand", "Yes"],
+        ["Issue is not regular, difficult to reproduce", "Irregular, hard to repro"],
+        ["It cannot be reproduced on demand", "No"]
+    ];
+    createScopeQuestion('ondemand-repro', 'Can the issue be reproduced on demand?', 'select', "Choose option", ondemandReproOptions);
+
+    createStepList('customer-repro-steps', 'Customer repro steps:');
+
+    createScopeQuestion('customer-repro-steps-comment', 'Additional comments about repro behaviour:', 'textarea', 'In comparison to web client...');
+
+    createScopeQuestion('affected-users', 'How many affected users:', 'text', 'All, 10, ~100');
+
+    createScopeQuestion('example-affected', 'Example affected user:', 'text', 'affected@contoso.com');
+
+    createScopeQuestion('example-not-affected', 'Example not affected user:', 'text', 'notAffected@contoso.com');
+
+    createScopeQuestion('get-csonlineuser-transcript', 'Get-CsOnlineUser Transcript Attached?', 'checkbox', 'Get-CsOnlineUser Transcript Attached');
+    
+    var skypeOptions = [
+        ["Never Used", "Never Used"],
+        ["Decomissioned, migrated", "Decomissioned, migrated"],
+        ["Still using, fully on-prem", "Still using, fully on-prem"],
+        ["Still using, hybrid", "Still using, hybrid"],
+        ["Still using, hybrid, migrating", "Still using, hybrid, migrating"]
+    ];
+    createScopeQuestion('skype-for-business', 'Using Skype for Business on-premises?', 'select', "Choose option", skypeOptions);
+                
+    var vdiEnvOptions = [
+        ["Not using", "Not using"],
+        ["Remote Desktop Server", "Remote Desktop Server"],
+        ["Citrix", "Citrix"],
+        ["VMWare", "VMWare"],
+        ["Azure", "Azure"]
+    ];
+    createScopeQuestion('vdi-environment', 'Using Virtual Environment?', 'select', "Choose option", vdiEnvOptions);
+
+    createScopeQuestion('vdi-terminal-version', 'Terminal Version:', 'text', '123.123.2');
+
+    var isolatedVDIOptions = [
+        ["Issue can be reproduced outside of the VDI Environment", "Yes"],
+        ["Issue cannot be reproduced outside of the VDI Environment", "No"]
+    ];
+    createScopeQuestion('isolated-to-vdi', 'Does issue affect the same user outside of VDI dnvoirnment?', 'select', "Choose option", isolatedVDIOptions);
+
+                    
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-    <script type="text/javascript">
-        (() => {
-        const issueDescriptionL = document.getElementById('issue-description-l'),
-              issueDescriptionQ = document.getElementById('issue-description-q'),
-              issueDescriptionA = document.getElementById('issue-description-a'),
-              scopeAgreementL = document.getElementById('scope-agreement-l'),
-              scopeAgreementQ = document.getElementById('scope-agreement-q'),
-              scopeAgreementA = document.getElementById('scope-agreement-a'),
-              affectedUsersL = document.getElementById('affected-users-l'),
-              affectedUsersQ = document.getElementById('affected-users-q'),
-              affectedUsersA = document.getElementById('affected-users-a'),
-              exampleAffectedUserL = document.getElementById('example-affected-user-l'),
-              exampleAffectedUserQ = document.getElementById('example-affected-user-q'),
-              exampleAffectedUserA = document.getElementById('example-affected-user-a'),
-              exampleNotAffectedUserL = document.getElementById('example-not-affected-user-l'),
-              exampleNotAffectedUserQ = document.getElementById('example-not-affected-user-q'),
-              exampleNotAffectedUserA = document.getElementById('example-not-affected-user-a'),
-              getCsOnlineUserTranscriptL = document.getElementById('get-csonlineuser-transcript-l'),
-              getCsOnlineUserTranscriptQ = document.getElementById('get-csonlineuser-transcript-q'),
-              getCsOnlineUserTranscriptA = document.getElementById('get-csonlineuser-transcript-a'),
-              skypeForBusinessL = document.getElementById('skype-for-business-l'),
-              skypeForBusinessQ = document.getElementById('skype-for-business-q'),
-              skypeForBusinessA = document.getElementById('skype-for-business-a'),
-              vdiEnvironmentL = document.getElementById('vdi-environment-l'),
-              vdiEnvironmentQ = document.getElementById('vdi-environment-q'),
-              vdiEnvironmentA = document.getElementById('vdi-environment-a'),
-              vdiEnvironmentScoping = document.getElementById('vdi-environment-scoping'),
-              vdiEnvironmentTerminalVersionL = document.getElementById('virtual-terminal-version-l'),
-              vdiEnvironmentTerminalVersionQ = document.getElementById('virtual-terminal-version-q'),
-              vdiEnvironmentTerminalVersionA = document.getElementById('virtual-terminal-version-a'),
-              vdiEnvironmentIsolatedL = document.getElementById('isolated-to-vdi-l'),
-              vdiEnvironmentIsolatedQ = document.getElementById('isolated-to-vdi-q'),
-              vdiEnvironmentIsolatedA = document.getElementById('isolated-to-vdi-a'),
-              firstOccuranceL = document.getElementById('first-occurance-l'),
-              firstOccuranceQ = document.getElementById('first-occurance-q'),
-              firstOccuranceA = document.getElementById('first-occurance-a'),
-              workedBeforeL = document.getElementById('worked-before-l'),
-              workedBeforeQ = document.getElementById('worked-before-q'),
-              workedBeforeA = document.getElementById('worked-before-a'),
-              ondemandReproL = document.getElementById('ondemand-repro-l'),
-              ondemandReproQ = document.getElementById('ondemand-repro-q'),
-              ondemandReproA = document.getElementById('ondemand-repro-a');
+function createScopeQuestion(liID, label, inputType, placeholder, options) {
 
-
-        issueDescriptionQ.addEventListener('input', () => {
-            issueDescriptionA.setAttribute('data-text', issueDescriptionQ.value);
-            if ((issueDescriptionQ.value).length === 0) {
-                issueDescriptionL.classList.add("text-danger");
-                issueDescriptionL.classList.remove("text-success");
-                issueDescriptionQ.classList.add("border-danger");
-                issueDescriptionQ.classList.remove("text-success");
-                issueDescriptionA.innerHTML = '';
-            } else {
-                issueDescriptionL.classList.add("text-success");
-                issueDescriptionL.classList.remove("text-danger");
-                issueDescriptionQ.classList.add("border-success");
-                issueDescriptionQ.classList.remove("border-danger");
-                issueDescriptionA.innerHTML = "<li>" + issueDescriptionA.getAttribute('data-text') + "</li>";
-            }
-        });
-
-        scopeAgreementQ.addEventListener('input', () => {
-            scopeAgreementA.setAttribute('data-text', scopeAgreementQ.value);
-            if ((scopeAgreementQ.value).length === 0) {
-                scopeAgreementL.classList.add("text-danger");
-                scopeAgreementL.classList.remove("text-success");
-                scopeAgreementQ.classList.add("border-danger");
-                scopeAgreementQ.classList.remove("text-success");
-                scopeAgreementA.innerHTML = '';
-            } else {
-                scopeAgreementL.classList.add("text-success");
-                scopeAgreementL.classList.remove("text-danger");
-                scopeAgreementQ.classList.add("border-success");
-                scopeAgreementQ.classList.remove("border-danger");
-                scopeAgreementA.innerHTML = "<li>" + scopeAgreementA.getAttribute('data-text') + "</li>";
-            }
-        });
-        
-        affectedUsersQ.addEventListener('input', () => {
-            affectedUsersA.setAttribute('data-text', affectedUsersQ.value);
-            if ((affectedUsersQ.value).length === 0) {
-                affectedUsersL.classList.add("text-danger");
-                affectedUsersL.classList.remove("text-success");
-                affectedUsersQ.classList.add("border-danger");
-                affectedUsersQ.classList.remove("text-success");
-                affectedUsersA.innerHTML = '';
-            } else {
-                affectedUsersL.classList.add("text-success");
-                affectedUsersL.classList.remove("text-danger");
-                affectedUsersQ.classList.add("border-success");
-                affectedUsersQ.classList.remove("border-danger");
-                affectedUsersA.innerHTML = affectedUsersA.getAttribute('data-text');
-            }
-        });
-
-        exampleAffectedUserQ.addEventListener('input', () => {
-            exampleAffectedUserA.setAttribute('data-text', exampleAffectedUserQ.value);
-            if ((exampleAffectedUserQ.value).length === 0) {
-                exampleAffectedUserL.classList.add("text-danger");
-                exampleAffectedUserL.classList.remove("text-success");
-                exampleAffectedUserQ.classList.add("border-danger");
-                exampleAffectedUserQ.classList.remove("text-success");
-                exampleAffectedUserA.innerHTML = '';
-            } else {
-                exampleAffectedUserL.classList.add("text-success");
-                exampleAffectedUserL.classList.remove("text-danger");
-                exampleAffectedUserQ.classList.add("border-success");
-                exampleAffectedUserQ.classList.remove("border-danger");
-                exampleAffectedUserA.innerHTML = "<li>" + exampleAffectedUserA.getAttribute('data-text') + "</li>";
-            }
-        });
-
-        exampleNotAffectedUserQ.addEventListener('input', () => {
-            exampleNotAffectedUserA.setAttribute('data-text', exampleNotAffectedUserQ.value);
-            if ((exampleNotAffectedUserQ.value).length === 0) {
-                exampleNotAffectedUserL.classList.add("text-danger");
-                exampleNotAffectedUserL.classList.remove("text-success");
-                exampleNotAffectedUserQ.classList.add("border-danger");
-                exampleNotAffectedUserQ.classList.remove("text-success");
-                exampleNotAffectedUserA.innerHTML = '';
-            } else {
-                exampleNotAffectedUserL.classList.add("text-success");
-                exampleNotAffectedUserL.classList.remove("text-danger");
-                exampleNotAffectedUserQ.classList.add("border-success");
-                exampleNotAffectedUserQ.classList.remove("border-danger");
-                exampleNotAffectedUserA.innerHTML = "<li>" + exampleNotAffectedUserA.getAttribute('data-text') + "</li>";
-            }
-        });
-
-        getCsOnlineUserTranscriptQ.addEventListener('input', () => {
-            if (getCsOnlineUserTranscriptQ.checked == false) {
-                getCsOnlineUserTranscriptL.classList.add("text-danger");
-                getCsOnlineUserTranscriptL.classList.remove("text-success");
-                getCsOnlineUserTranscriptQ.classList.add("border-danger");
-                getCsOnlineUserTranscriptQ.classList.remove("text-success");
-                getCsOnlineUserTranscriptA.innerHTML = '';
-            } else {
-                getCsOnlineUserTranscriptL.classList.add("text-success");
-                getCsOnlineUserTranscriptL.classList.remove("text-danger");
-                getCsOnlineUserTranscriptQ.classList.add("border-success");
-                getCsOnlineUserTranscriptQ.classList.remove("border-danger");
-                getCsOnlineUserTranscriptA.innerHTML = "<li>Get-CsOnlineUser Transcript Attached<ul><li>CsOnlineUser-PS.txt</li></ul></li>";
-            }
-        });
-
-        skypeForBusinessQ.addEventListener('change', () => {
-            if ((skypeForBusinessQ.value) === "0") {
-                skypeForBusinessL.classList.add("text-danger");
-                skypeForBusinessL.classList.remove("text-success");
-                skypeForBusinessQ.classList.add("border-danger");
-                skypeForBusinessQ.classList.remove("text-success");
-                skypeForBusinessA.innerHTML = 'Skype for Business:';
-            } else {
-                skypeForBusinessL.classList.add("text-success");
-                skypeForBusinessL.classList.remove("text-danger");
-                skypeForBusinessQ.classList.add("border-success");
-                skypeForBusinessQ.classList.remove("border-danger");
-                skypeForBusinessA.innerHTML = "Skype for Business:<ul><li>" + skypeForBusinessQ.value + "</li></ul>";
-            }
-        });
-        
-        vdiEnvironmentQ.addEventListener('change', () => {
-            if ((vdiEnvironmentQ.value) === "0") {
-                vdiEnvironmentL.classList.add("text-danger");
-                vdiEnvironmentL.classList.remove("text-success");
-                vdiEnvironmentQ.classList.add("border-danger");
-                vdiEnvironmentQ.classList.remove("text-success");
-                vdiEnvironmentScoping.classList.add("d-none");
-                vdiEnvironmentA.innerHTML = '';
-            } else if ((vdiEnvironmentQ.value) === "Not using") {
-                vdiEnvironmentL.classList.add("text-success");
-                vdiEnvironmentL.classList.remove("text-danger");
-                vdiEnvironmentQ.classList.add("border-success");
-                vdiEnvironmentQ.classList.remove("border-danger");
-                vdiEnvironmentScoping.classList.add("d-none");
-                vdiEnvironmentA.innerHTML = "<li>" + vdiEnvironmentQ.value + "</li>";
-                vdiEnvironmentIsolatedQ.value = '';
-                vdiEnvironmentIsolatedA.innerHTML = '';
-                vdiEnvironmentTerminalVersionQ.value = '';
-                vdiEnvironmentTerminalVersionA.innerHTML = '';
-            } else if ((vdiEnvironmentQ.value) === "Citrix") {
-                vdiEnvironmentL.classList.add("text-success");
-                vdiEnvironmentL.classList.remove("text-danger");
-                vdiEnvironmentQ.classList.add("border-success");
-                vdiEnvironmentQ.classList.remove("border-danger");
-                vdiEnvironmentScoping.classList.remove("d-none");
-                vdiEnvironmentA.innerHTML = "<li>" + vdiEnvironmentQ.value + "</li>";
-            } else {
-                vdiEnvironmentL.classList.add("text-success");
-                vdiEnvironmentL.classList.remove("text-danger");
-                vdiEnvironmentQ.classList.add("border-success");
-                vdiEnvironmentQ.classList.remove("border-danger");
-                vdiEnvironmentScoping.classList.remove("d-none");
-                vdiEnvironmentA.innerHTML = "<li>" + vdiEnvironmentQ.value + "</li>";
-            }
-        });
-
-        vdiEnvironmentTerminalVersionQ.addEventListener('input', () => {
-            vdiEnvironmentTerminalVersionA.setAttribute('data-text', vdiEnvironmentTerminalVersionQ.value);
-            if ((vdiEnvironmentTerminalVersionQ.value).length === 0) {
-                vdiEnvironmentTerminalVersionL.classList.add("text-danger");
-                vdiEnvironmentTerminalVersionL.classList.remove("text-success");
-                vdiEnvironmentTerminalVersionQ.classList.add("border-danger");
-                vdiEnvironmentTerminalVersionQ.classList.remove("text-success");
-                vdiEnvironmentTerminalVersionA.innerHTML = '';
-            } else {
-                vdiEnvironmentTerminalVersionL.classList.add("text-success");
-                vdiEnvironmentTerminalVersionL.classList.remove("text-danger");
-                vdiEnvironmentTerminalVersionQ.classList.add("border-success");
-                vdiEnvironmentTerminalVersionQ.classList.remove("border-danger");
-                vdiEnvironmentTerminalVersionA.innerHTML = "<li>Terminal Version: " + vdiEnvironmentTerminalVersionQ.value + "</li>";
-            }
-        });
-
-        vdiEnvironmentIsolatedQ.addEventListener('change', () => {
-            if ((vdiEnvironmentIsolatedQ.value) === "0") {
-                vdiEnvironmentIsolatedL.classList.add("text-danger");
-                vdiEnvironmentIsolatedL.classList.remove("text-success");
-                vdiEnvironmentIsolatedQ.classList.add("border-danger");
-                vdiEnvironmentIsolatedQ.classList.remove("text-success");
-                vdiEnvironmentIsolatedA.innerHTML = '';
-            } else if ((vdiEnvironmentIsolatedQ.value) === "Yes") {
-                vdiEnvironmentIsolatedL.classList.add("text-success");
-                vdiEnvironmentIsolatedL.classList.remove("text-danger");
-                vdiEnvironmentIsolatedQ.classList.add("border-success");
-                vdiEnvironmentIsolatedQ.classList.remove("border-danger");
-                vdiEnvironmentIsolatedA.innerHTML = "<li>Issue can be reproduced outside of the VDI Environment</li>";
-            } else if ((vdiEnvironmentIsolatedQ.value) === "No") {
-                vdiEnvironmentIsolatedL.classList.add("text-success");
-                vdiEnvironmentIsolatedL.classList.remove("text-danger");
-                vdiEnvironmentIsolatedQ.classList.add("border-success");
-                vdiEnvironmentIsolatedQ.classList.remove("border-danger");
-                vdiEnvironmentIsolatedA.innerHTML = "<li>Issue cannot be reproduced outside of the VDI Environment</li>";
-            }
-        });
-
-        firstOccuranceQ.addEventListener('input', () => {
-            firstOccuranceA.setAttribute('data-text',  (new Date(firstOccuranceQ.value).getDate() + "-" + (new Date(firstOccuranceQ.value).getMonth()+1)  + "-" +  new Date(firstOccuranceQ.value).getFullYear()));
-            if ((firstOccuranceQ.value).length === 0) {
-                firstOccuranceL.classList.add("text-danger");
-                firstOccuranceL.classList.remove("text-success");
-                firstOccuranceQ.classList.add("border-danger");
-                firstOccuranceQ.classList.remove("text-success");
-                firstOccuranceA.innerHTML = '';
-            } else {
-                firstOccuranceL.classList.add("text-success");
-                firstOccuranceL.classList.remove("text-danger");
-                firstOccuranceQ.classList.add("border-success");
-                firstOccuranceQ.classList.remove("border-danger");
-                firstOccuranceA.innerHTML = firstOccuranceA.getAttribute('data-text');
-            }
-        });
-
-        workedBeforeQ.addEventListener('change', () => {
-            if ((workedBeforeQ.value) === "0") {
-                workedBeforeL.classList.add("text-danger");
-                workedBeforeL.classList.remove("text-success");
-                workedBeforeQ.classList.add("border-danger");
-                workedBeforeQ.classList.remove("text-success");
-                workedBeforeA.innerHTML = '';
-            } else if ((workedBeforeQ.value) === "Yes") {
-                workedBeforeL.classList.add("text-success");
-                workedBeforeL.classList.remove("text-danger");
-                workedBeforeQ.classList.add("border-success");
-                workedBeforeQ.classList.remove("border-danger");
-                workedBeforeA.innerHTML = "<li>It worked before</li>";
-            } else if ((workedBeforeQ.value) === "No") {
-                workedBeforeL.classList.add("text-success");
-                workedBeforeL.classList.remove("text-danger");
-                workedBeforeQ.classList.add("border-success");
-                workedBeforeQ.classList.remove("border-danger");
-                workedBeforeA.innerHTML = "<li>It never worked</li>";
-            }
-        });  
-
-        ondemandReproQ.addEventListener('change', () => {
-            if ((ondemandReproQ.value) === "0") {
-                ondemandReproL.classList.add("text-danger");
-                ondemandReproL.classList.remove("text-success");
-                ondemandReproQ.classList.add("border-danger");
-                ondemandReproQ.classList.remove("text-success");
-                ondemandReproA.innerHTML = '';
-            } else if ((ondemandReproQ.value) === "Yes") {
-                ondemandReproL.classList.add("text-success");
-                ondemandReproL.classList.remove("text-danger");
-                ondemandReproQ.classList.add("border-success");
-                ondemandReproQ.classList.remove("border-danger");
-                ondemandReproA.innerHTML = "<li>It can be reproduced on demand</li>";
-            } else if ((ondemandReproQ.value) === "Irregular") {
-                ondemandReproL.classList.add("text-success");
-                ondemandReproL.classList.remove("text-danger");
-                ondemandReproQ.classList.add("border-success");
-                ondemandReproQ.classList.remove("border-danger");
-                ondemandReproA.innerHTML = "<li>Issue is not regular, difficult to reproduce</li>";
-            } else if ((ondemandReproQ.value) === "No") {
-                ondemandReproL.classList.add("text-success");
-                ondemandReproL.classList.remove("text-danger");
-                ondemandReproQ.classList.add("border-success");
-                ondemandReproQ.classList.remove("border-danger");
-                ondemandReproA.innerHTML = "<li>It cannot be reproduced on demand</li>";
-            }
-        });  
-
-
-
-
-
-
-        })()
-
-
-
-        // Copy Case Note Logic
-        copyButton = document.getElementById('copy-case-note');
-
-        // Copy function
-        function CopyCaseNote() {
-            if (window.getSelection) {
-                var range = document.createRange();
-                window.getSelection().removeAllRanges();
-                range.selectNode(document.getElementById('case-note'));
-                window.getSelection().addRange(range);
-                document.execCommand("copy");
-                window.getSelection().removeAllRanges();
-            }
+    // Check the input type and set correct element
+        if (inputType == "text" || inputType == "date" || inputType == "checkbox") {
+                element = 'input';
+        } else if(inputType == "select") {
+                element = 'select';
+        } else if(inputType == "textarea") {
+                element = 'textarea';
         }
 
-        // Copy button behaviour
-        copyButton.addEventListener("click", function () {
-            var last = this.innerHTML;
-            CopyCaseNote();
-            if (last == "Copy") {
-                copyButton.classList.add("btn-success");
-                copyButton.classList.remove("btn-primary");
-                this.innerHTML = 'Copied';
-                setTimeout(function () {
-                    copyButton.classList.add("btn-primary");
-                    copyButton.classList.remove("btn-success");
-                    this.innerHTML = last;
-                }.bind(this), 1000);
-            }
-        });
-    </script>
-    <script type="text/javascript">
-        // Get List
-        const customerReproStepsL = document.getElementById('customer-repro-steps-l'),
-              customerReproStepsQ = document.getElementById('customer-repro-steps-q'),
-              customerReproStepsA = document.getElementById('customer-repro-steps-a'),
-              customerReproStepsAddButton = document.getElementById('customer-repro-steps-add'),
-
-              customerReproStepsList = document.getElementById('customer-repro-steps-list'),
-              customerReproStepsNoteList = document.getElementById('customer-repro-steps-note-list');
-        var      stepId = 4;
-              
-        // Add step button behaviour
-            customerReproStepsAddButton.addEventListener("click", function () {
-                addCustomerReproStep();
-            });
-
-
-
-        function addCustomerReproStep() {
+    // Create elements
+    const   scopeLi = document.getElementById(liID),
+            scopeLiNote = document.getElementById(liID + "-info"),
+            scopeLiRow = document.createElement("div"),
+            scopeLiColLabel = document.createElement("div"),
+            scopeLiColInfo = document.createElement("div"),
+            scopeLiLabel = document.createElement("label"),
+            scopeLiRowClearFix = document.createElement("div"),
+            scopeLiInfo = document.createElement(element);
             
-            // Create elements
-            const   reproLi = document.createElement("li"),
-                    reproLiRow = document.createElement("div"),
-                    reproLiColStep = document.createElement("div"),
-                    reproLiColButton = document.createElement("div"),
-                    reproLiInput = document.createElement("input"),
-                    reproLiButton = document.createElement("button"),
-                    reproLiNote = document.createElement("li");
+
+    // Set attributes
+        scopeLiRow.setAttribute("class", 'row p-1');
+        scopeLiColLabel.setAttribute("class", 'col-auto');
+        scopeLiColInfo.setAttribute("class", 'col');
+        scopeLiLabel.setAttribute("class", 'control-label fw-bold');
+        scopeLiLabel.setAttribute("for", liID + '-data');
+        scopeLiLabel.innerHTML = label;
+        scopeLiRowClearFix.setAttribute("class", 'clearfix');
+        scopeLiInfo.setAttribute("class", 'form-control border-danger');
+        scopeLiInfo.setAttribute("id", liID + '-data');
+        if (inputType == "text") {
+            scopeLiInfo.setAttribute("type", "text");
+            scopeLiInfo.setAttribute("placeholder",  placeholder);
+        } else if(inputType == "date") {
+            scopeLiInfo.setAttribute("type", "date");
+            scopeLiInfo.setAttribute("value",  placeholder);
+        } else if(inputType == "select") {
+            scopeLiInfo.classList.remove("form-control");
+            scopeLiInfo.classList.add("form-select");
+            scopeLiInfo.setAttribute("type", "date");
+            scopeLiInfo.setAttribute("value",  placeholder);
+        } else if(inputType == "textarea") {
+            scopeLiInfo.setAttribute("rows", 3);
+            scopeLiInfo.setAttribute("placeholder",  placeholder);
+        } else if(inputType == "checkbox") {
+            scopeLiInfo.classList.remove("form-control");
+            scopeLiInfo.classList.add("form-check-input");
+            scopeLiInfo.setAttribute("type", "checkbox");
+        }
+
+
+    // Add listeners
+        if(inputType == "text" || inputType == "textarea") {
+            scopeLiInfo.addEventListener("input", function () {
+                scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
+                if ((scopeLiInfo.value).length === 0) {
+                    scopeLi.classList.add("text-danger");
+                    scopeLi.classList.remove("text-success");
+                    scopeLiInfo.classList.add("border-danger");
+                    scopeLiInfo.classList.remove("text-success");
+                    scopeLiNote.innerHTML = '';
+                } else {
+                    scopeLi.classList.add("text-success");
+                    scopeLi.classList.remove("text-danger");
+                    scopeLiInfo.classList.add("border-success");
+                    scopeLiInfo.classList.remove("border-danger");
+                    scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
+                }
+            });
+        } else if(inputType == "date") {
+            scopeLiInfo.addEventListener("input", function () {
+                scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
+                if ((scopeLiInfo.value).length === 0) {
+                    scopeLi.classList.add("text-danger");
+                    scopeLi.classList.remove("text-success");
+                    scopeLiInfo.classList.add("border-danger");
+                    scopeLiInfo.classList.remove("text-success");
+                    scopeLiNote.innerHTML = '';
+                } else {
+                    var date = new Date(scopeLiNote.getAttribute('data-text')),
+                    noteDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth()+1)).slice(-2) + '/' + date.getFullYear();
+                    scopeLi.classList.add("text-success");
+                    scopeLi.classList.remove("text-danger");
+                    scopeLiInfo.classList.add("border-success");
+                    scopeLiInfo.classList.remove("border-danger");
+                    scopeLiNote.innerHTML = noteDate;
+                }
+            });
+        } else if(inputType == "select") {
+            scopeLiInfo.addEventListener("change", function () {
+                scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
+                if (scopeLiInfo.value === "0") {
+                    scopeLi.classList.add("text-danger");
+                    scopeLi.classList.remove("text-success");
+                    scopeLiInfo.classList.add("border-danger");
+                    scopeLiInfo.classList.remove("text-success");
+                    scopeLiNote.innerHTML = '';
+                } else {
+                    scopeLi.classList.add("text-success");
+                    scopeLi.classList.remove("text-danger");
+                    scopeLiInfo.classList.add("border-success");
+                    scopeLiInfo.classList.remove("border-danger");
+                    scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
+                }
+            });
+        } else if(inputType == "checkbox") {
+            scopeLiInfo.addEventListener("input", function () {
+                if (scopeLiInfo.checked == false) {
+                    scopeLi.classList.add("text-danger");
+                    scopeLi.classList.remove("text-success");
+                    scopeLiInfo.classList.add("border-danger");
+                    scopeLiInfo.classList.remove("text-success");
+                    scopeLiNote.innerHTML = '';
+                } else {
+                    scopeLi.classList.add("text-success");
+                    scopeLi.classList.remove("text-danger");
+                    scopeLiInfo.classList.add("border-success");
+                    scopeLiInfo.classList.remove("border-danger");
+                    scopeLiNote.innerHTML = placeholder;
+                }
+            });
+        }
+
+    // Append elements
+        scopeLi.appendChild(scopeLiRow);
+        scopeLiRow.appendChild(scopeLiColLabel);
+        scopeLiRow.appendChild(scopeLiColInfo);
+        scopeLiColLabel.appendChild(scopeLiLabel);
+        scopeLiColInfo.appendChild(scopeLiInfo);
+        scopeLiRow.appendChild(scopeLiRowClearFix);
+        
+        if(inputType == "select") {
+            option = document.createElement("option");
+            option.setAttribute("value", 0);
+            option.innerHTML = placeholder
+            scopeLiInfo.appendChild(option);
+            options.forEach((element) => {
+                option = document.createElement("option");
+                option.setAttribute("value", element[0]);
+                option.innerHTML = element[1];
+                scopeLiInfo.appendChild(option);
+            });
+            
+        }
+}
+
+function createStepList(liID, label, placeholder, options) {
+    var   stepId = 1;
+    // Create elements
+    const   stepList = document.getElementById(liID),
+            stepListNote = document.getElementById(liID + '-info'),
+            
+            stepListLiRow = document.createElement("div"),
+            stepListLiColLabel = document.createElement("div"),
+            stepListLiColSteps = document.createElement("div"),
+            stepListLiLabel = document.createElement("label"),
+            stepListLiSteps = document.createElement("ol"),
+            stepLiAddStepButton = document.createElement("button"),
+            stepListLiRowClearFix = document.createElement("div");
+            
+    // Set attributes
+        stepLiAddStepButton.setAttribute('class', 'btn btn-link float-end mt-1');
+        stepLiAddStepButton.innerHTML = '<i class="fa-solid fa-plus"></i>'
+        stepListLiRow.setAttribute("class", 'row p-1');
+        stepListLiColLabel.setAttribute("class", 'col-auto');
+        stepListLiColSteps.setAttribute("class", 'col');
+        stepListLiLabel.setAttribute("class", 'control-label fw-bold');
+        stepListLiLabel.setAttribute("for", liID + '-data');
+        stepListLiLabel.innerHTML = label;
+        stepListLiRowClearFix.setAttribute("class", 'clearfix');
+        stepListLiSteps.setAttribute("id", liID + '-data');
+
+    // Add step function
+        stepLiAddStepButton.addEventListener("click", function () {
+            // Create step elements
+            const stepLi = document.createElement("li"),
+            stepLiRow = document.createElement("div"),
+            stepLiColStep = document.createElement("div"),
+            stepLiColButton = document.createElement("div"),
+            stepLiInput = document.createElement("input"),
+            stepLiButton = document.createElement("button"),
+            stepLiNote = document.createElement("li"),
+            stepLiRowClearFix = document.createElement("div");
+
 
             // Set attributes
-                    reproLi.setAttribute("id", 'customer-repro-step-'+stepId);
-                    reproLi.setAttribute("class", 'text-danger');
-                    reproLiRow.setAttribute("class", 'row');
-                    reproLiColStep.setAttribute("class", 'col');
-                    reproLiColButton.setAttribute("class", 'col-auto');
-                    reproLiInput.setAttribute("class", 'form-control border-danger');
-                    reproLiInput.setAttribute("placeholder",  'Customer repro step');
-                    reproLiButton.setAttribute("class", 'btn-sm btn-danger');
-                    reproLiButton.innerHTML = 'Remove';
+            stepLi.setAttribute("id", liID+'-step-'+stepId);
+            stepLiRow.setAttribute("class", 'row');
+            stepLiColStep.setAttribute("class", 'col');
+            stepLiColButton.setAttribute("class", 'col-auto');
+            stepLiInput.setAttribute("class", 'form-control border-danger');
+            stepLiInput.setAttribute("placeholder",  'Customer step step');
+            stepLiButton.setAttribute("class", 'btn btn-link');
+            stepLiButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+            stepLiRowClearFix.setAttribute("class", 'clearfix');
 
-            // Add listeners
-                    reproLiInput.addEventListener("input", function () {
-                        reproLiNote.setAttribute('data-text', reproLiInput.value);
-                        if ((reproLiInput.value).length === 0) {
-                            reproLi.classList.add("text-danger");
-                            reproLi.classList.remove("text-success");
-                            reproLiInput.classList.add("border-danger");
-                            reproLiInput.classList.remove("text-success");
-                            reproLiNote.innerHTML = '';
+            // Add step listeners
+            stepLiInput.addEventListener("input", function () {
+                        stepLiNote.setAttribute('data-text', stepLiInput.value);
+                        if ((stepLiInput.value).length === 0) {
+                            stepLi.classList.add("text-danger");
+                            stepLi.classList.remove("text-success");
+                            stepLiInput.classList.add("border-danger");
+                            stepLiInput.classList.remove("text-success");
+                            stepLiNote.innerHTML = '';
                         } else {
-                            reproLi.classList.add("text-success");
-                            reproLi.classList.remove("text-danger");
-                            reproLiInput.classList.add("border-success");
-                            reproLiInput.classList.remove("border-danger");
-                            reproLiNote.innerHTML = reproLiNote.getAttribute('data-text');
+                            stepLi.classList.add("text-success");
+                            stepLi.classList.remove("text-danger");
+                            stepLiInput.classList.add("border-success");
+                            stepLiInput.classList.remove("border-danger");
+                            stepLiNote.innerHTML = stepLiNote.getAttribute('data-text');
                         }
                     });
-                    reproLiButton.addEventListener("click", function () {
-                            reproLi.remove();
-                            reproLiNote.remove();
+                    stepLiButton.addEventListener("click", function () {
+                            stepLi.remove();
+                            stepLiNote.remove();
                     });
-
-            // Append elements
-                    reproLi.appendChild(reproLiRow);
-                    reproLiRow.appendChild(reproLiColStep);
-                    reproLiRow.appendChild(reproLiColButton);
-                    reproLiColStep.appendChild(reproLiInput);
-                    reproLiColButton.appendChild(reproLiButton);
-                    customerReproStepsList.appendChild(reproLi);
-                    customerReproStepsNoteList.appendChild(reproLiNote);
-           
-            // Increase step counter to not mix li IDs
-                    stepId++
+            // Append step elements
+            stepLi.appendChild(stepLiRow);
+            stepLiRow.appendChild(stepLiColStep);
+            stepLiRow.appendChild(stepLiColButton);
+            stepLiColStep.appendChild(stepLiInput);
+            stepLiColButton.appendChild(stepLiButton);
+            stepLiRow.appendChild(stepLiRowClearFix);
+            stepListLiSteps.appendChild(stepLi);
+            stepListNote.appendChild(stepLiNote);
             
-        }
-        
-        function addListenersCustomerReproStepsDefaults() {
-            const FirstCsStep = document.getElementById('first-cs-step'),
-                  SecondCsStep = document.getElementById('second-cs-step'),
-                  ThirdCsStep = document.getElementById('third-cs-step'),
-                  FirstCsStepNote = document.getElementById('first-cs-step-note'),
-                  SecondCsStepNote = document.getElementById('second-cs-step-note'),
-                  ThirdCsStepNote = document.getElementById('third-cs-step-note'),
-                  FirstCsStepButton = document.getElementById('first-cs-step-button'),
-                  SecondCsStepButton = document.getElementById('second-cs-step-button'),
-                  ThirdCsStepButton = document.getElementById('third-cs-step-button'),
-                  FirstCsStepInput = document.getElementById('first-cs-step-input'),
-                  SecondCsStepInput = document.getElementById('second-cs-step-input'),
-                  ThirdCsStepInput = document.getElementById('third-cs-step-input');
-
-                  FirstCsStepInput.addEventListener("input", function () {
-                    FirstCsStepNote.setAttribute('data-text', FirstCsStepInput.value);
-                        if ((FirstCsStepInput.value).length === 0) {
-                            FirstCsStep.classList.add("text-danger");
-                            FirstCsStep.classList.remove("text-success");
-                            FirstCsStepInput.classList.add("border-danger");
-                            FirstCsStepInput.classList.remove("text-success");
-                            FirstCsStepNote.innerHTML = '';
-                        } else {
-                            FirstCsStep.classList.add("text-success");
-                            FirstCsStep.classList.remove("text-danger");
-                            FirstCsStepInput.classList.add("border-success");
-                            FirstCsStepInput.classList.remove("border-danger");
-                            FirstCsStepNote.innerHTML = FirstCsStepNote.getAttribute('data-text');
-                        }
-                    });
-                  FirstCsStepButton.addEventListener("click", function () {
-                        FirstCsStep.remove();
-                        FirstCsStepNote.remove();
-                    });
-
-                  SecondCsStepInput.addEventListener("input", function () {
-                    SecondCsStepNote.setAttribute('data-text', SecondCsStepInput.value);
-                        if ((SecondCsStepInput.value).length === 0) {
-                            SecondCsStep.classList.add("text-danger");
-                            SecondCsStep.classList.remove("text-success");
-                            SecondCsStepInput.classList.add("border-danger");
-                            SecondCsStepInput.classList.remove("text-success");
-                            SecondCsStepNote.innerHTML = '';
-                        } else {
-                            SecondCsStep.classList.add("text-success");
-                            SecondCsStep.classList.remove("text-danger");
-                            SecondCsStepInput.classList.add("border-success");
-                            SecondCsStepInput.classList.remove("border-danger");
-                            SecondCsStepNote.innerHTML = SecondCsStepNote.getAttribute('data-text');
-                        }
-                    });
-                  SecondCsStepButton.addEventListener("click", function () {
-                        SecondCsStep.remove();
-                        SecondCsStepNote.remove();
-                    });
-
-                  ThirdCsStepInput.addEventListener("input", function () {
-                    ThirdCsStepNote.setAttribute('data-text', ThirdCsStepInput.value);
-                        if ((ThirdCsStepInput.value).length === 0) {
-                            ThirdCsStep.classList.add("text-danger");
-                            ThirdCsStep.classList.remove("text-success");
-                            ThirdCsStepInput.classList.add("border-danger");
-                            ThirdCsStepInput.classList.remove("text-success");
-                            ThirdCsStepNote.innerHTML = '';
-                        } else {
-                            ThirdCsStep.classList.add("text-success");
-                            ThirdCsStep.classList.remove("text-danger");
-                            ThirdCsStepInput.classList.add("border-success");
-                            ThirdCsStepInput.classList.remove("border-danger");
-                            ThirdCsStepNote.innerHTML = ThirdCsStepNote.getAttribute('data-text');
-                        }
-                    });
-                  ThirdCsStepButton.addEventListener("click", function () {
-                        ThirdCsStep.remove();
-                        ThirdCsStepNote.remove();
-                    });
-        }
-
-        
-        
-        customerReproStepsQ.addEventListener('input', () => {
-            customerReproStepsA.setAttribute('data-text', customerReproStepsQ.value);
-            if ((customerReproStepsQ.value).length === 0) {
-                customerReproStepsL.classList.add("text-danger");
-                customerReproStepsL.classList.remove("text-success");
-                customerReproStepsQ.classList.add("border-danger");
-                customerReproStepsQ.classList.remove("text-success");
-                customerReproStepsA.innerHTML = '';
-            } else {
-                customerReproStepsL.classList.add("text-success");
-                customerReproStepsL.classList.remove("text-danger");
-                customerReproStepsQ.classList.add("border-success");
-                customerReproStepsQ.classList.remove("border-danger");
-                customerReproStepsA.innerHTML = "<li>Additional comments:<br><p><i>" + customerReproStepsA.getAttribute('data-text') + "</i></p></li>";
-            }
+            // Increase step counter
+            stepId++
         });
-        addListenersCustomerReproStepsDefaults();
 
-    </script>
+        stepLiAddStepButton.click();
+        stepLiAddStepButton.click();
+        stepLiAddStepButton.click();
+        
+    // Append elements
+        stepList.appendChild(stepListLiRow);
+        stepListLiRow.appendChild(stepListLiColLabel);
+        stepListLiRow.appendChild(stepListLiColSteps);
+        stepListLiColLabel.appendChild(stepListLiLabel);
+        stepListLiColSteps.appendChild(stepListLiSteps);
+        stepListLiColSteps.appendChild(stepLiAddStepButton);
+        stepListLiRow.appendChild(stepListLiRowClearFix);
+}
+
+// Copy Case Note Logic
+    // Copy function
+    function CopyCaseNote() {
+        if (window.getSelection) {
+            var range = document.createRange();
+            window.getSelection().removeAllRanges();
+            range.selectNode(document.getElementById('case-note'));
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+        }
+    }
+
+    // Copy button behaviour
+    copyButton = document.getElementById('copy-case-note');
+    copyButton.addEventListener("click", function () {
+        var last = this.innerHTML;
+        CopyCaseNote();
+        if (last == "Copy") {
+            copyButton.classList.add("btn-success");
+            copyButton.classList.remove("btn-primary");
+            this.innerHTML = 'Copied';
+            setTimeout(function () {
+                copyButton.classList.add("btn-primary");
+                copyButton.classList.remove("btn-success");
+                this.innerHTML = last;
+            }.bind(this), 1000);
+        }
+    });
+</script>
 </body>
 </html>
