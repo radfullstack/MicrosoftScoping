@@ -78,6 +78,17 @@
         #case-note li {
             transition: all .3s;
         }
+
+        #copy-calling-transcript ~ li>.calling-transcript-area,
+        #copy-calling-network ~ li>.calling-network-area {
+            transition: all .3s;
+            border: 1px solid transparent;
+        }
+
+        #copy-calling-transcript:hover ~ li>.calling-transcript-area,
+        #copy-calling-network:hover ~ li>.calling-network-area {
+            border: 1px solid #3d2929;
+        }
     </style>
 </head>
 <body>
@@ -95,7 +106,7 @@
                     <li id="issue-description"></li>
                     <!-- Scope Agreement Form -->
                     <li id="scope-agreement"></li>
-                    <li><label class="control-label fw-bold p-1">General scoping:</label>
+                    <li><label class="control-label p-1">General scoping:</label>
                         <ul>
                             <!-- Issue Started Form -->
                             <li id="first-occurance"></li>
@@ -135,16 +146,60 @@
                         <div class="row">
                             <div id="calling-scoping" class="col-auto"></div>
                             <div class="col-auto">
-                                <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#getCsOnlineUserModal"><i class="fa-solid fa-circle-info"></i></button>
+                                <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#callingModal"><i class="fa-solid fa-circle-info"></i></button>
                             </div>
                             <div class="clearfix"></div>
                         </div>
                         <ul id="calling-scoping-ul">
                             <li id="pstn-teams-call-kind"></li>
-                            <li id="calling-plan-license"></li>
-                            <li id="sbc-vendor"></li>
-                            <li id="sbc-model"></li>
-                            <li id="sbc-software"></li>
+                            <li id="calling-plan-license" class="calling-plan"></li>
+                            <li id="sbc-vendor" class="direct-routing"></li>
+                            <li id="sbc-model" class="direct-routing"></li>
+                            <li id="sbc-software" class="direct-routing"></li>
+                            <li id="sbc-media-bypass" class="direct-routing"></li>
+                            <li id="sbc-local-media-optimization" class="direct-routing"></li>
+                            <li id="calling-number-from" class="calling-plan direct-routing"></li>
+                            <li id="calling-number-to" class="calling-plan direct-routing"></li>
+                        </ul>
+                    </li>
+                    <!-- Device -->
+                    <li>
+                        <div class="row">
+                            <div id="device-scoping" class="col-auto"></div>
+                            <div class="col-auto">
+                                <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#deviceModal"><i class="fa-solid fa-circle-info"></i></button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <ul id="device-scoping-ul">
+                            <li id="device-manufacture"></li>
+                        </ul>
+                    </li>
+                    <!-- Exchange -->
+                    <li>
+                        <div class="row">
+                            <div id="exchange-scoping" class="col-auto"></div>
+                            <div class="col-auto">
+                                <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#exchangeModal"><i class="fa-solid fa-circle-info"></i></button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <ul id="exchange-scoping-ul">
+                            <li id="exchange-envoirnment"></li>
+                            <li id="exchange-server"></li>
+                        </ul>
+                    </li>
+                    <!-- SharePoint -->
+                    <li>
+                        <div class="row">
+                            <div id="sharepoint-scoping" class="col-auto"></div>
+                            <div class="col-auto">
+                                <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#sharepointModal"><i class="fa-solid fa-circle-info"></i></button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <ul id="sharepoint-scoping-ul">
+                            <li id="sharepoint-site"></li>
                         </ul>
                     </li>
                 </ol>
@@ -211,10 +266,30 @@
                     <li id="calling-scoping-section"><span id="calling-scoping-info"></span>
                         <ul>
                             <li id="pstn-teams-call-kind-info"></li>
-                            <li id="calling-plan-license-info"></li>
-                            <li id="sbc-vendor-info"></li>
-                            <li id="sbc-model-info"></li>
-                            <li id="sbc-software-info"></li>
+                            <li id="calling-plan-license-info" class="calling-plan"></li>
+                            <li id="sbc-vendor-info" class="direct-routing"></li>
+                            <li id="sbc-model-info" class="direct-routing"></li>
+                            <li id="sbc-software-info" class="direct-routing"></li>
+                            <li id="sbc-media-bypass-info" class="direct-routing"></li>
+                            <li id="sbc-local-media-optimization-info" class="direct-routing"></li>
+                            <li id="calling-number-from-info" class="callng-plan direct-routing"></li>
+                            <li id="calling-number-to-info" class="callng-plan direct-routing"></li>
+                        </ul>
+                    </li>
+                    <li id="device-scoping-section"><span id="device-scoping-info"></span>
+                        <ul>
+                            <li id="device-manufacture-info"></li>
+                        </ul>
+                    </li>
+                    <li id="exchange-scoping-section"><span id="exchange-scoping-info"></span>
+                        <ul>
+                            <li id="exchange-envoirnment-info"></li>
+                            <li id="exchange-server-info"></li>
+                        </ul>
+                    </li>
+                    <li id="sharepoint-scoping-section"><span id="sharepoint-scoping-info"></span>
+                        <ul>
+                            <li id="sharepoint-site-info"></li>
                         </ul>
                     </li>
                 </ol>
@@ -257,8 +332,293 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
+      
+    <!-- Calling -->
+    <div class="modal fade" id="callingModal" tabindex="-1" aria-labelledby="callingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="callingModalLabel">Calling Handbook</h5>
+              
+              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="calling-transcript">
+                <ul>
+                    <button type="button" class="btn btn-primary copyBtn me-2" id="copy-calling-network"><i class="fa-solid fa-copy"></i></button>
+                    <li>Direct Routing Network Requirements
+                        <ul class="calling-network-area">
+                            <div id="calling-network-copy-area">
+                                <li>SIP Signaling: Ports
+                                    <table aria-label="SIP Signaling: Ports" class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: left;">Traffic</th>
+                                                <th style="text-align: left;">From</th>
+                                                <th style="text-align: left;">To</th>
+                                                <th style="text-align: left;">Source port</th>
+                                                <th style="text-align: left;">Destination port</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align: left;">SIP/TLS</td>
+                                                <td style="text-align: left;">SIP Proxy</td>
+                                                <td style="text-align: left;">SBC</td>
+                                                <td style="text-align: left;">1024 – 65535</td>
+                                                <td style="text-align: left;">Defined on the SBC (For Office 365 GCC High/DoD only port 5061 must be used)</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: left;">SIP/TLS</td>
+                                                <td style="text-align: left;">SBC</td>
+                                                <td style="text-align: left;">SIP Proxy</td>
+                                                <td style="text-align: left;">Defined on the SBC</td>
+                                                <td style="text-align: left;">5061</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: left;" aria-label="No value"></td>
+                                                <td style="text-align: left;" aria-label="No value"></td>
+                                                <td style="text-align: left;" aria-label="No value"></td>
+                                                <td style="text-align: left;" aria-label="No value"></td>
+                                                <td style="text-align: left;" aria-label="No value"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </li>
+                                <li>IP Ranges:
+                                    <ul>
+                                        <li>52.112.0.0/14 (IP addresses from 52.112.0.1 to 52.115.255.254)</li>
+                                        <li>52.120.0.0/14 (IP addresses from 52.120.0.1 to 52.123.255.254)</li>
+                                    </ul>
+                                </li>
+                                <li>Port range (applicable to all environments)
+                                    <table aria-label="Port range (applicable to all environments)" class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: left;">Traffic</th>
+                                                <th style="text-align: left;">From</th>
+                                                <th style="text-align: left;">To</th>
+                                                <th style="text-align: left;">Source port</th>
+                                                <th style="text-align: left;">Destination port</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align: left;">UDP/SRTP</td>
+                                                <td style="text-align: left;">Media Processor</td>
+                                                <td style="text-align: left;">SBC</td>
+                                                <td style="text-align: left;">3478-3481 and 49152 – 53247</td>
+                                                <td style="text-align: left;">Defined on the SBC</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: left;">UDP/SRTP</td>
+                                                <td style="text-align: left;">SBC</td>
+                                                <td style="text-align: left;">Media Processor</td>
+                                                <td style="text-align: left;">Defined on the SBC</td>
+                                                <td style="text-align: left;">3478-3481 and 49152 – 53247</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </li>
+                            </div>
+                        </ul>
+                    </li>
+                    <button type="button" class="btn btn-primary copyBtn me-2" id="copy-calling-transcript"><i class="fa-solid fa-copy"></i></button>
+                    <li>Trancript:
+                        <div class="calling-transcript-area">
+                            <ul id="calling-transcript-copy-area">
+                                <li>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12</li>
+                                <li>Set-ExecutionPolicy RemoteSigned</li>
+                                <li>Start-Transcript -Path "$env:userprofile\Desktop\DirectRouting-PS.txt" -NoClobber</li>
+                                <li>Install-Module MicrosoftTeams</li>
+                                <li>Connect-MicrosoftTeams</li>
+                                <li>Get-CsOnlinePSTNGateway | FL</li>
+                                <li>Get-CsTeamsCallingPolicy | FL</li>
+                                <li>Get-CsOnlineVoiceRoutingPolicy | FL</li>
+                                <li>Get-CsTenantDialPlan | FL</li>
+                                <li>Get-CsPstnUsage | FL</li>
+                                <li>Get-CsOnlineUser affectedUser@contoso.com</li>
+                                <li>Get-CsOnlineUser notAffectedUser@contoso.com</li>
+                                <li>Get-CsUserCallingSettings -Identity affectedUser@contoso.com | FL</li>
+                                <li>Stop-Transcript </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>Resources:
+                        <ul>
+                            <li><a href="https://docs.microsoft.com/en-us/MicrosoftTeams/direct-routing-configure" target="_blank">Configure Direct Routing - Microsoft Teams | Microsoft Docs</a></li>
+                            <li><a href="https://docs.microsoft.com/en-us/MicrosoftTeams/use-call-analytics-to-troubleshoot-poor-call-quality" target="_blank">Use Call Analytics to troubleshoot poor call quality - Microsoft Teams | Microsoft Docs</a></li>
+                            <li><a href="https://docs.microsoft.com/en-us/MicrosoftTeams/direct-routing-border-controllers" target="_blank">Session Border Controllers certified for Direct Routing - Microsoft Teams | Microsoft Docs</a></li>
+                            <li><a href="https://docs.microsoft.com/en-us/microsoftteams/direct-routing-protocols-sip" target="_blank">Phone System Direct Routing - Microsoft Teams | Microsoft Docs</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- Device -->
+    <div class="modal fade" id="deviceModal" tabindex="-1" aria-labelledby="deviceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deviceModalLabel">Device Handbook</h5>
+              
+              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="device-transcript">
+                <ul>
+                    <li>Device resources to go here</li>
+                </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <!-- Exchange -->
+    <div class="modal fade" id="exchangeModal" tabindex="-1" aria-labelledby="exchangeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exchangeModalLabel">Exchange Handbook</h5>
+              
+              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="exchange-transcript">
+                <ul>
+                    <li>Exchange resources to go here</li>
+                </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <!-- SharePoint -->
+    <div class="modal fade" id="sharepointModal" tabindex="-1" aria-labelledby="sharepointModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="sharepointModalLabel">SharePoint Handbook</h5>
+              
+              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="sharepoint-transcript">
+                <ul>
+                    <button type="button" class="btn btn-primary copyBtn me-2" id="copy-sharepoint-network"><i class="fa-solid fa-copy"></i></button>
+                    <li>Direct Routing Network Requirements
+                        <ul class="calling-network-area">
+                            <div id="calling-network-copy-area">
+                                <li>SIP Signaling: Ports
+                                    <table aria-label="SIP Signaling: Ports" class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: left;">Traffic</th>
+                                                <th style="text-align: left;">From</th>
+                                                <th style="text-align: left;">To</th>
+                                                <th style="text-align: left;">Source port</th>
+                                                <th style="text-align: left;">Destination port</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align: left;">SIP/TLS</td>
+                                                <td style="text-align: left;">SIP Proxy</td>
+                                                <td style="text-align: left;">SBC</td>
+                                                <td style="text-align: left;">1024 – 65535</td>
+                                                <td style="text-align: left;">Defined on the SBC (For Office 365 GCC High/DoD only port 5061 must be used)</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: left;">SIP/TLS</td>
+                                                <td style="text-align: left;">SBC</td>
+                                                <td style="text-align: left;">SIP Proxy</td>
+                                                <td style="text-align: left;">Defined on the SBC</td>
+                                                <td style="text-align: left;">5061</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: left;" aria-label="No value"></td>
+                                                <td style="text-align: left;" aria-label="No value"></td>
+                                                <td style="text-align: left;" aria-label="No value"></td>
+                                                <td style="text-align: left;" aria-label="No value"></td>
+                                                <td style="text-align: left;" aria-label="No value"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </li>
+                                <li>IP Ranges:
+                                    <ul>
+                                        <li>52.112.0.0/14 (IP addresses from 52.112.0.1 to 52.115.255.254)</li>
+                                        <li>52.120.0.0/14 (IP addresses from 52.120.0.1 to 52.123.255.254)</li>
+                                    </ul>
+                                </li>
+                                <li>Port range (applicable to all environments)
+                                    <table aria-label="Port range (applicable to all environments)" class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: left;">Traffic</th>
+                                                <th style="text-align: left;">From</th>
+                                                <th style="text-align: left;">To</th>
+                                                <th style="text-align: left;">Source port</th>
+                                                <th style="text-align: left;">Destination port</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align: left;">UDP/SRTP</td>
+                                                <td style="text-align: left;">Media Processor</td>
+                                                <td style="text-align: left;">SBC</td>
+                                                <td style="text-align: left;">3478-3481 and 49152 – 53247</td>
+                                                <td style="text-align: left;">Defined on the SBC</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: left;">UDP/SRTP</td>
+                                                <td style="text-align: left;">SBC</td>
+                                                <td style="text-align: left;">Media Processor</td>
+                                                <td style="text-align: left;">Defined on the SBC</td>
+                                                <td style="text-align: left;">3478-3481 and 49152 – 53247</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </li>
+                            </div>
+                        </ul>
+                    </li>
+                    <button type="button" class="btn btn-primary copyBtn me-2" id="copy-calling-transcript"><i class="fa-solid fa-copy"></i></button>
+                    <li>Trancript:
+                        <div class="calling-transcript-area">
+                            <ul id="calling-transcript-copy-area">
+                                <li>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12</li>
+                                <li>Set-ExecutionPolicy RemoteSigned</li>
+                                <li>Start-Transcript -Path "$env:userprofile\Desktop\DirectRouting-PS.txt" -NoClobber</li>
+                                <li>Install-Module MicrosoftTeams</li>
+                                <li>Connect-MicrosoftTeams</li>
+                                <li>Get-CsOnlinePSTNGateway | FL</li>
+                                <li>Get-CsTeamsCallingPolicy | FL</li>
+                                <li>Get-CsOnlineVoiceRoutingPolicy | FL</li>
+                                <li>Get-CsTenantDialPlan | FL</li>
+                                <li>Get-CsPstnUsage | FL</li>
+                                <li>Get-CsOnlineUser affectedUser@contoso.com</li>
+                                <li>Get-CsOnlineUser notAffectedUser@contoso.com</li>
+                                <li>Get-CsUserCallingSettings -Identity affectedUser@contoso.com | FL</li>
+                                <li>Stop-Transcript </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>Resources:
+                        <ul>
+                            <li><a href="https://docs.microsoft.com/en-us/MicrosoftTeams/direct-routing-configure" target="_blank">Configure Direct Routing - Microsoft Teams | Microsoft Docs</a></li>
+                            <li><a href="https://docs.microsoft.com/en-us/MicrosoftTeams/use-call-analytics-to-troubleshoot-poor-call-quality" target="_blank">Use Call Analytics to troubleshoot poor call quality - Microsoft Teams | Microsoft Docs</a></li>
+                            <li><a href="https://docs.microsoft.com/en-us/MicrosoftTeams/direct-routing-border-controllers" target="_blank">Session Border Controllers certified for Direct Routing - Microsoft Teams | Microsoft Docs</a></li>
+                            <li><a href="https://docs.microsoft.com/en-us/microsoftteams/direct-routing-protocols-sip" target="_blank">Phone System Direct Routing - Microsoft Teams | Microsoft Docs</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+          </div>
+        </div>
+    </div>
 
 <!-- jQuery bundle -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -274,9 +634,7 @@
 
     createScopeQuestion('scope-agreement', true, 'Scope Agreement:', 'text', 'Inbound calls working');
     
-    var today = new Date(),
-        date =  today.getFullYear() + '-'+ ('0' + (today.getMonth()+1)).slice(-2) + '-'+ ('0' + today.getDate()).slice(-2);
-    createScopeQuestion('first-occurance', false, 'Behaviour observed for the first time:', 'date', date);
+    createScopeQuestion('first-occurance', false, 'Behaviour observed for the first time:', 'date', "");
 
     var workedBeforeOptions = [
         ["It worked before", "Yes"],
@@ -297,13 +655,19 @@
     ];
     createScopeQuestion('internal-repro', true, 'Can you reproduce problem in test envoirnment?', 'select', "Choose option", internalReproOptions);
     // Hide internal repro if n/a
-    collapseElement(['internal-repro-steps', 'internal-repro-steps-comment', 'internal-repro-section']);
+    $("#internal-repro-steps").hide();
+    $("#internal-repro-steps-comment").hide();
+    $("#internal-repro-section").hide();
     internalReproSelect = document.getElementById("internal-repro-data");
     internalReproSelect.addEventListener("change", function() {
         if(internalReproSelect.value == "0" || internalReproSelect.value == "It cannot be reproduced in test envoirnment") {
-            collapseElement(['internal-repro-steps', 'internal-repro-steps-comment', 'internal-repro-section']);
+            $("#internal-repro-steps").hide();
+            $("#internal-repro-steps-comment").hide();
+            $("#internal-repro-section").hide();
         } else {
-            expandElement(['internal-repro-steps', 'internal-repro-steps-comment', 'internal-repro-section']);
+            $("#internal-repro-steps").show();
+            $("#internal-repro-steps-comment").show();
+            $("#internal-repro-section").show();
         }
     });
 
@@ -324,13 +688,16 @@
     createScopeQuestion('get-csonlineuser-transcript', true, 'Get-CsOnlineUser Transcript Attached?', 'checkbox', 'Get-CsOnlineUser Transcript Attached');
 
     createScopeQuestion('calling-scoping', true, 'Calling scoping:', 'checkbox', 'Calling scoping:');
-    collapseElement(['calling-scoping-ul', 'calling-scoping-section']);
+    $("#calling-scoping-ul").hide();
+    $("#calling-scoping-section").hide();
     callingScopingCheck = document.getElementById("calling-scoping-data");
     callingScopingCheck.addEventListener("input", function() {
         if(callingScopingCheck.checked == false) {
-            collapseElement(['calling-scoping-ul', 'calling-scoping-section']);
+            $("#calling-scoping-ul").hide();
+            $("#calling-scoping-section").hide();
         } else {
-            expandElement(['calling-scoping-ul', 'calling-scoping-section']);
+            $("#calling-scoping-ul").show();
+            $("#calling-scoping-section").show();
         }
     });
 
@@ -346,16 +713,20 @@
     createScopeQuestion('pstn-teams-call-kind', true, 'What kind of calls are affected?', 'select', 'Choose option', affectedCallsOptions);
     callKindSelect = document.getElementById("pstn-teams-call-kind-data");
     callKindSelect.addEventListener("change", function() {
-        if(callKindSelect.value == "0") {
-            collapseElement(['calling-plan-license', 'calling-plan-license-info','sbc-vendor', 'sbc-vendor-info','sbc-model', 'sbc-model-info', 'sbc-software', 'sbc-software-info']);
+        if(callKindSelect.value == "0" || callKindSelect.value == "Teams calls, no PSTN") {
+            $(".direct-routing").hide();
+            $(".calling-plan").hide();
         } else if (callKindSelect.value == "Direct Routing Inbound" || callKindSelect.value == "Direct Routing Outbound" || callKindSelect.value == "Direct Routing Inbound & Outbound") {
-            collapseElement(['calling-plan-license', 'calling-plan-license-info']);
-            expandElement(['sbc-vendor', 'sbc-model', 'sbc-software']);
+            $(".calling-plan").hide();
+            $(".direct-routing").show();
+            if(mediaBypassSelect.value == "0" || mediaBypassSelect.value == "Not using media bypass") {
+                $("#sbc-local-media-optimization").hide();
+            } else {
+                $("#sbc-local-media-optimization").show();
+            }
         } else if (callKindSelect.value == "Calling Plan Inbound" || callKindSelect.value == "Calling Plan Outbound" || callKindSelect.value == "Calling Plan Inbound & Outbound") {
-            expandElement(['calling-plan-license']);
-            collapseElement(['sbc-vendor', 'sbc-vendor-info', 'sbc-model', 'sbc-model-info', 'sbc-software', 'sbc-software-info']);
-        } else if (callKindSelect.value == "Teams calls, no PSTN") {
-            collapseElement(['calling-plan-license', 'calling-plan-license-info', 'sbc-vendor', 'sbc-vendor-info', 'sbc-model-info', 'sbc-model', 'sbc-software', 'sbc-software-info']);
+            $(".direct-routing").hide();
+            $(".calling-plan").show();
         }
     });
     
@@ -364,8 +735,8 @@
         ["International Calling Plan", "International Calling Plan"],
         ["Domestic and International Calling Plan", "Domestic and International Calling Plan"]
     ];
-    createScopeQuestion('calling-plan-license', true, 'What Calling Plan has affected user?', 'select', 'Choose plan', callingPlanOptions);
-    collapseElement(['calling-plan-license']);
+    createScopeQuestion('calling-plan-license', true, 'What Calling Plan has affected user?', 'select', 'Choose plan', callingPlanOptions); 
+    $(".calling-plan").hide();
 
     var SBCVendorOptions = [
         ["AudioCodes", "AudioCodes"],
@@ -393,7 +764,6 @@
     createScopeQuestion('sbc-vendor', true, 'SBC Vendor:', 'select', 'Choose vendor', SBCVendorOptions, 'SBC Vendor:');
     SBCModelOptions = []
     createScopeQuestion('sbc-model', true, 'SBC Model:', 'select', 'Choose vendor', SBCModelOptions, 'SBC Model:');
-    collapseElement(['sbc-vendor', 'sbc-model', 'sbc-software']);
     SBCVendorSelect = document.getElementById("sbc-vendor-data");
     SBCModelSelect = document.getElementById("sbc-model-data");
     SBCModelNoteLi = document.getElementById("sbc-model-info");
@@ -656,13 +1026,256 @@
 
     createScopeQuestion('sbc-software', true, 'SBC Software Version:', 'text', '7.20A.258', '', 'Software version:');
 
-    // Copy Buttons
+    var mediaBypassOptions = [
+        ["Customer use Media Bypass", "Yes"],
+        ["Customer don't use Media Bypass", "No"]
+    ];
+    createScopeQuestion('sbc-media-bypass', true, 'Customer use Media Bypass?', 'select', "Choose option", mediaBypassOptions);
+    mediaBypassSelect = document.getElementById("sbc-media-bypass-data");
+    mediaBypassSelect.addEventListener("change", function() {
+        if(mediaBypassSelect.value == "0" || mediaBypassSelect.value == "Customer don't use Media Bypass") {
+            $("#sbc-local-media-optimization").hide();
+        } else {
+            $("#sbc-local-media-optimization").show();
+        }
+    });
+
+    
+    var localMediaOptimizationOptions = [
+        ["Customer use Local Media Optimization", "Yes"],
+        ["Customer don't use Local Media Optimization", "No"]
+    ];
+    createScopeQuestion('sbc-local-media-optimization', true, 'Customer use Local Media Optimization?', 'select', 'Choose option', localMediaOptimizationOptions);
+    $(".direct-routing").hide();
+
+    createScopeQuestion('calling-number-from', true, 'Caller number:', 'text', '+7834326798', '', 'Caller:');
+    createScopeQuestion('calling-number-to', true, 'Callee number:', 'text', '+7834326798', '', 'Callee:');
+
+
+
+    // Device Scoping
+    createScopeQuestion('device-scoping', true, 'Device scoping:', 'checkbox', 'Device scoping:');
+    $("#device-scoping-ul").hide();
+    $("#device-scoping-section").hide();
+    deviceScopingCheck = document.getElementById("device-scoping-data");
+    deviceScopingCheck.addEventListener("input", function() {
+        if(deviceScopingCheck.checked == false) {
+            $("#device-scoping-ul").hide();
+            $("#device-scoping-section").hide();
+        } else {
+            $("#device-scoping-ul").show();
+            $("#device-scoping-section").show();
+        }
+    });
+
+    createScopeQuestion('device-manufacture', true, 'Device Manufacture:', 'text', 'Apple', '', 'Device Manufacture:');
+
+
+
+
+
+
+
+
+
+    // Exchange Scoping
+    createScopeQuestion('exchange-scoping', true, 'Exchange scoping:', 'checkbox', 'Exchange scoping:');
+    $("#exchange-scoping-ul").hide();
+    $("#exchange-scoping-section").hide();
+    exchangeScopingCheck = document.getElementById("exchange-scoping-data");
+    exchangeScopingCheck.addEventListener("input", function() {
+        if(exchangeScopingCheck.checked == false) {
+            $("#exchange-scoping-ul").hide();
+            $("#exchange-scoping-section").hide();
+        } else {
+            $("#exchange-scoping-ul").show();
+            $("#exchange-scoping-section").show();
+        }
+    });
+
+    
+    var exchangeOnlineOnPremOptions = [
+        ["Exchange Online", "Exchange Online"],
+        ["Exchange Hybrid", "Exchange Hybrid"],
+        ["Exchange On-Premise", "Exchange On-Premise"]
+    ];
+    createScopeQuestion('exchange-envoirnment', true, 'What exchange envoirnment customer have?', 'select', 'Choose option', exchangeOnlineOnPremOptions);
+    exchangeEnvoirnmentSelect = document.getElementById("exchange-envoirnment-data");
+    exchangeEnvoirnmentSelect.addEventListener("change", function() {
+        if(exchangeEnvoirnmentSelect.value == "0" || exchangeEnvoirnmentSelect.value == "Exchange Online") {
+            $("#exchange-server").hide();
+            $("#exchange-server-info").hide();
+        } else {
+            $("#exchange-server").show();
+            $("#exchange-server-info").show();
+        }
+    });
+
+    var exchangeServerOptions = [
+        ["Exchange Server 2019 CU12 - 15.2.1118.9", "Exchange Server 2019 CU12 - 15.2.1118.9"],
+        ["Exchange Server 2019 CU12 - 15.2.1118.7", "Exchange Server 2019 CU12 - 15.2.1118.7"],
+        ["Exchange Server 2019 CU11 - 15.2.986.26", "Exchange Server 2019 CU11 - 15.2.986.26"],
+        ["Exchange Server 2019 CU11 - 15.2.986.22", "Exchange Server 2019 CU11 - 15.2.986.22"],
+        ["Exchange Server 2019 CU11 - 15.2.986.15", "Exchange Server 2019 CU11 - 15.2.986.15"],
+        ["Exchange Server 2019 CU11 - 15.2.986.14", "Exchange Server 2019 CU11 - 15.2.986.14"],
+        ["Exchange Server 2019 CU11 - 15.2.986.9", "Exchange Server 2019 CU11 - 15.2.986.9"],
+        ["Exchange Server 2019 CU11 - 15.2.986.5", "Exchange Server 2019 CU11 - 15.2.986.5"],
+        ["Exchange Server 2019 CU10 - 15.2.922.27", "Exchange Server 2019 CU10 - 15.2.922.27"],
+        ["Exchange Server 2019 CU10 - 15.2.922.20", "Exchange Server 2019 CU10 - 15.2.922.20"],
+        ["Exchange Server 2019 CU10 - 15.2.922.19", "Exchange Server 2019 CU10 - 15.2.922.19"],
+        ["Exchange Server 2019 CU10 - 15.2.922.14", "Exchange Server 2019 CU10 - 15.2.922.14"],
+        ["Exchange Server 2019 CU10 - 15.2.922.13", "Exchange Server 2019 CU10 - 15.2.922.13"],
+        ["Exchange Server 2019 CU10 - 15.2.922.7", "Exchange Server 2019 CU10 - 15.2.922.7"],
+        ["Exchange Server 2019 CU9 - 15.2.858.15", "Exchange Server 2019 CU9 - 15.2.858.15"],
+        ["Exchange Server 2019 CU9 - 15.2.858.12", "Exchange Server 2019 CU9 - 15.2.858.12"],
+        ["Exchange Server 2019 CU9 - 15.2.858.10", "Exchange Server 2019 CU9 - 15.2.858.10"],
+        ["Exchange Server 2019 CU9 - 15.2.858.5", "Exchange Server 2019 CU9 - 15.2.858.5"],
+        ["Exchange Server 2019 CU8 - 15.2.792.15", "Exchange Server 2019 CU8 - 15.2.792.15"],
+        ["Exchange Server 2019 CU8 - 15.2.792.13", "Exchange Server 2019 CU8 - 15.2.792.13"],
+        ["Exchange Server 2019 CU8 - 15.2.792.10", "Exchange Server 2019 CU8 - 15.2.792.10"],
+        ["Exchange Server 2019 CU8 - 15.2.792.3", "Exchange Server 2019 CU8 - 15.2.792.3"],
+        ["Exchange Server 2019 CU7 - 15.2.721.13", "Exchange Server 2019 CU7 - 15.2.721.13"],
+        ["Exchange Server 2019 CU7 - 15.2.721.2", "Exchange Server 2019 CU7 - 15.2.721.2"],
+        ["Exchange Server 2019 CU6 - 15.2.659.12", "Exchange Server 2019 CU6 - 15.2.659.12"],
+        ["Exchange Server 2019 CU6 - 15.2.659.4", "Exchange Server 2019 CU6 - 15.2.659.4"],
+        ["Exchange Server 2019 CU5 - 15.2.595.8", "Exchange Server 2019 CU5 - 15.2.595.8"],
+        ["Exchange Server 2019 CU5 - 15.2.595.3", "Exchange Server 2019 CU5 - 15.2.595.3"],
+        ["Exchange Server 2019 CU4 - 15.2.529.13", "Exchange Server 2019 CU4 - 15.2.529.13"],
+        ["Exchange Server 2019 CU4 - 15.2.529.5", "Exchange Server 2019 CU4 - 15.2.529.5"],
+        ["Exchange Server 2019 CU3 - 15.2.464.15", "Exchange Server 2019 CU3 - 15.2.464.15"],
+        ["Exchange Server 2019 CU3 - 15.2.464.5", "Exchange Server 2019 CU3 - 15.2.464.5"],
+        ["Exchange Server 2019 CU2 - 15.2.397.11", "Exchange Server 2019 CU2 - 15.2.397.11"],
+        ["Exchange Server 2019 CU2 - 15.2.397.3", "Exchange Server 2019 CU2 - 15.2.397.3"],
+        ["Exchange Server 2019 CU1 - 15.2.330.11", "Exchange Server 2019 CU1 - 15.2.330.11"],
+        ["Exchange Server 2019 CU1 - 15.2.330.5", "Exchange Server 2019 CU1 - 15.2.330.5"],
+        ["Exchange Server 2019 RTM - 15.2.221.18", "Exchange Server 2019 RTM - 15.2.221.18"],
+        ["Exchange Server 2019 RTM - 15.2.221.12", "Exchange Server 2019 RTM - 15.2.221.12"],
+        ["Exchange Server 2019 Preview - 15.2.196.0", "Exchange Server 2019 Preview - 15.2.196.0"],
+        ["Exchange Server 2016 CU23 - 15.1.2507.9", "Exchange Server 2016 CU23 - 15.1.2507.9"],
+        ["Exchange Server 2016 CU23 - 15.1.2507.6", "Exchange Server 2016 CU23 - 15.1.2507.6"],
+        ["Exchange Server 2016 CU22 - 15.1.2375.28", "Exchange Server 2016 CU22 - 15.1.2375.28"],
+        ["Exchange Server 2016 CU22 - 15.1.2375.24", "Exchange Server 2016 CU22 - 15.1.2375.24"],
+        ["Exchange Server 2016 CU22 - 15.1.2375.18", "Exchange Server 2016 CU22 - 15.1.2375.18"],
+        ["Exchange Server 2016 CU22 - 15.1.2375.17", "Exchange Server 2016 CU22 - 15.1.2375.17"],
+        ["Exchange Server 2016 CU22 - 15.1.2375.12", "Exchange Server 2016 CU22 - 15.1.2375.12"],
+        ["Exchange Server 2016 CU22 - 15.1.2375.7", "Exchange Server 2016 CU22 - 15.1.2375.7"],
+        ["Exchange Server 2016 CU21 - 15.1.2308.27", "Exchange Server 2016 CU21 - 15.1.2308.27"],
+        ["Exchange Server 2016 CU21 - 15.1.2308.21", "Exchange Server 2016 CU21 - 15.1.2308.21"],
+        ["Exchange Server 2016 CU21 - 15.1.2308.20", "Exchange Server 2016 CU21 - 15.1.2308.20"],
+        ["Exchange Server 2016 CU21 - 15.1.2308.15", "Exchange Server 2016 CU21 - 15.1.2308.15"],
+        ["Exchange Server 2016 CU21 - 15.1.2308.14", "Exchange Server 2016 CU21 - 15.1.2308.14"],
+        ["Exchange Server 2016 CU21 - 15.1.2308.8", "Exchange Server 2016 CU21 - 15.1.2308.8"],
+        ["Exchange Server 2016 CU20 - 15.1.2242.12", "Exchange Server 2016 CU20 - 15.1.2242.12"],
+        ["Exchange Server 2016 CU20 - 15.1.2242.10", "Exchange Server 2016 CU20 - 15.1.2242.10"],
+        ["Exchange Server 2016 CU20 - 15.1.2242.8", "Exchange Server 2016 CU20 - 15.1.2242.8"],
+        ["Exchange Server 2016 CU20 - 15.1.2242.4", "Exchange Server 2016 CU20 - 15.1.2242.4"],
+        ["Exchange Server 2016 CU19 - 15.1.2176.14", "Exchange Server 2016 CU19 - 15.1.2176.14"],
+        ["Exchange Server 2016 CU19 - 15.1.2176.12", "Exchange Server 2016 CU19 - 15.1.2176.12"],
+        ["Exchange Server 2016 CU19 - 15.1.2176.9", "Exchange Server 2016 CU19 - 15.1.2176.9"],
+        ["Exchange Server 2016 CU19 - 15.1.2176.2", "Exchange Server 2016 CU19 - 15.1.2176.2"],
+        ["Exchange Server 2016 CU18 - 15.1.2106.13", "Exchange Server 2016 CU18 - 15.1.2106.13"],
+        ["Exchange Server 2016 CU18 - 15.1.2106.2", "Exchange Server 2016 CU18 - 15.1.2106.2"],
+        ["Exchange Server 2016 CU17 - 15.1.2044.13", "Exchange Server 2016 CU17 - 15.1.2044.13"],
+        ["Exchange Server 2016 CU17 - 15.1.2044.4", "Exchange Server 2016 CU17 - 15.1.2044.4"],
+        ["Exchange Server 2016 CU16 - 15.1.1979.8", "Exchange Server 2016 CU16 - 15.1.1979.8"],
+        ["Exchange Server 2016 CU16 - 15.1.1979.3", "Exchange Server 2016 CU16 - 15.1.1979.3"],
+        ["Exchange Server 2016 CU15 - 15.1.1913.12", "Exchange Server 2016 CU15 - 15.1.1913.12"],
+        ["Exchange Server 2016 CU15 - 15.1.1913.5", "Exchange Server 2016 CU15 - 15.1.1913.5"],
+        ["Exchange Server 2016 CU14 - 15.1.1847.12", "Exchange Server 2016 CU14 - 15.1.1847.12"],
+        ["Exchange Server 2016 CU14 - 15.1.1847.3", "Exchange Server 2016 CU14 - 15.1.1847.3"],
+        ["Exchange Server 2016 CU13 - 15.1.1779.8", "Exchange Server 2016 CU13 - 15.1.1779.8"],
+        ["Exchange Server 2016 CU13 - 15.1.1779.2", "Exchange Server 2016 CU13 - 15.1.1779.2"],
+        ["Exchange Server 2016 CU12 - 15.1.1713.10", "Exchange Server 2016 CU12 - 15.1.1713.10"],
+        ["Exchange Server 2016 CU12 - 15.1.1713.5", "Exchange Server 2016 CU12 - 15.1.1713.5"],
+        ["Exchange Server 2016 CU11 - 15.1.1591.18", "Exchange Server 2016 CU11 - 15.1.1591.18"],
+        ["Exchange Server 2016 CU11 - 15.1.1591.10", "Exchange Server 2016 CU11 - 15.1.1591.10"],
+        ["Exchange Server 2016 CU10 - 15.1.1531.12", "Exchange Server 2016 CU10 - 15.1.1531.12"],
+        ["Exchange Server 2016 CU10 - 15.1.1531.3", "Exchange Server 2016 CU10 - 15.1.1531.3"],
+        ["Exchange Server 2016 CU9 - 15.1.1466.16", "Exchange Server 2016 CU9 - 15.1.1466.16"],
+        ["Exchange Server 2016 CU9 - 15.1.1466.3", "Exchange Server 2016 CU9 - 15.1.1466.3"],
+        ["Exchange Server 2016 CU8 - 15.1.1415.10", "Exchange Server 2016 CU8 - 15.1.1415.10"],
+        ["Exchange Server 2016 CU8 - 15.1.1415.2", "Exchange Server 2016 CU8 - 15.1.1415.2"],
+        ["Exchange Server 2016 CU7 - 15.1.1261.35", "Exchange Server 2016 CU7 - 15.1.1261.35"],
+        ["Exchange Server 2016 CU6 - 15.1.1034.26", "Exchange Server 2016 CU6 - 15.1.1034.26"],
+        ["Exchange Server 2016 CU5 - 15.1.845.34", "Exchange Server 2016 CU5 - 15.1.845.34"],
+        ["Exchange Server 2016 CU4 - 15.1.669.32", "Exchange Server 2016 CU4 - 15.1.669.32"],
+        ["Exchange Server 2016 CU3 - 15.1.544.27", "Exchange Server 2016 CU3 - 15.1.544.27"],
+        ["Exchange Server 2016 CU2 - 15.1.466.34", "Exchange Server 2016 CU2 - 15.1.466.34"],
+        ["Exchange Server 2016 CU1 - 15.1.396.30", "Exchange Server 2016 CU1 - 15.1.396.30"],
+        ["Exchange Server 2016 RTM - 15.1.225.42", "Exchange Server 2016 RTM - 15.1.225.42"],
+        ["Exchange Server 2016 Preview - 15.1.225.16", "Exchange Server 2016 Preview - 15.1.225.16"],
+        ["Exchange Server 2013 CU23 - 15.0.1497.36", "Exchange Server 2013 CU23 - 15.0.1497.36"],
+        ["Exchange Server 2013 CU23 - 15.0.1497.33", "Exchange Server 2013 CU23 - 15.0.1497.33"],
+        ["Exchange Server 2013 CU23 - 15.0.1497.28", "Exchange Server 2013 CU23 - 15.0.1497.28"],
+        ["Exchange Server 2013 CU23 - 15.0.1497.26", "Exchange Server 2013 CU23 - 15.0.1497.26"],
+        ["Exchange Server 2013 CU23 - 15.0.1497.24", "Exchange Server 2013 CU23 - 15.0.1497.24"],
+        ["Exchange Server 2013 CU23 - 15.0.1497.23", "Exchange Server 2013 CU23 - 15.0.1497.23"],
+        ["Exchange Server 2013 CU23 - 15.0.1497.18", "Exchange Server 2013 CU23 - 15.0.1497.18"],
+        ["Exchange Server 2013 CU23 - 15.0.1497.15", "Exchange Server 2013 CU23 - 15.0.1497.15"],
+        ["Exchange Server 2013 CU23 - 15.0.1497.12", "Exchange Server 2013 CU23 - 15.0.1497.12"],
+        ["Exchange Server 2013 CU23 - 15.0.1497.2", "Exchange Server 2013 CU23 - 15.0.1497.2"],
+        ["Exchange Server 2013 CU22 - 15.0.1473.6", "Exchange Server 2013 CU22 - 15.0.1473.6"],
+        ["Exchange Server 2013 CU22 - 15.0.1473.3", "Exchange Server 2013 CU22 - 15.0.1473.3"],
+        ["Exchange Server 2013 CU21 - 15.0.1395.12", "Exchange Server 2013 CU21 - 15.0.1395.12"],
+        ["Exchange Server 2013 CU21 - 15.0.1395.4", "Exchange Server 2013 CU21 - 15.0.1395.4"],
+        ["Exchange Server 2013 CU20 - 15.0.1367.3", "Exchange Server 2013 CU20 - 15.0.1367.3"],
+        ["Exchange Server 2013 CU19 - 15.0.1365.1", "Exchange Server 2013 CU19 - 15.0.1365.1"],
+        ["Exchange Server 2013 CU18 - 15.0.1347.2", "Exchange Server 2013 CU18 - 15.0.1347.2"],
+        ["Exchange Server 2013 CU17 - 15.0.1320.4", "Exchange Server 2013 CU17 - 15.0.1320.4"],
+        ["Exchange Server 2013 CU16 - 15.0.1293.2", "Exchange Server 2013 CU16 - 15.0.1293.2"],
+        ["Exchange Server 2013 CU15 - 15.0.1263.5", "Exchange Server 2013 CU15 - 15.0.1263.5"],
+        ["Exchange Server 2013 CU14 - 15.0.1236.3", "Exchange Server 2013 CU14 - 15.0.1236.3"],
+        ["Exchange Server 2013 CU13 - 15.0.1210.3", "Exchange Server 2013 CU13 - 15.0.1210.3"],
+        ["Exchange Server 2013 CU12 - 15.0.1178.4", "Exchange Server 2013 CU12 - 15.0.1178.4"],
+        ["Exchange Server 2013 CU11 - 15.0.1156.6", "Exchange Server 2013 CU11 - 15.0.1156.6"],
+        ["Exchange Server 2013 CU10 - 15.0.1130.7", "Exchange Server 2013 CU10 - 15.0.1130.7"],
+        ["Exchange Server 2013 CU9 - 15.0.1104.5", "Exchange Server 2013 CU9 - 15.0.1104.5"],
+        ["Exchange Server 2013 CU8 - 15.0.1076.9", "Exchange Server 2013 CU8 - 15.0.1076.9"],
+        ["Exchange Server 2013 CU7 - 15.0.1044.25", "Exchange Server 2013 CU7 - 15.0.1044.25"],
+        ["Exchange Server 2013 CU6 - 15.0.995.29", "Exchange Server 2013 CU6 - 15.0.995.29"],
+        ["Exchange Server 2013 CU5 - 15.0.913.22", "Exchange Server 2013 CU5 - 15.0.913.22"],
+        ["Exchange Server 2013 SP1 - 15.0.847.64", "Exchange Server 2013 SP1 - 15.0.847.64"],
+        ["Exchange Server 2013 SP1 - 15.0.847.32", "Exchange Server 2013 SP1 - 15.0.847.32"],
+        ["Exchange Server 2013 CU3 - 15.0.775.38", "Exchange Server 2013 CU3 - 15.0.775.38"],
+        ["Exchange Server 2013 CU2 - 15.0.712.24", "Exchange Server 2013 CU2 - 15.0.712.24"],
+        ["Exchange Server 2013 CU1 - 15.0.620.29", "Exchange Server 2013 CU1 - 15.0.620.29"],
+        ["Exchange Server 2013 RTM - 15.0.516.32", "Exchange Server 2013 RTM - 15.0.516.32"],
+    ];
+    createScopeQuestion('exchange-server', true, 'What exchange server version customer have?', 'select', 'Choose option', exchangeServerOptions);
+    $("#exchange-server").hide();
+
+
+
+
+    createScopeQuestion('sharepoint-scoping', true, 'SharePoint scoping:', 'checkbox', 'SharePoint scoping:');
+    $("#sharepoint-scoping-ul").hide();
+    $("#sharepoint-scoping-section").hide();
+    sharepointScopingCheck = document.getElementById("sharepoint-scoping-data");
+    sharepointScopingCheck.addEventListener("input", function() {
+        if(sharepointScopingCheck.checked == false) {
+            $("#sharepoint-scoping-ul").hide();
+            $("#sharepoint-scoping-section").hide();
+        } else {
+            $("#sharepoint-scoping-ul").show();
+            $("#sharepoint-scoping-section").show();
+        }
+    });
+
+    createScopeQuestion('sharepoint-site', true, 'Affected Site URL:', 'text', 'https://contoso.sharepoint/sites/contoso', '', 'Affected site:<br>');
+
+
+
+
+    // Copy Buttons (Button ID, Copy Area)
     copyText('copy-case-note', 'case-note');
 
     copyText('copy-getCsOnlineUser-transcript', 'getCsOnlineUser-transcript');
+    copyText('copy-calling-transcript', 'calling-transcript-copy-area');
+    copyText('copy-calling-network', 'calling-network-copy-area');
 
 
-// Functions         
+// Functions      
+// Element ID / Hide if empty on the template / label text / type text, date, textarea, select / placeholder / options for select / prepend to case note 
 function createScopeQuestion(liID, hideLi, label, inputType, placeholder, options, prepend) {
 
     // Check the input type and set correct element
@@ -689,7 +1302,7 @@ function createScopeQuestion(liID, hideLi, label, inputType, placeholder, option
         scopeLiRow.setAttribute("class", 'row p-1');
         scopeLiColLabel.setAttribute("class", 'col-auto');
         scopeLiColInfo.setAttribute("class", 'col');
-        scopeLiLabel.setAttribute("class", 'control-label fw-bold');
+        scopeLiLabel.setAttribute("class", 'control-label');
         scopeLiLabel.setAttribute("for", liID + '-data');
         scopeLiLabel.innerHTML = label;
         scopeLiRowClearFix.setAttribute("class", 'clearfix');
@@ -885,7 +1498,7 @@ function createStepList(liID, label, placeholder, options) {
         stepListLiRow.setAttribute("class", 'row p-1');
         stepListLiColLabel.setAttribute("class", 'col-auto');
         stepListLiColSteps.setAttribute("class", 'col py-4');
-        stepListLiLabel.setAttribute("class", 'control-label fw-bold');
+        stepListLiLabel.setAttribute("class", 'control-label');
         stepListLiLabel.setAttribute("for", liID + '-data');
         stepListLiLabel.innerHTML = label;
         stepListLiRowClearFix.setAttribute("class", 'clearfix');
