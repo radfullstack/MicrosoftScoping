@@ -8,9 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        .col input,.col select {
+        .col input, .col select, .col textarea {
             max-width: 550px;
             margin-left: auto;
+        }
+        .control-label {
+            transition: all .3s;
         }
         .main {
             margin:0;
@@ -53,14 +56,24 @@
         .btn-link:hover {
             color: black;
         }
-        #copy-case-note {
-            float:right;
-            min-width:77px;
+        .copyBtn {
+            display: block;
+            margin-left: auto;
+            min-width:42px;
             transition: all .3s;
         }
-        #customer-repro-steps-data {
+        #customer-repro-steps-info li:first-child, #internal-repro-steps-info li:first-child {
+            margin-top: 0;
+        }
+        #customer-repro-steps-data, #internal-repro-steps-data {
             max-width: 580px;
             margin-left:auto;
+        }
+        .col-auto label {
+            line-height: 38px;
+        }
+        .completed {
+            opacity: 0.6;
         }
     </style>
 </head>
@@ -73,7 +86,7 @@
                 <i class="fa-brands fa-microsoft"></i> Microsoft Scoping
             </h1>
             <main>
-                <p>#### Template ####</p>
+                <p>#### FORM ####</p>
                 <ol>
                     <!-- Issue Description Form -->
                     <li id="issue-description"></li>
@@ -86,9 +99,15 @@
                             <li id="worked-before"></li>
                             <!-- Can Be Reprod On Demand Form -->
                             <li id="ondemand-repro"></li>
+                            <!-- Can Be Reprod Internally -->
+                            <li id="internal-repro"></li>
                             <!-- Customer Repro Steps Form -->
                             <li id="customer-repro-steps"></li>
                             <li id="customer-repro-steps-comment"></li>
+                            <!-- Internal Repro Steps Form -->
+                            <li id="internal-repro-steps" class="collapse multi-collapse"></li>
+                            <li id="internal-repro-steps-comment" class="collapse multi-collapse"></li>
+                              <div class="clearfix"></div>
                         </ul>
                     </li>
                     <!-- How Many Affected Users Form -->
@@ -102,44 +121,14 @@
                             <li>
                                 <div class="row">
                                     <div id="get-csonlineuser-transcript"class="col-auto"></div>
-                                    <div class="col">
-                                        <button class="btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#Get-CsOnlineUserTranscriptSample" aria-expanded="false" aria-controls="Get-CsOnlineUserTranscriptSample">
-                                            <i class="fa-solid fa-circle-info"></i>
-                                        </button>
+                                    <div class="col-auto">
+                                        <button class="btn-sm btn-link"  style="margin:-5px 0 5px -50px;" type="button" data-bs-toggle="modal" data-bs-target="#getCsOnlineUserModal"><i class="fa-solid fa-circle-info"></i></button>
                                     </div>
-                                        <div class="clearfix"></div>
-                                </div>
-                                <!-- Transcript Toggle -->
-                                <div class="row collapse mb-3" id="Get-CsOnlineUserTranscriptSample" style="color: black;">
-                                    <div class="card card-body bg-transparent text-white fst-italic">
-                                        Following transcript will be exported under Desktop\CsOnlineUser-PS.txt
-                                        <ul>
-                                            <li>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12</li>
-                                            <li>Set-ExecutionPolicy RemoteSigned</li>
-                                            <li>Start-Transcript -Path "$env:userprofile\Desktop\CsOnlineUser-PS.txt" -NoClobber</li>
-                                            <li>Install-Module MicrosoftTeams</li>
-                                            <li>Connect-MicrosoftTeams</li>
-                                            <li>Get-CsOnlineUser affectedUser@contoso.com</li>
-                                            <li>Get-CsOnlineUser notAffectedUser@contoso.com</li>
-                                            <li>Stop-Transcript </li>
-                                        </ul>
-                                    </div>
+                                    <div class="clearfix"></div>
                                 </div>
                             </li>
                         </ul>
                     </li>
-                    <!-- Skype for Business Form -->
-                    <li id="skype-for-business"></li>
-                    <!-- VDI Form -->
-                    <li><div id="vdi-environment"></div>
-                        <ul id="vdi-environment-scoping" class="d- none">
-                            <!-- Terminal Version Form -->
-                            <li id="vdi-terminal-version"></li>
-                            <!-- Isolated to VDI Form -->
-                            <li id="isolated-to-vdi"></li>
-                        </ul>
-                    </li>
-
                 </ul>
             </main>
         </div>
@@ -148,11 +137,11 @@
         <div class="col-sm-12 col-md-5 p-5">
             
             <!-- Copy Button -->
-            <button id="copy-case-note" class="btn btn-primary">Copy</button>
+            <button id="copy-case-note" class="btn btn-primary copyBtn"><i class="fa-solid fa-copy"></i></button>
 
             <!-- Case Note Start -->
             <div id="case-note">
-                <p>#### CASE NOTE ####</p>
+                <p>#### REPORT ####</p>
                 <p>Case status:</p>
                 <p>Activity:</p>
 
@@ -173,12 +162,15 @@
                                 <ul>
                                     <li id="worked-before-info"></li>
                                     <li id="ondemand-repro-info"></li>
+                                    <li id="internal-repro-info"></li>
                                 </ul>
                             </li>
-                            <li>
-                                Customer repro steps:
-                                <ol id="customer-repro-steps-info"></ol>
+                            <li><p class="mb-0">Customer repro steps:</p>
+                                <ol id="customer-repro-steps-info" style="margin-top: 0; padding-top: 0;" start="1"></ol>
                                 <ul><li>Additional comments:<br><i id="customer-repro-steps-comment-info"></i></li></ul>
+                            <li id="internal-repro-section" class="collapse"><p class="mb-0">Internal repro steps:</p>
+                                    <ol id="internal-repro-steps-info" style="margin-top: 0; padding-top: 0;" start="1"></ol>
+                                    <ul><li>Additional comments:<br><i id="internal-repro-steps-comment-info"></i></li></ul>
                             </li>
                             <li>
                                 Affected users: <span id="affected-users-info" class="min-width-10" data-text=""></span>
@@ -194,16 +186,6 @@
                                 </ul>
                                 <ul><li id="get-csonlineuser-transcript-info"></li></ul>
                             </li>
-                            <li>
-                                Skype for Business:
-                                <ul><li id="skype-for-business-info"></li></ul>
-                            </li>
-                            <li>
-                                Virtual Environment:
-                                <span id="vdi-environment-info"></span>
-                                <ul><li>Terminal Version: <span id="vdi-terminal-version-info"></span></li></ul>
-                                <ul><li id="isolated-to-vdi-info"></li></ul>
-                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -216,77 +198,117 @@
         </div>
     </div>
 </div>
-    
 
 
+
+
+<!-- Modals -->
+
+    <!-- Get-CsOnlineUser -->
+    <div class="modal fade" id="getCsOnlineUserModal" tabindex="-1" aria-labelledby="getCsOnlineUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="getCsOnlineUserModalLabel">Get-CsOnlineUser Trascript</h5>
+              
+              <button type="button" class="btn btn-primary copyBtn me-2" id="copy-getCsOnlineUser-transcript"><i class="fa-solid fa-copy"></i></button>
+              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="getCsOnlineUser-transcript">
+                <ul>
+                    <li>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12</li>
+                    <li>Set-ExecutionPolicy RemoteSigned</li>
+                    <li>Start-Transcript -Path "$env:userprofile\Desktop\CsOnlineUser-PS.txt" -NoClobber</li>
+                    <li>Install-Module MicrosoftTeams</li>
+                    <li>Connect-MicrosoftTeams</li>
+                    <li>Get-CsOnlineUser affectedUser@contoso.com</li>
+                    <li>Get-CsOnlineUser notAffectedUser@contoso.com</li>
+                    <li>Stop-Transcript </li>
+                </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<!-- jQuery bundle -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- Bootstrap bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-<script type="text/javascript">
-    const   vdiEnvironmentScoping = document.getElementById('vdi-environment-scoping');
-                                  
- 
-    createScopeQuestion('issue-description', 'Issue Description:', 'text', 'Inbound call not working');
 
-    createScopeQuestion('scope-agreement', 'Scope Agreement:', 'text', 'Inbound calls working');
+<!-- Custom scripts -->
+<script type="text/javascript">
+                                  
+// Build template
+    // Data Inputs
+    createScopeQuestion('issue-description', true, 'Issue Description:', 'text', 'Inbound call not working');
+
+    createScopeQuestion('scope-agreement', true, 'Scope Agreement:', 'text', 'Inbound calls working');
     
     var today = new Date(),
         date =  today.getFullYear() + '-'+ ('0' + (today.getMonth()+1)).slice(-2) + '-'+ ('0' + today.getDate()).slice(-2);
-    createScopeQuestion('first-occurance', 'Behaviour observed for the first time:', 'date', date);
+    createScopeQuestion('first-occurance', false, 'Behaviour observed for the first time:', 'date', date);
 
     var workedBeforeOptions = [
         ["It worked before", "Yes"],
         ["It never worked", "No"]
     ];
-    createScopeQuestion('worked-before', 'Did it work before?', 'select', "Choose option", workedBeforeOptions);
+    createScopeQuestion('worked-before', true, 'Did it work before?', 'select', "Choose option", workedBeforeOptions);
 
     var ondemandReproOptions = [
         ["It can be reproduced on demand", "Yes"],
         ["Issue is not regular, difficult to reproduce", "Irregular, hard to repro"],
         ["It cannot be reproduced on demand", "No"]
     ];
-    createScopeQuestion('ondemand-repro', 'Can the issue be reproduced on demand?', 'select', "Choose option", ondemandReproOptions);
+    createScopeQuestion('ondemand-repro', true, 'Can customer reproduce problem on demand?', 'select', "Choose option", ondemandReproOptions);
 
-    createStepList('customer-repro-steps', 'Customer repro steps:');
-
-    createScopeQuestion('customer-repro-steps-comment', 'Additional comments about repro behaviour:', 'textarea', 'In comparison to web client...');
-
-    createScopeQuestion('affected-users', 'How many affected users:', 'text', 'All, 10, ~100');
-
-    createScopeQuestion('example-affected', 'Example affected user:', 'text', 'affected@contoso.com');
-
-    createScopeQuestion('example-not-affected', 'Example not affected user:', 'text', 'notAffected@contoso.com');
-
-    createScopeQuestion('get-csonlineuser-transcript', 'Get-CsOnlineUser Transcript Attached?', 'checkbox', 'Get-CsOnlineUser Transcript Attached');
-    
-    var skypeOptions = [
-        ["Never Used", "Never Used"],
-        ["Decomissioned, migrated", "Decomissioned, migrated"],
-        ["Still using, fully on-prem", "Still using, fully on-prem"],
-        ["Still using, hybrid", "Still using, hybrid"],
-        ["Still using, hybrid, migrating", "Still using, hybrid, migrating"]
+    var internalReproOptions = [
+        ["It can be reproduced in test envoirnment", "Yes"],
+        ["It cannot be reproduced in test envoirnment", "No"]
     ];
-    createScopeQuestion('skype-for-business', 'Using Skype for Business on-premises?', 'select', "Choose option", skypeOptions);
-                
-    var vdiEnvOptions = [
-        ["Not using", "Not using"],
-        ["Remote Desktop Server", "Remote Desktop Server"],
-        ["Citrix", "Citrix"],
-        ["VMWare", "VMWare"],
-        ["Azure", "Azure"]
-    ];
-    createScopeQuestion('vdi-environment', 'Using Virtual Environment?', 'select', "Choose option", vdiEnvOptions);
+    createScopeQuestion('internal-repro', true, 'Can you reproduce problem in test envoirnment?', 'select', "Choose option", internalReproOptions);
+    // Hide internal repro if n/a
+    internalReproStepsLi = document.getElementById('internal-repro-steps');
+    internalReproComment = document.getElementById("internal-repro-steps-comment");
+    internalReproSection = document.getElementById("internal-repro-section");
+    internalReproSelect = document.getElementById("internal-repro-data");
+    internalReproSelect.addEventListener("change", function() {
+        if(internalReproSelect.value == "0" || internalReproSelect.value == "It cannot be reproduced in test envoirnment") {
+            $(internalReproStepsLi).collapse('hide');
+            $(internalReproComment).collapse('hide');
+            $(internalReproSection).collapse('hide');
+        } else {
+            $(internalReproStepsLi).collapse('show');
+            $(internalReproComment).collapse('show');
+            $(internalReproSection).collapse('show');
+        }
+    });
 
-    createScopeQuestion('vdi-terminal-version', 'Terminal Version:', 'text', '123.123.2');
+    createStepList('customer-repro-steps', 'Customer repro steps:', "Customer repro step");
 
-    var isolatedVDIOptions = [
-        ["Issue can be reproduced outside of the VDI Environment", "Yes"],
-        ["Issue cannot be reproduced outside of the VDI Environment", "No"]
-    ];
-    createScopeQuestion('isolated-to-vdi', 'Does issue affect the same user outside of VDI dnvoirnment?', 'select', "Choose option", isolatedVDIOptions);
+    createScopeQuestion('customer-repro-steps-comment', false, 'Additional comments about repro behaviour:', 'textarea', 'In comparison to web client...');
 
-                    
+    createStepList('internal-repro-steps', 'Internal repro steps:', "Internal repro step");
+
+    createScopeQuestion('internal-repro-steps-comment', false, 'Additional comments about repro behaviour:', 'textarea', 'In comparison to web client...');
+
+    createScopeQuestion('affected-users', false, 'How many affected users:', 'text', 'All, 10, ~100');
+
+    createScopeQuestion('example-affected', true, 'Example affected user:', 'text', 'affected@contoso.com');
+
+    createScopeQuestion('example-not-affected', true, 'Example not affected user:', 'text', 'notAffected@contoso.com');
+
+    createScopeQuestion('get-csonlineuser-transcript', true, 'Get-CsOnlineUser Transcript Attached?', 'checkbox', 'Get-CsOnlineUser Transcript Attached');
 
 
-function createScopeQuestion(liID, label, inputType, placeholder, options) {
+    // Copy Buttons
+    copyText('copy-case-note', 'case-note');
+
+    copyText('copy-getCsOnlineUser-transcript', 'getCsOnlineUser-transcript');
+
+
+// Functions         
+function createScopeQuestion(liID, hideLi, label, inputType, placeholder, options) {
 
     // Check the input type and set correct element
         if (inputType == "text" || inputType == "date" || inputType == "checkbox") {
@@ -334,8 +356,13 @@ function createScopeQuestion(liID, label, inputType, placeholder, options) {
             scopeLiInfo.setAttribute("placeholder",  placeholder);
         } else if(inputType == "checkbox") {
             scopeLiInfo.classList.remove("form-control");
-            scopeLiInfo.classList.add("form-check-input");
+            scopeLiInfo.classList.add("form-check-input", "mt-1");
             scopeLiInfo.setAttribute("type", "checkbox");
+        }
+
+        
+        if(hideLi == true) {
+            scopeLiNote.classList.add('d-none');
         }
 
 
@@ -344,69 +371,85 @@ function createScopeQuestion(liID, label, inputType, placeholder, options) {
             scopeLiInfo.addEventListener("input", function () {
                 scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
                 if ((scopeLiInfo.value).length === 0) {
-                    scopeLi.classList.add("text-danger");
-                    scopeLi.classList.remove("text-success");
+                    scopeLiLabel.classList.remove("completed");
                     scopeLiInfo.classList.add("border-danger");
-                    scopeLiInfo.classList.remove("text-success");
+                    scopeLiInfo.classList.remove("border-success");
                     scopeLiNote.innerHTML = '';
+                    if(hideLi == true) {
+                        scopeLiNote.classList.add('d-none');
+                    }
                 } else {
-                    scopeLi.classList.add("text-success");
-                    scopeLi.classList.remove("text-danger");
+                    scopeLiLabel.classList.add("completed");
                     scopeLiInfo.classList.add("border-success");
                     scopeLiInfo.classList.remove("border-danger");
                     scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
+                    if(hideLi == true) {
+                        scopeLiNote.classList.remove('d-none');
+                    }
                 }
             });
         } else if(inputType == "date") {
             scopeLiInfo.addEventListener("input", function () {
                 scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
                 if ((scopeLiInfo.value).length === 0) {
-                    scopeLi.classList.add("text-danger");
-                    scopeLi.classList.remove("text-success");
+                    scopeLiLabel.classList.remove("completed");
                     scopeLiInfo.classList.add("border-danger");
-                    scopeLiInfo.classList.remove("text-success");
+                    scopeLiInfo.classList.remove("border-success");
                     scopeLiNote.innerHTML = '';
+                    if(hideLi == true) {
+                        scopeLiNote.classList.add('d-none');
+                    }
                 } else {
                     var date = new Date(scopeLiNote.getAttribute('data-text')),
                     noteDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth()+1)).slice(-2) + '/' + date.getFullYear();
-                    scopeLi.classList.add("text-success");
-                    scopeLi.classList.remove("text-danger");
+                    scopeLiLabel.classList.add("completed");
                     scopeLiInfo.classList.add("border-success");
                     scopeLiInfo.classList.remove("border-danger");
                     scopeLiNote.innerHTML = noteDate;
+                    if(hideLi == true) {
+                        scopeLiNote.classList.remove('d-none');
+                    }
                 }
             });
         } else if(inputType == "select") {
             scopeLiInfo.addEventListener("change", function () {
                 scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
                 if (scopeLiInfo.value === "0") {
-                    scopeLi.classList.add("text-danger");
-                    scopeLi.classList.remove("text-success");
+                    scopeLiLabel.classList.remove("completed");
                     scopeLiInfo.classList.add("border-danger");
-                    scopeLiInfo.classList.remove("text-success");
+                    scopeLiInfo.classList.remove("border-success");
                     scopeLiNote.innerHTML = '';
+                    if(hideLi == true) {
+                        scopeLiNote.classList.add('d-none');
+                    }
                 } else {
-                    scopeLi.classList.add("text-success");
-                    scopeLi.classList.remove("text-danger");
+                    scopeLiLabel.classList.add("completed");
                     scopeLiInfo.classList.add("border-success");
                     scopeLiInfo.classList.remove("border-danger");
                     scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
+                    if(hideLi == true) {
+                        scopeLiNote.classList.remove('d-none');
+                    }
                 }
             });
         } else if(inputType == "checkbox") {
             scopeLiInfo.addEventListener("input", function () {
                 if (scopeLiInfo.checked == false) {
-                    scopeLi.classList.add("text-danger");
-                    scopeLi.classList.remove("text-success");
+                    scopeLiLabel.classList.remove("completed");
                     scopeLiInfo.classList.add("border-danger");
-                    scopeLiInfo.classList.remove("text-success");
+                    scopeLiInfo.classList.remove("border-success");
                     scopeLiNote.innerHTML = '';
+                    if(hideLi == true) {
+                        scopeLiNote.classList.add('d-none');
+                    }
                 } else {
-                    scopeLi.classList.add("text-success");
-                    scopeLi.classList.remove("text-danger");
+                    scopeLiLabel.classList.add("completed");
                     scopeLiInfo.classList.add("border-success");
                     scopeLiInfo.classList.remove("border-danger");
                     scopeLiNote.innerHTML = placeholder;
+                    if(hideLi == true) {
+                        scopeLiNote.classList.remove('d-none');
+                    }
                 }
             });
         }
@@ -453,7 +496,7 @@ function createStepList(liID, label, placeholder, options) {
         stepLiAddStepButton.innerHTML = '<i class="fa-solid fa-plus"></i>'
         stepListLiRow.setAttribute("class", 'row p-1');
         stepListLiColLabel.setAttribute("class", 'col-auto');
-        stepListLiColSteps.setAttribute("class", 'col');
+        stepListLiColSteps.setAttribute("class", 'col py-4');
         stepListLiLabel.setAttribute("class", 'control-label fw-bold');
         stepListLiLabel.setAttribute("for", liID + '-data');
         stepListLiLabel.innerHTML = label;
@@ -475,11 +518,11 @@ function createStepList(liID, label, placeholder, options) {
 
             // Set attributes
             stepLi.setAttribute("id", liID+'-step-'+stepId);
-            stepLiRow.setAttribute("class", 'row');
+            stepLiRow.setAttribute("class", 'row my-1');
             stepLiColStep.setAttribute("class", 'col');
             stepLiColButton.setAttribute("class", 'col-auto');
             stepLiInput.setAttribute("class", 'form-control border-danger');
-            stepLiInput.setAttribute("placeholder",  'Customer step step');
+            stepLiInput.setAttribute("placeholder",  placeholder);
             stepLiButton.setAttribute("class", 'btn btn-link');
             stepLiButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
             stepLiRowClearFix.setAttribute("class", 'clearfix');
@@ -492,12 +535,14 @@ function createStepList(liID, label, placeholder, options) {
                             stepLi.classList.remove("text-success");
                             stepLiInput.classList.add("border-danger");
                             stepLiInput.classList.remove("text-success");
+                            stepListLiLabel.classList.remove('completed')
                             stepLiNote.innerHTML = '';
                         } else {
                             stepLi.classList.add("text-success");
                             stepLi.classList.remove("text-danger");
                             stepLiInput.classList.add("border-success");
                             stepLiInput.classList.remove("border-danger");
+                            stepListLiLabel.classList.add('completed')
                             stepLiNote.innerHTML = stepLiNote.getAttribute('data-text');
                         }
                     });
@@ -533,35 +578,35 @@ function createStepList(liID, label, placeholder, options) {
         stepListLiRow.appendChild(stepListLiRowClearFix);
 }
 
-// Copy Case Note Logic
-    // Copy function
-    function CopyCaseNote() {
-        if (window.getSelection) {
-            var range = document.createRange();
-            window.getSelection().removeAllRanges();
-            range.selectNode(document.getElementById('case-note'));
-            window.getSelection().addRange(range);
-            document.execCommand("copy");
-            window.getSelection().removeAllRanges();
-        }
-    }
+// Copy Text Logic
+    function copyText(btnID, divID) {
+        const button = document.getElementById(btnID),
+        content = document.getElementById(divID);
 
-    // Copy button behaviour
-    copyButton = document.getElementById('copy-case-note');
-    copyButton.addEventListener("click", function () {
-        var last = this.innerHTML;
-        CopyCaseNote();
-        if (last == "Copy") {
-            copyButton.classList.add("btn-success");
-            copyButton.classList.remove("btn-primary");
-            this.innerHTML = 'Copied';
-            setTimeout(function () {
-                copyButton.classList.add("btn-primary");
-                copyButton.classList.remove("btn-success");
-                this.innerHTML = last;
-            }.bind(this), 1000);
-        }
-    });
+        button.addEventListener("click", function () {
+            
+            if (window.getSelection) {
+                var range = document.createRange();
+                window.getSelection().removeAllRanges();
+                range.selectNode(content);
+                window.getSelection().addRange(range);
+                document.execCommand("copy");
+                window.getSelection().removeAllRanges();
+            }
+
+            var last = this.innerHTML;
+            if (last == '<i class="fa-solid fa-copy"></i>') {
+                this.classList.add("btn-success");
+                this.classList.remove("btn-primary");
+                this.innerHTML = '<i class="fa-solid fa-check"></i>';
+                setTimeout(function () {
+                    this.classList.add("btn-primary");
+                    this.classList.remove("btn-success");
+                    this.innerHTML = last;
+                }.bind(this), 1000);
+            }
+        })
+    }
 </script>
 </body>
 </html>
