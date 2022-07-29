@@ -8,6 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        html,body,.main {
+            height:100%!important
+        }
+        .main,.main>div,.main>div>div,.form-panel {
+            min-height: 100%!important;
+        }
         .col input, .col select, .col textarea {
             max-width: 550px;
             margin-left: auto;
@@ -62,6 +68,28 @@
             min-width:42px;
             transition: all .3s;
         }
+        .btn-copyright {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            color: #fff;
+            padding: 20px 20px 20px 20px;
+            transition: all .3s;
+            background: none;
+            box-shadow: none!important;
+        }
+        .btn-copyright:hover {
+            color: #fa7d23!important;
+        }
+        .btn-copyright:focus {
+            box-shadow: none!important;
+        }
+        .btn-copyright i {
+            font-size: 20px;
+            display: block;
+            height: 20px;
+            width: 20px;
+        }
         #customer-repro-steps-info li:first-child, #internal-repro-steps-info li:first-child {
             margin-top: 0;
         }
@@ -106,8 +134,19 @@
                     <li id="issue-description"></li>
                     <!-- Scope Agreement Form -->
                     <li id="scope-agreement"></li>
-                    <li><label class="control-label p-1">General scoping:</label>
-                        <ul>
+                    <!-- Generic Scoping -->
+                    <li>
+                        <div class="row">
+                            <!-- Generic Scoping Checkbox -->
+                            <div id="generic-scoping" class="col-auto"></div>
+                            <!-- Generic Handbook Button -->
+                            <div class="col-auto">
+                                <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#genericModal"><i class="fa-solid fa-circle-info"></i></button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <!-- Generic Scoping Questions -->
+                        <ul id="generic-scoping-ul">
                             <!-- Issue Started Form -->
                             <li id="first-occurance"></li>
                             <!-- Did It Work Before Form -->
@@ -130,52 +169,72 @@
                             <!-- Example Not Affected User Form -->
                             <li id="example-not-affected"></li>
                             <!-- Get-CsOnlineUser Transcript Form -->
-                            <li>
-                                <div class="row">
-                                    <div id="get-csonlineuser-transcript" class="col-auto"></div>
-                                    <div class="col-auto">
-                                        <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#getCsOnlineUserModal"><i class="fa-solid fa-circle-info"></i></button>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </li>
+                            <li id="get-csonlineuser-transcript"></li>
                         </ul>
                     </li>
-                    <!-- PSTN or teams -->
+                    <!-- Calling Scoping -->
                     <li>
                         <div class="row">
+                            <!-- Calling Scoping Checkbox -->
                             <div id="calling-scoping" class="col-auto"></div>
+                            <!-- Calling Handbook Button -->
                             <div class="col-auto">
                                 <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#callingModal"><i class="fa-solid fa-circle-info"></i></button>
                             </div>
                             <div class="clearfix"></div>
                         </div>
+                        <!-- Calling Scoping Questions -->
                         <ul id="calling-scoping-ul">
+                            <!-- Type of call PSTN(CP/DR)/Teams-->
                             <li id="pstn-teams-call-kind"></li>
+                            <!-- Calling Plan License -->
                             <li id="calling-plan-license" class="calling-plan"></li>
+                            <!-- SBC Vendor -->
                             <li id="sbc-vendor" class="direct-routing"></li>
+                            <!-- SBC Model -->
                             <li id="sbc-model" class="direct-routing"></li>
+                            <!-- SBC Software Version -->
                             <li id="sbc-software" class="direct-routing"></li>
+                            <!-- SBC Media Bypass -->
                             <li id="sbc-media-bypass" class="direct-routing"></li>
+                            <!-- SBC Local Media Optimization -->
                             <li id="sbc-local-media-optimization" class="direct-routing"></li>
-                            <li id="calling-number-from" class="calling-plan direct-routing"></li>
-                            <li id="calling-number-to" class="calling-plan direct-routing"></li>
+                            <!-- Calling Number From/Caller -->
+                            <li id="calling-number-from" class="outbound calling-plan direct-routing"></li>
+                            <!-- Calling UPN From/Caller -->
+                            <li id="calling-upn-from" class="outbound calling-upn calling-upn-caller calling-plan direct-routing"></li>
+                            <!-- Calling Number To/Callee -->
+                            <li id="calling-number-to" class="inbound calling-plan direct-routing"></li>
+                            <!-- Calling Number To/Callee -->
+                            <li id="calling-upn-to" class="inbound calling-upn calling-upn-callee calling-plan direct-routing"></li>
                         </ul>
                     </li>
-                    <!-- Device -->
+                    <!-- Device Scoping -->
                     <li>
                         <div class="row">
+                            <!-- Device Scoping Checkbox -->
                             <div id="device-scoping" class="col-auto"></div>
+                            <!-- Device Handbook Button -->
                             <div class="col-auto">
                                 <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#deviceModal"><i class="fa-solid fa-circle-info"></i></button>
                             </div>
                             <div class="clearfix"></div>
                         </div>
+                        <!-- Device Scoping Questions -->
                         <ul id="device-scoping-ul">
+                            <!-- Affected Number of Devices-->
+                            <li id="device-number-affected"></li>
+                            <!-- Device Manufacture -->
                             <li id="device-manufacture"></li>
+                            <!-- Device Model -->
+                            <li id="device-model"></li>
+                            <!-- Device OS -->
+                            <li id="device-os"></li>
+                            <!-- Device Firmware -->
+                            <li id="device-firmware"></li>
                         </ul>
                     </li>
-                    <!-- Exchange -->
+                    <!-- Exchange Scoping -->
                     <li>
                         <div class="row">
                             <div id="exchange-scoping" class="col-auto"></div>
@@ -189,7 +248,7 @@
                             <li id="exchange-server"></li>
                         </ul>
                     </li>
-                    <!-- SharePoint -->
+                    <!-- SharePoint Scoping -->
                     <li>
                         <div class="row">
                             <div id="sharepoint-scoping" class="col-auto"></div>
@@ -203,6 +262,9 @@
                         </ul>
                     </li>
                 </ol>
+                <button type="button" id="copyright" class="btn btn-copyright" data-bs-toggle="modal" data-bs-target="#moreInfoModal">
+                    <i class="fa-regular fa-lightbulb"></i>
+                </button>
             </main>
         </div>
             
@@ -213,7 +275,7 @@
             <button id="copy-case-note" class="btn btn-primary copyBtn"><i class="fa-solid fa-copy"></i></button>
 
             <!-- Case Note Start -->
-            <div id="case-note">
+            <div id="case-note-copy-area">
                 <p>#### REPORT ####</p>
                 <p>Case status:</p>
                 <p>Activity:</p>
@@ -227,7 +289,7 @@
                         Scope Agreement:
                         <ul><li id="scope-agreement-info"></li></ul>
                     </li>
-                    <li>Scope:
+                    <li id="generic-scoping-section"><span id="generic-scoping-info"></span>
                         <ul>
                             <li>
                                 Behaviour started: <span id="first-occurance-info" class="min-width-10" data-text=""></span>
@@ -272,13 +334,19 @@
                             <li id="sbc-software-info" class="direct-routing"></li>
                             <li id="sbc-media-bypass-info" class="direct-routing"></li>
                             <li id="sbc-local-media-optimization-info" class="direct-routing"></li>
-                            <li id="calling-number-from-info" class="callng-plan direct-routing"></li>
-                            <li id="calling-number-to-info" class="callng-plan direct-routing"></li>
+                            <li id="calling-number-from-info" class="calling-plan direct-routing"></li>
+                            <li id="calling-upn-from-info" class="calling-plan calling-upn calling-upn-caller direct-routing"></li>
+                            <li id="calling-number-to-info" class="calling-plan direct-routing"></li>
+                            <li id="calling-upn-to-info" class="calling-plan calling-upn calling-upn-callee direct-routing"></li>
                         </ul>
                     </li>
                     <li id="device-scoping-section"><span id="device-scoping-info"></span>
                         <ul>
+                            <li id="device-number-affected-info"></li>
                             <li id="device-manufacture-info"></li>
+                            <li id="device-model-info"></li>
+                            <li id="device-os-info"></li>
+                            <li id="device-firmware-info"></li>
                         </ul>
                     </li>
                     <li id="exchange-scoping-section"><span id="exchange-scoping-info"></span>
@@ -308,39 +376,41 @@
 
 <!-- Modals -->
 
-    <!-- Get-CsOnlineUser -->
-    <div class="modal fade" id="getCsOnlineUserModal" tabindex="-1" aria-labelledby="getCsOnlineUserModalLabel" aria-hidden="true">
+    <!-- Generic -->
+    <div class="modal fade" id="genericModal" tabindex="-1" aria-labelledby="genericModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="getCsOnlineUserModalLabel">Get-CsOnlineUser Trascript</h5>
+              <h4 class="modal-title" id="genericModalLabel">Generic Handbook</h4>
               
-              <button type="button" class="btn btn-primary copyBtn me-2" id="copy-getCsOnlineUser-transcript"><i class="fa-solid fa-copy"></i></button>
+              <button type="button" class="btn btn-primary copyBtn me-2" id="copy-getcsonlineuser-transcript"><i class="fa-solid fa-copy"></i></button>
               <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="getCsOnlineUser-transcript">
-                <ul>
-                    <li>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12</li>
-                    <li>Set-ExecutionPolicy RemoteSigned</li>
-                    <li>Start-Transcript -Path "$env:userprofile\Desktop\CsOnlineUser-PS.txt" -NoClobber</li>
-                    <li>Install-Module MicrosoftTeams</li>
-                    <li>Connect-MicrosoftTeams</li>
-                    <li>Get-CsOnlineUser affectedUser@contoso.com</li>
-                    <li>Get-CsOnlineUser notAffectedUser@contoso.com</li>
-                    <li>Stop-Transcript </li>
-                </ul>
+            <div class="modal-body">
+                <h5>Get-CsOnlineUser Transcript</h5>
+                <div id="getcsonlineuser-transcript-copy-area">
+                    <ul>
+                        <li>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12</li>
+                        <li>Set-ExecutionPolicy RemoteSigned</li>
+                        <li>Start-Transcript -Path "$env:userprofile\Desktop\CsOnlineUser-PS.txt" -NoClobber</li>
+                        <li>Install-Module MicrosoftTeams</li>
+                        <li>Connect-MicrosoftTeams</li>
+                        <li>Get-CsOnlineUser affectedUser@contoso.com</li>
+                        <li>Get-CsOnlineUser notAffectedUser@contoso.com</li>
+                        <li>Stop-Transcript </li>
+                    </ul>
+                </div>
             </div>
           </div>
         </div>
     </div>
-
-      
+  
     <!-- Calling -->
     <div class="modal fade" id="callingModal" tabindex="-1" aria-labelledby="callingModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="callingModalLabel">Calling Handbook</h5>
+              <h4 class="modal-title" id="callingModalLabel">Calling Handbook</h4>
               
               <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -464,7 +534,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="deviceModalLabel">Device Handbook</h5>
+              <h4 class="modal-title" id="deviceModalLabel">Device Handbook</h4>
               
               <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -477,13 +547,12 @@
         </div>
     </div>
 
-
     <!-- Exchange -->
     <div class="modal fade" id="exchangeModal" tabindex="-1" aria-labelledby="exchangeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exchangeModalLabel">Exchange Handbook</h5>
+              <h4 class="modal-title" id="exchangeModalLabel">Exchange Handbook</h4>
               
               <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -501,118 +570,40 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="sharepointModalLabel">SharePoint Handbook</h5>
+              <h4 class="modal-title" id="sharepointModalLabel">SharePoint Handbook</h4>
               
               <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="sharepoint-transcript">
                 <ul>
-                    <button type="button" class="btn btn-primary copyBtn me-2" id="copy-sharepoint-network"><i class="fa-solid fa-copy"></i></button>
-                    <li>Direct Routing Network Requirements
-                        <ul class="calling-network-area">
-                            <div id="calling-network-copy-area">
-                                <li>SIP Signaling: Ports
-                                    <table aria-label="SIP Signaling: Ports" class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th style="text-align: left;">Traffic</th>
-                                                <th style="text-align: left;">From</th>
-                                                <th style="text-align: left;">To</th>
-                                                <th style="text-align: left;">Source port</th>
-                                                <th style="text-align: left;">Destination port</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td style="text-align: left;">SIP/TLS</td>
-                                                <td style="text-align: left;">SIP Proxy</td>
-                                                <td style="text-align: left;">SBC</td>
-                                                <td style="text-align: left;">1024 – 65535</td>
-                                                <td style="text-align: left;">Defined on the SBC (For Office 365 GCC High/DoD only port 5061 must be used)</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: left;">SIP/TLS</td>
-                                                <td style="text-align: left;">SBC</td>
-                                                <td style="text-align: left;">SIP Proxy</td>
-                                                <td style="text-align: left;">Defined on the SBC</td>
-                                                <td style="text-align: left;">5061</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: left;" aria-label="No value"></td>
-                                                <td style="text-align: left;" aria-label="No value"></td>
-                                                <td style="text-align: left;" aria-label="No value"></td>
-                                                <td style="text-align: left;" aria-label="No value"></td>
-                                                <td style="text-align: left;" aria-label="No value"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </li>
-                                <li>IP Ranges:
-                                    <ul>
-                                        <li>52.112.0.0/14 (IP addresses from 52.112.0.1 to 52.115.255.254)</li>
-                                        <li>52.120.0.0/14 (IP addresses from 52.120.0.1 to 52.123.255.254)</li>
-                                    </ul>
-                                </li>
-                                <li>Port range (applicable to all environments)
-                                    <table aria-label="Port range (applicable to all environments)" class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th style="text-align: left;">Traffic</th>
-                                                <th style="text-align: left;">From</th>
-                                                <th style="text-align: left;">To</th>
-                                                <th style="text-align: left;">Source port</th>
-                                                <th style="text-align: left;">Destination port</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td style="text-align: left;">UDP/SRTP</td>
-                                                <td style="text-align: left;">Media Processor</td>
-                                                <td style="text-align: left;">SBC</td>
-                                                <td style="text-align: left;">3478-3481 and 49152 – 53247</td>
-                                                <td style="text-align: left;">Defined on the SBC</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: left;">UDP/SRTP</td>
-                                                <td style="text-align: left;">SBC</td>
-                                                <td style="text-align: left;">Media Processor</td>
-                                                <td style="text-align: left;">Defined on the SBC</td>
-                                                <td style="text-align: left;">3478-3481 and 49152 – 53247</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </li>
-                            </div>
-                        </ul>
-                    </li>
-                    <button type="button" class="btn btn-primary copyBtn me-2" id="copy-calling-transcript"><i class="fa-solid fa-copy"></i></button>
-                    <li>Trancript:
-                        <div class="calling-transcript-area">
-                            <ul id="calling-transcript-copy-area">
-                                <li>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12</li>
-                                <li>Set-ExecutionPolicy RemoteSigned</li>
-                                <li>Start-Transcript -Path "$env:userprofile\Desktop\DirectRouting-PS.txt" -NoClobber</li>
-                                <li>Install-Module MicrosoftTeams</li>
-                                <li>Connect-MicrosoftTeams</li>
-                                <li>Get-CsOnlinePSTNGateway | FL</li>
-                                <li>Get-CsTeamsCallingPolicy | FL</li>
-                                <li>Get-CsOnlineVoiceRoutingPolicy | FL</li>
-                                <li>Get-CsTenantDialPlan | FL</li>
-                                <li>Get-CsPstnUsage | FL</li>
-                                <li>Get-CsOnlineUser affectedUser@contoso.com</li>
-                                <li>Get-CsOnlineUser notAffectedUser@contoso.com</li>
-                                <li>Get-CsUserCallingSettings -Identity affectedUser@contoso.com | FL</li>
-                                <li>Stop-Transcript </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>Resources:
+                    <li>SharePoint resources to go here</li>
+                </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- Project Info  -->
+    <div class="modal fade" id="moreInfoModal" tabindex="-1" aria-labelledby="moreInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="moreInfoModalLabel"><i class="fa-solid fa-people-pulling"></i> Get involved, build more fancy UX with us!</h4>
+              
+              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>Abount Microsoft Scoping
                         <ul>
-                            <li><a href="https://docs.microsoft.com/en-us/MicrosoftTeams/direct-routing-configure" target="_blank">Configure Direct Routing - Microsoft Teams | Microsoft Docs</a></li>
-                            <li><a href="https://docs.microsoft.com/en-us/MicrosoftTeams/use-call-analytics-to-troubleshoot-poor-call-quality" target="_blank">Use Call Analytics to troubleshoot poor call quality - Microsoft Teams | Microsoft Docs</a></li>
-                            <li><a href="https://docs.microsoft.com/en-us/MicrosoftTeams/direct-routing-border-controllers" target="_blank">Session Border Controllers certified for Direct Routing - Microsoft Teams | Microsoft Docs</a></li>
-                            <li><a href="https://docs.microsoft.com/en-us/microsoftteams/direct-routing-protocols-sip" target="_blank">Phone System Direct Routing - Microsoft Teams | Microsoft Docs</a></li>
+                            <li>Build to simplify gathering of neccessary information along engineers troubleshooting path.</li>
+                            <li>Contribute on <a href="https://github.com/radfullstack/MicrosoftScoping" target="_blank"><i class="fa-brands fa-github"></i> Github</a></li>
                         </ul>
+                    </li>
+                    <li>
+                        Contact Information:
+                        <ul><li>Design/UX Enquiries: <a href="mailto:katarzyna@programmingdepartment.co.uk">Katarzyna Bergier</a></li></ul>
+                        <ul><li>Development Enquiries/Bug Reports: <a href="mailto:radoslaw@programmingdepartment.co.uk">Radoslaw Radecki</a></li></ul>
                     </li>
                 </ul>
             </div>
@@ -620,966 +611,1057 @@
         </div>
     </div>
 
+
 <!-- jQuery bundle -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <!-- Bootstrap bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
 <!-- Custom scripts -->
-<script type="text/javascript">
-                                  
+<script type="text/javascript">                               
 // Build template
-    // Data Inputs
-    createScopeQuestion('issue-description', true, 'Issue Description:', 'text', 'Inbound call not working');
+    // Issue/Problem Description
+        createScopeQuestion('issue-description', true, 'Issue Description:', 'text', 'Inbound call not working');
 
-    createScopeQuestion('scope-agreement', true, 'Scope Agreement:', 'text', 'Inbound calls working');
-    
-    createScopeQuestion('first-occurance', false, 'Behaviour observed for the first time:', 'date', "");
+    // Scope Agreement - under what circumstances does it consider resolved
+        createScopeQuestion('scope-agreement', true, 'Scope Agreement:', 'text', 'Inbound calls working');
+        
+    // Generic Scoping Checkbox
+        createScopeQuestion('generic-scoping', true, 'Generic Scoping:', 'checkbox', 'Generic Scoping:');
+        // Hide by default
+        $("#generic-scoping-ul").hide();
+        $("#generic-scoping-section").hide();
+        // Get generic scoping checkbox input
+        genericScopingCheck = document.getElementById("generic-scoping-data");
+        // Add listener on change to change visibility of scoping questions
+        genericScopingCheck.addEventListener("input", function() {
+            if(genericScopingCheck.checked == false) {
+                $("#generic-scoping-ul").hide();
+                $("#generic-scoping-section").hide();
+            } else {
+                $("#generic-scoping-ul").show();
+                $("#generic-scoping-section").show();
+            }
+        });
 
-    var workedBeforeOptions = [
-        ["It worked before", "Yes"],
-        ["It never worked", "No"]
-    ];
-    createScopeQuestion('worked-before', true, 'Did it work before?', 'select', "Choose option", workedBeforeOptions);
+        // Date when customer observed the issue/behavior for the first time
+        createScopeQuestion('first-occurance', false, 'Behaviour observed for the first time:', 'date', "");
 
-    var ondemandReproOptions = [
-        ["It can be reproduced on demand", "Yes"],
-        ["Issue is not regular, difficult to reproduce", "Irregular, hard to repro"],
-        ["It cannot be reproduced on demand", "No"]
-    ];
-    createScopeQuestion('ondemand-repro', true, 'Can customer reproduce problem on demand?', 'select', "Choose option", ondemandReproOptions);
+        // Array of select options for whether it worked before or not
+        var workedBeforeOptions = [
+            ["It worked before", "Yes"],
+            ["It never worked", "No"]
+        ];
+        // Did it work before or not?
+        createScopeQuestion('worked-before', true, 'Did it work before?', 'select', "Choose option", workedBeforeOptions);
 
-    var internalReproOptions = [
-        ["It can be reproduced in test envoirnment", "Yes"],
-        ["It cannot be reproduced in test envoirnment", "No"]
-    ];
-    createScopeQuestion('internal-repro', true, 'Can you reproduce problem in test envoirnment?', 'select', "Choose option", internalReproOptions);
-    // Hide internal repro if n/a
-    $("#internal-repro-steps").hide();
-    $("#internal-repro-steps-comment").hide();
-    $("#internal-repro-section").hide();
-    internalReproSelect = document.getElementById("internal-repro-data");
-    internalReproSelect.addEventListener("change", function() {
-        if(internalReproSelect.value == "0" || internalReproSelect.value == "It cannot be reproduced in test envoirnment") {
-            $("#internal-repro-steps").hide();
-            $("#internal-repro-steps-comment").hide();
-            $("#internal-repro-section").hide();
-        } else {
-            $("#internal-repro-steps").show();
-            $("#internal-repro-steps-comment").show();
-            $("#internal-repro-section").show();
-        }
-    });
+        // Array of select options for demand repro
+        var ondemandReproOptions = [
+            ["It can be reproduced on demand", "Yes"],
+            ["Issue is not regular, difficult to reproduce", "Irregular, hard to repro"],
+            ["It cannot be reproduced on demand", "No"]
+        ];
+        // Can issue be reproduced on demand?
+        createScopeQuestion('ondemand-repro', true, 'Can customer reproduce problem on demand?', 'select', "Choose option", ondemandReproOptions);
 
-    createStepList('customer-repro-steps', 'Customer repro steps:', "Customer repro step");
+        // Array of select options for internal repro
+        var internalReproOptions = [
+            ["It can be reproduced in test envoirnment", "Yes"],
+            ["It cannot be reproduced in test envoirnment", "No"]
+        ];
+        // Can issue be reproduced internally?
+        createScopeQuestion('internal-repro', true, 'Can you reproduce problem in test envoirnment?', 'select', "Choose option", internalReproOptions);
+        // Hide by default
+        $("#internal-repro-steps").hide();
+        $("#internal-repro-steps-comment").hide();
+        $("#internal-repro-section").hide();
+        // Get internal repro select input
+        internalReproSelect = document.getElementById("internal-repro-data");
+        // Add listener on change to change visibility of internal repro sections
+        internalReproSelect.addEventListener("change", function() {
+            if(internalReproSelect.value == "0" || internalReproSelect.value == "It cannot be reproduced in test envoirnment") {
+                $("#internal-repro-steps").hide();
+                $("#internal-repro-steps-comment").hide();
+                $("#internal-repro-section").hide();
+            } else {
+                $("#internal-repro-steps").show();
+                $("#internal-repro-steps-comment").show();
+                $("#internal-repro-section").show();
+            }
+        });
 
-    createScopeQuestion('customer-repro-steps-comment', false, 'Additional comments about customer repro:', 'textarea', 'In comparison to web client...');
+        // Customer repro steps list
+        createStepList('customer-repro-steps', 'Customer repro steps:', "Customer repro step");
 
-    createStepList('internal-repro-steps', 'Internal repro steps:', "Internal repro step");
+        // Customer repro additional comment
+        createScopeQuestion('customer-repro-steps-comment', false, 'Additional comments about customer repro:', 'textarea', 'In comparison to web client...');
 
-    createScopeQuestion('internal-repro-steps-comment', false, 'Additional comments about internal repro:', 'textarea', 'In comparison to customer repro...');
+        // Internal repro steps list
+        createStepList('internal-repro-steps', 'Internal repro steps:', "Internal repro step");
 
-    createScopeQuestion('affected-users', false, 'How many affected users:', 'text', 'All, 10, ~100');
+        // Internal repro additional comment
+        createScopeQuestion('internal-repro-steps-comment', false, 'Additional comments about internal repro:', 'textarea', 'In comparison to customer repro...');
 
-    createScopeQuestion('example-affected', true, 'Example affected user:', 'text', 'affected@contoso.com');
+        // How many affected users?
+        createScopeQuestion('affected-users', false, 'How many affected users:', 'text', 'All, 10, ~100');
 
-    createScopeQuestion('example-not-affected', true, 'Example not affected user:', 'text', 'notAffected@contoso.com');
+        // Example affected UPN
+        createScopeQuestion('example-affected', true, 'Example affected user:', 'text', 'affected@contoso.com');
 
-    createScopeQuestion('get-csonlineuser-transcript', true, 'Get-CsOnlineUser Transcript Attached?', 'checkbox', 'Get-CsOnlineUser Transcript Attached');
+        // Example not affected UPN
+        createScopeQuestion('example-not-affected', true, 'Example not affected user:', 'text', 'notAffected@contoso.com');
 
-    createScopeQuestion('calling-scoping', true, 'Calling scoping:', 'checkbox', 'Calling scoping:');
-    $("#calling-scoping-ul").hide();
-    $("#calling-scoping-section").hide();
-    callingScopingCheck = document.getElementById("calling-scoping-data");
-    callingScopingCheck.addEventListener("input", function() {
-        if(callingScopingCheck.checked == false) {
-            $("#calling-scoping-ul").hide();
-            $("#calling-scoping-section").hide();
-        } else {
-            $("#calling-scoping-ul").show();
-            $("#calling-scoping-section").show();
-        }
-    });
+        // Collected Get-CsOnlineUser?
+        createScopeQuestion('get-csonlineuser-transcript', true, 'Get-CsOnlineUser Transcript Collected?', 'checkbox', 'Get-CsOnlineUser Transcript Attached');
 
-    var affectedCallsOptions = [
-        ["Direct Routing Inbound", "Direct Routing Inbound"],
-        ["Direct Routing Outbound", "Direct Routing Outbound"],
-        ["Direct Routing Inbound & Outbound", "Direct Routing Inbound & Outbound"],
-        ["Calling Plan Inbound", "Calling Plan Inbound"],
-        ["Calling Plan Outbound", "Calling Plan Outbound"],
-        ["Calling Plan Inbound & Outbound", "Calling Plan Inbound & Outbound"],
-        ["Teams calls, no PSTN", "Teams to Teams calls, no PSTN"]
-    ];
-    createScopeQuestion('pstn-teams-call-kind', true, 'What kind of calls are affected?', 'select', 'Choose option', affectedCallsOptions);
-    callKindSelect = document.getElementById("pstn-teams-call-kind-data");
-    callKindSelect.addEventListener("change", function() {
-        if(callKindSelect.value == "0" || callKindSelect.value == "Teams calls, no PSTN") {
-            $(".direct-routing").hide();
-            $(".calling-plan").hide();
-        } else if (callKindSelect.value == "Direct Routing Inbound" || callKindSelect.value == "Direct Routing Outbound" || callKindSelect.value == "Direct Routing Inbound & Outbound") {
-            $(".calling-plan").hide();
-            $(".direct-routing").show();
-            if(mediaBypassSelect.value == "0" || mediaBypassSelect.value == "Not using media bypass") {
+    // Calling Scoping Checkbox
+        createScopeQuestion('calling-scoping', true, 'Calling scoping:', 'checkbox', 'Calling scoping:');
+        // Hide by default
+        $("#calling-scoping-ul").hide();
+        $("#calling-scoping-section").hide();
+        // Get calling scoping checkbox input
+        callingScopingCheck = document.getElementById("calling-scoping-data");
+        // Add listener on change to change visibility of scoping questions
+        callingScopingCheck.addEventListener("input", function() {
+            if(callingScopingCheck.checked == false) {
+                $("#calling-scoping-ul").hide();
+                $("#calling-scoping-section").hide();
+            } else {
+                $("#calling-scoping-ul").show();
+                $("#calling-scoping-section").show();
+            }
+        });
+
+        // Array of select options for type of the affected call
+        var callKindOptions = [
+            ["Direct Routing Inbound", "Direct Routing Inbound"],
+            ["Direct Routing Outbound", "Direct Routing Outbound"],
+            ["Direct Routing Inbound & Outbound", "Direct Routing Inbound & Outbound"],
+            ["Calling Plan Inbound", "Calling Plan Inbound"],
+            ["Calling Plan Outbound", "Calling Plan Outbound"],
+            ["Calling Plan Inbound & Outbound", "Calling Plan Inbound & Outbound"],
+            ["Teams calls, no PSTN", "Teams to Teams calls, no PSTN"]
+        ];
+        // What types of calls are affected?
+        createScopeQuestion('pstn-teams-call-kind', true, 'What kind of calls are affected?', 'select', 'Choose option', callKindOptions);
+        // Get call types select input
+        callKindSelect = document.getElementById("pstn-teams-call-kind-data");
+        // Add listener on change to change visibility of relevant call sections
+        callKindSelect.addEventListener("change", function() {
+            if(callKindSelect.value == "0" || callKindSelect.value == "Teams calls, no PSTN") {
+                $(".direct-routing").hide();
+                $(".calling-plan").hide();
+                $(".calling-upn").show();
+            } else if (callKindSelect.value == "Direct Routing Inbound" || callKindSelect.value == "Direct Routing Inbound & Outbound") {
+                $(".calling-plan").hide();
+                $(".direct-routing").show();
+                $(".calling-upn").hide();
+                $(".calling-upn-callee").show();
+                if(mediaBypassSelect.value == "0" || mediaBypassSelect.value == "Not using media bypass") {
+                    $("#sbc-local-media-optimization").hide();
+                } else {
+                    $("#sbc-local-media-optimization").show();
+                }
+            } else if(callKindSelect.value == "Direct Routing Outbound") {
+                $(".calling-plan").hide();
+                $(".direct-routing").show();
+                $(".calling-upn").hide();
+                $(".calling-upn-caller").show();
+                if(mediaBypassSelect.value == "0" || mediaBypassSelect.value == "Not using media bypass") {
+                    $("#sbc-local-media-optimization").hide();
+                } else {
+                    $("#sbc-local-media-optimization").show();
+                }
+            } else if (callKindSelect.value == "Calling Plan Inbound" || callKindSelect.value == "Calling Plan Inbound & Outbound") {
+                $(".direct-routing").hide();
+                $(".calling-plan").show();
+                $(".calling-upn").hide();
+                $(".calling-upn-callee").show();
+            } else if( callKindSelect.value == "Calling Plan Outbound") {
+                $(".direct-routing").hide();
+                $(".calling-plan").show();
+                $(".calling-upn").hide();
+                $(".calling-upn-caller").show();
+            }
+        });
+        
+        // Array of select options for Calling Plan Licensing
+        var callingPlanOptions = [
+            ["Domestic Calling Plan", "Domestic Calling Plan"],
+            ["International Calling Plan", "International Calling Plan"],
+            ["Domestic and International Calling Plan", "Domestic and International Calling Plan"]
+        ];
+        // What calling plan license is used?
+        createScopeQuestion('calling-plan-license', true, 'What Calling Plan has affected user?', 'select', 'Choose plan', callingPlanOptions); 
+        // Hide by default
+        $(".calling-plan").hide();
+
+        // Array of select options for SBC Vendors
+        var SBCVendorOptions = [
+            ["AudioCodes", "AudioCodes"],
+            ["Ribbon Communications", "Ribbon Communications"],
+            ["Thinktel", "Thinktel"],
+            ["Oracle", "Oracle"],
+            ["TE-SYSTEMS", "TE-SYSTEMS"],
+            ["Metaswitch", "Metaswitch"],
+            ["Cisco", "Cisco"],
+            ["Avaya", "Avaya"],
+            ["Nokia", "Nokia"],
+            ["Italtel", "Italtel"],
+            ["Ericsson", "Ericsson"],
+            ["Cataleya", "Cataleya"],
+            ["ULTATEL", "ULTATEL"],
+            ["Atos", "Atos"],
+            ["Sansay Inc.", "Sansay Inc."],
+            ["Enghouse Networks", "Enghouse Networks"],
+            ["Patton Electronics Co.", "Patton Electronics Co."],
+            ["M5 Technologies (Media5 Corporation)", "M5 Technologies (Media5 Corporation)"],
+            ["Ekinops", "Ekinops"],
+            ["46 Labs LLC", "46 Labs LLC"],
+            ["Frafos", "Frafos"]
+        ];
+        // Select SBC vendor
+        createScopeQuestion('sbc-vendor', true, 'SBC Vendor:', 'select', 'Choose vendor', SBCVendorOptions, 'SBC Vendor:');
+        // Empty array of select options for SBC models, as it will be prepared based on the vendor chosen
+        SBCModelOptions = []
+        // Select SBC model
+        createScopeQuestion('sbc-model', true, 'SBC Model:', 'select', 'Choose vendor', SBCModelOptions, 'SBC Model:');
+        // Get SBC Vendor select input
+        SBCVendorSelect = document.getElementById("sbc-vendor-data");
+        // Get SBC Model select input
+        SBCModelSelect = document.getElementById("sbc-model-data");
+        // Get SBC Model report li
+        SBCModelNoteLi = document.getElementById("sbc-model-info");
+        // Add listener on change, to prepare SBC model options depending on the vendor
+        SBCVendorSelect.addEventListener("change", function() {
+            if (SBCVendorSelect.value == "0") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["0", "Choose vendor"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "AudioCodes") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["0", "Choose model"],
+                    ["Mediant 500 SBC", "Mediant 500 SBC"],
+                    ["Mediant 800 SBC", "Mediant 800 SBC"],
+                    ["Mediant 2600 SBC", "Mediant 2600 SBC"],
+                    ["Mediant 4000 SBC", "Mediant 4000 SBC"],
+                    ["Mediant 1000B SBC", "Mediant 1000B SBC"],
+                    ["Mediant 9000 SBC", "Mediant 9000 SBC"],
+                    ["Mediant Virtual Edition SBC", "Mediant Virtual Edition SBC"],
+                    ["Mediant Cloud Edition SBC", "Mediant Cloud Edition SBC"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Ribbon Communications") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["0", "Choose model"],
+                    ["SBC 5100/5110", "SBC 5100/5110"],
+                    ["SBC 5200/5210", "SBC 5200/5210"],
+                    ["SBC 5400", "SBC 5400"],
+                    ["SBC 7000", "SBC 7000"],
+                    ["SBC SWe", "SBC SWe"],
+                    ["SBC 1000", "SBC 1000"],
+                    ["SBC 2000", "SBC 2000"],
+                    ["SBC SWe Lite", "SBC SWe Lite"],
+                    ["EdgeMarc Series", "EdgeMarc Series"],
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Thinktel") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Think 365 SBC", "Think 365 SBC"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Oracle") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["0", "Choose model"],
+                    ["AP 1100", "AP 1100"],
+                    ["AP 3900", "AP 3900"],
+                    ["AP 4600", "AP 4600"],
+                    ["AP 6300", "AP 6300"],
+                    ["AP 6350", "AP 6350"],
+                    ["VME", "VME"],
+                    ["AP 3950", "AP 3950"],
+                    ["AP 4900", "AP 4900"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "TE-SYSTEMS") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["anynode", "anynode"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Metaswitch") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Perimeta SBC", "Perimeta SBC"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '<option value="'+item[0]+'">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Cisco") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["0", "Choose model"],
+                    ["Cisco Unified Border Element (CUBE) for 1000 Series Integrated Services Routers", "Cisco Unified Border Element (CUBE) for 1000 Series Integrated Services Routers"],
+                    ["Cisco Unified Border Element (CUBE) for 4000 Series Integrated Services Routers", "Cisco Unified Border Element (CUBE) for 4000 Series Integrated Services Routers"],
+                    ["Cisco Unified Border Element (CUBE) for 1000V Series Cloud Services Router", "Cisco Unified Border Element (CUBE) for 1000V Series Cloud Services Router"],
+                    ["Cisco Unified Border Element (CUBE) for 1000 Series Aggregation Services Routers", "Cisco Unified Border Element (CUBE) for 1000 Series Aggregation Services Routers"],
+                    ["Cisco Unified Border Element (CUBE) for Catalyst 8000 Edge Platforms", "Cisco Unified Border Element (CUBE) for Catalyst 8000 Edge Platforms"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Avaya") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Avaya Session Border Controller for Enterprise (ASBCE)", "Avaya Session Border Controller for Enterprise (ASBCE)"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Nokia") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Nokia Session Border Controller", "Nokia Session Border Controller"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Italtel") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["NetMatch-S CI", "NetMatch-S CI"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Ericsson") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["vSBC 2.16", "vSBC 2.16"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Cataleya") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Orchid Link", "Orchid Link"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "ULTATEL") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Teams SBC", "Teams SBC"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Atos") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Atos Unify OpenScape Session Border Controller", "Atos Unify OpenScape Session Border Controller"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Sansay Inc") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["vmVSXi", "vmVSXi"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Enghouse Networks") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Dialogic BorderNet SBC", "Dialogic BorderNet SBC"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Patton Electronics Co.") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Patton SmartNode eSBC", "Patton SmartNode eSBC"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "M5 Technologies (Media5 Corporation)") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Mediatrix Sentinel Series", "Mediatrix Sentinel Series"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Ekinops") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["0", "Choose model"],
+                    ["Ekinops Session Border Controller (ONeSBC)", "Ekinops Session Border Controller (ONeSBC)"],
+                    ["Ekinops Virtual Session Border Controller (ONEvSBC)", "Ekinops Virtual Session Border Controller (ONEvSBC)"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "46 Labs LLC") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["Hyperconverged Voice", "Hyperconverged Voice"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            } else if (SBCVendorSelect.value == "Frafos") {
+                selectOptions = ""
+                SBCModelOptions = [
+                    ["ABC SBC", "ABC SBC"]
+                ]
+                for (var item of SBCModelOptions) {
+                    selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+                }
+                SBCModelSelect.innerHTML = selectOptions;
+                SBCModelSelect.dispatchEvent(new Event('change'));
+            }
+        });
+        
+        // Add SBC software version
+        createScopeQuestion('sbc-software', true, 'SBC Software Version:', 'text', '7.20A.258', '', 'Software version:');
+        
+        // Array of select options for Media Bypass
+        var mediaBypassOptions = [
+            ["Customer use Media Bypass", "Yes"],
+            ["Customer don't use Media Bypass", "No"]
+        ];
+        // Using Media Bypass?
+        createScopeQuestion('sbc-media-bypass', true, 'Customer use Media Bypass?', 'select', "Choose option", mediaBypassOptions);
+        // Get Media Bypass select input
+        mediaBypassSelect = document.getElementById("sbc-media-bypass-data");
+        // Add listener on change, to show/hide Local Media Optimization Question
+        mediaBypassSelect.addEventListener("change", function() {
+            if(mediaBypassSelect.value == "0" || mediaBypassSelect.value == "Customer don't use Media Bypass") {
                 $("#sbc-local-media-optimization").hide();
             } else {
                 $("#sbc-local-media-optimization").show();
             }
-        } else if (callKindSelect.value == "Calling Plan Inbound" || callKindSelect.value == "Calling Plan Outbound" || callKindSelect.value == "Calling Plan Inbound & Outbound") {
-            $(".direct-routing").hide();
-            $(".calling-plan").show();
-        }
-    });
-    
-    var callingPlanOptions = [
-        ["Domestic Calling Plan", "Domestic Calling Plan"],
-        ["International Calling Plan", "International Calling Plan"],
-        ["Domestic and International Calling Plan", "Domestic and International Calling Plan"]
-    ];
-    createScopeQuestion('calling-plan-license', true, 'What Calling Plan has affected user?', 'select', 'Choose plan', callingPlanOptions); 
-    $(".calling-plan").hide();
+        });
 
-    var SBCVendorOptions = [
-        ["AudioCodes", "AudioCodes"],
-        ["Ribbon Communications", "Ribbon Communications"],
-        ["Thinktel", "Thinktel"],
-        ["Oracle", "Oracle"],
-        ["TE-SYSTEMS", "TE-SYSTEMS"],
-        ["Metaswitch", "Metaswitch"],
-        ["Cisco", "Cisco"],
-        ["Avaya", "Avaya"],
-        ["Nokia", "Nokia"],
-        ["Italtel", "Italtel"],
-        ["Ericsson", "Ericsson"],
-        ["Cataleya", "Cataleya"],
-        ["ULTATEL", "ULTATEL"],
-        ["Atos", "Atos"],
-        ["Sansay Inc.", "Sansay Inc."],
-        ["Enghouse Networks", "Enghouse Networks"],
-        ["Patton Electronics Co.", "Patton Electronics Co."],
-        ["M5 Technologies (Media5 Corporation)", "M5 Technologies (Media5 Corporation)"],
-        ["Ekinops", "Ekinops"],
-        ["46 Labs LLC", "46 Labs LLC"],
-        ["Frafos", "Frafos"]
-    ];
-    createScopeQuestion('sbc-vendor', true, 'SBC Vendor:', 'select', 'Choose vendor', SBCVendorOptions, 'SBC Vendor:');
-    SBCModelOptions = []
-    createScopeQuestion('sbc-model', true, 'SBC Model:', 'select', 'Choose vendor', SBCModelOptions, 'SBC Model:');
-    SBCVendorSelect = document.getElementById("sbc-vendor-data");
-    SBCModelSelect = document.getElementById("sbc-model-data");
-    SBCModelNoteLi = document.getElementById("sbc-model-info");
-    SBCVendorSelect.addEventListener("change", function() {
-        if (SBCVendorSelect.value == "0") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["0", "Choose vendor"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+        // Array of select options for Local Media Optimization?
+        var localMediaOptimizationOptions = [
+            ["Customer use Local Media Optimization", "Yes"],
+            ["Customer don't use Local Media Optimization", "No"]
+        ];
+        // Using Local Media Optimization?
+        createScopeQuestion('sbc-local-media-optimization', true, 'Customer use Local Media Optimization?', 'select', 'Choose option', localMediaOptimizationOptions);
+        // Hide by default
+        $(".direct-routing").hide();
+
+        // Phone Number From/Caller
+        createScopeQuestion('calling-number-from', true, 'Caller number:', 'text', '+7834326798', '', 'Caller:');
+
+        // UPN From/Caller
+        createScopeQuestion('calling-upn-from', true, 'Caller UPN:', 'text', 'john@contoso.com', '', 'Caller UPN:');
+
+        // Phone Number To/Callee
+        createScopeQuestion('calling-number-to', true, 'Callee number:', 'text', '+7834326798', '', 'Callee:');
+
+        // UPN To/Callee
+        createScopeQuestion('calling-upn-to', true, 'Callee UPN:', 'text', 'john@contoso.com', '', 'Callee UPN:');
+
+    // Device Scoping Checkbox
+        createScopeQuestion('device-scoping', true, 'Device scoping:', 'checkbox', 'Device scoping:');
+        // Hide by default
+        $("#device-scoping-ul").hide();
+        $("#device-scoping-section").hide();
+        // Get device scoping checkbox input
+        deviceScopingCheck = document.getElementById("device-scoping-data");
+        // Add listener on change, to change visibility of scoping questions
+        deviceScopingCheck.addEventListener("input", function() {
+            if(deviceScopingCheck.checked == false) {
+                $("#device-scoping-ul").hide();
+                $("#device-scoping-section").hide();
+            } else {
+                $("#device-scoping-ul").show();
+                $("#device-scoping-section").show();
             }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "AudioCodes") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["0", "Choose model"],
-                ["Mediant 500 SBC", "Mediant 500 SBC"],
-                ["Mediant 800 SBC", "Mediant 800 SBC"],
-                ["Mediant 2600 SBC", "Mediant 2600 SBC"],
-                ["Mediant 4000 SBC", "Mediant 4000 SBC"],
-                ["Mediant 1000B SBC", "Mediant 1000B SBC"],
-                ["Mediant 9000 SBC", "Mediant 9000 SBC"],
-                ["Mediant Virtual Edition SBC", "Mediant Virtual Edition SBC"],
-                ["Mediant Cloud Edition SBC", "Mediant Cloud Edition SBC"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+        });
+
+        // How many affected devices?
+        createScopeQuestion('device-number-affected', true, 'How many affected devices:', 'text', '10, ~100', '', 'No. of affected devices: ');
+
+        // What is the device manufacture?
+        createScopeQuestion('device-manufacture', true, 'Device Manufacture:', 'text', 'Logitech | Logitech & Poly', '', 'Device Manufacture: ');
+
+        // What is the device model??
+        createScopeQuestion('device-model', true, 'Device Model:', 'text', 'Rallybar | Rallybar & C320', '', 'Device Model: ');
+
+        // What is the device OS??
+        createScopeQuestion('device-os', true, 'Device OS:', 'text', 'Windows, Android', '', 'Device OS: ');
+
+        // What is the device Firmware??
+        createScopeQuestion('device-firmware', true, 'Device Firmware:', 'text', '1.42.34', '', 'Device Firmware: ');
+
+
+
+
+        
+    // Exchange Scoping Checkbox
+        createScopeQuestion('exchange-scoping', true, 'Exchange scoping:', 'checkbox', 'Exchange scoping:');
+        // Hide by default
+        $("#exchange-scoping-ul").hide();
+        $("#exchange-scoping-section").hide();
+        // Get exchange scoping checkbox input
+        exchangeScopingCheck = document.getElementById("exchange-scoping-data");
+        // Add listener on change, to change visibility of scoping questions
+        exchangeScopingCheck.addEventListener("input", function() {
+            if(exchangeScopingCheck.checked == false) {
+                $("#exchange-scoping-ul").hide();
+                $("#exchange-scoping-section").hide();
+            } else {
+                $("#exchange-scoping-ul").show();
+                $("#exchange-scoping-section").show();
             }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Ribbon Communications") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["0", "Choose model"],
-                ["SBC 5100/5110", "SBC 5100/5110"],
-                ["SBC 5200/5210", "SBC 5200/5210"],
-                ["SBC 5400", "SBC 5400"],
-                ["SBC 7000", "SBC 7000"],
-                ["SBC SWe", "SBC SWe"],
-                ["SBC 1000", "SBC 1000"],
-                ["SBC 2000", "SBC 2000"],
-                ["SBC SWe Lite", "SBC SWe Lite"],
-                ["EdgeMarc Series", "EdgeMarc Series"],
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+        });
+
+        // Array of select options for Exchange Envoirnment
+        var exchangeOnlineOnPremOptions = [
+            ["Exchange Online", "Exchange Online"],
+            ["Exchange Hybrid", "Exchange Hybrid"],
+            ["Exchange On-Premise", "Exchange On-Premise"]
+        ];
+        // What is the exchange envoirnment online/hybrid/onprem?
+        createScopeQuestion('exchange-envoirnment', true, 'What exchange envoirnment customer have?', 'select', 'Choose option', exchangeOnlineOnPremOptions);
+        // Get exchange envoirnment select input
+        exchangeEnvoirnmentSelect = document.getElementById("exchange-envoirnment-data");
+        // Add listener on change, to change visibility of relevant exchange sections
+        exchangeEnvoirnmentSelect.addEventListener("change", function() {
+            if(exchangeEnvoirnmentSelect.value == "0" || exchangeEnvoirnmentSelect.value == "Exchange Online") {
+                $("#exchange-server").hide();
+                $("#exchange-server-info").hide();
+            } else {
+                $("#exchange-server").show();
+                $("#exchange-server-info").show();
             }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Thinktel") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Think 365 SBC", "Think 365 SBC"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+        });
+
+        // Array of select options for Exchange Server CU & Build Version
+        var exchangeServerOptions = [
+            ["Exchange Server 2019 CU12 - 15.2.1118.9", "Exchange Server 2019 CU12 - 15.2.1118.9"],
+            ["Exchange Server 2019 CU12 - 15.2.1118.7", "Exchange Server 2019 CU12 - 15.2.1118.7"],
+            ["Exchange Server 2019 CU11 - 15.2.986.26", "Exchange Server 2019 CU11 - 15.2.986.26"],
+            ["Exchange Server 2019 CU11 - 15.2.986.22", "Exchange Server 2019 CU11 - 15.2.986.22"],
+            ["Exchange Server 2019 CU11 - 15.2.986.15", "Exchange Server 2019 CU11 - 15.2.986.15"],
+            ["Exchange Server 2019 CU11 - 15.2.986.14", "Exchange Server 2019 CU11 - 15.2.986.14"],
+            ["Exchange Server 2019 CU11 - 15.2.986.9", "Exchange Server 2019 CU11 - 15.2.986.9"],
+            ["Exchange Server 2019 CU11 - 15.2.986.5", "Exchange Server 2019 CU11 - 15.2.986.5"],
+            ["Exchange Server 2019 CU10 - 15.2.922.27", "Exchange Server 2019 CU10 - 15.2.922.27"],
+            ["Exchange Server 2019 CU10 - 15.2.922.20", "Exchange Server 2019 CU10 - 15.2.922.20"],
+            ["Exchange Server 2019 CU10 - 15.2.922.19", "Exchange Server 2019 CU10 - 15.2.922.19"],
+            ["Exchange Server 2019 CU10 - 15.2.922.14", "Exchange Server 2019 CU10 - 15.2.922.14"],
+            ["Exchange Server 2019 CU10 - 15.2.922.13", "Exchange Server 2019 CU10 - 15.2.922.13"],
+            ["Exchange Server 2019 CU10 - 15.2.922.7", "Exchange Server 2019 CU10 - 15.2.922.7"],
+            ["Exchange Server 2019 CU9 - 15.2.858.15", "Exchange Server 2019 CU9 - 15.2.858.15"],
+            ["Exchange Server 2019 CU9 - 15.2.858.12", "Exchange Server 2019 CU9 - 15.2.858.12"],
+            ["Exchange Server 2019 CU9 - 15.2.858.10", "Exchange Server 2019 CU9 - 15.2.858.10"],
+            ["Exchange Server 2019 CU9 - 15.2.858.5", "Exchange Server 2019 CU9 - 15.2.858.5"],
+            ["Exchange Server 2019 CU8 - 15.2.792.15", "Exchange Server 2019 CU8 - 15.2.792.15"],
+            ["Exchange Server 2019 CU8 - 15.2.792.13", "Exchange Server 2019 CU8 - 15.2.792.13"],
+            ["Exchange Server 2019 CU8 - 15.2.792.10", "Exchange Server 2019 CU8 - 15.2.792.10"],
+            ["Exchange Server 2019 CU8 - 15.2.792.3", "Exchange Server 2019 CU8 - 15.2.792.3"],
+            ["Exchange Server 2019 CU7 - 15.2.721.13", "Exchange Server 2019 CU7 - 15.2.721.13"],
+            ["Exchange Server 2019 CU7 - 15.2.721.2", "Exchange Server 2019 CU7 - 15.2.721.2"],
+            ["Exchange Server 2019 CU6 - 15.2.659.12", "Exchange Server 2019 CU6 - 15.2.659.12"],
+            ["Exchange Server 2019 CU6 - 15.2.659.4", "Exchange Server 2019 CU6 - 15.2.659.4"],
+            ["Exchange Server 2019 CU5 - 15.2.595.8", "Exchange Server 2019 CU5 - 15.2.595.8"],
+            ["Exchange Server 2019 CU5 - 15.2.595.3", "Exchange Server 2019 CU5 - 15.2.595.3"],
+            ["Exchange Server 2019 CU4 - 15.2.529.13", "Exchange Server 2019 CU4 - 15.2.529.13"],
+            ["Exchange Server 2019 CU4 - 15.2.529.5", "Exchange Server 2019 CU4 - 15.2.529.5"],
+            ["Exchange Server 2019 CU3 - 15.2.464.15", "Exchange Server 2019 CU3 - 15.2.464.15"],
+            ["Exchange Server 2019 CU3 - 15.2.464.5", "Exchange Server 2019 CU3 - 15.2.464.5"],
+            ["Exchange Server 2019 CU2 - 15.2.397.11", "Exchange Server 2019 CU2 - 15.2.397.11"],
+            ["Exchange Server 2019 CU2 - 15.2.397.3", "Exchange Server 2019 CU2 - 15.2.397.3"],
+            ["Exchange Server 2019 CU1 - 15.2.330.11", "Exchange Server 2019 CU1 - 15.2.330.11"],
+            ["Exchange Server 2019 CU1 - 15.2.330.5", "Exchange Server 2019 CU1 - 15.2.330.5"],
+            ["Exchange Server 2019 RTM - 15.2.221.18", "Exchange Server 2019 RTM - 15.2.221.18"],
+            ["Exchange Server 2019 RTM - 15.2.221.12", "Exchange Server 2019 RTM - 15.2.221.12"],
+            ["Exchange Server 2019 Preview - 15.2.196.0", "Exchange Server 2019 Preview - 15.2.196.0"],
+            ["Exchange Server 2016 CU23 - 15.1.2507.9", "Exchange Server 2016 CU23 - 15.1.2507.9"],
+            ["Exchange Server 2016 CU23 - 15.1.2507.6", "Exchange Server 2016 CU23 - 15.1.2507.6"],
+            ["Exchange Server 2016 CU22 - 15.1.2375.28", "Exchange Server 2016 CU22 - 15.1.2375.28"],
+            ["Exchange Server 2016 CU22 - 15.1.2375.24", "Exchange Server 2016 CU22 - 15.1.2375.24"],
+            ["Exchange Server 2016 CU22 - 15.1.2375.18", "Exchange Server 2016 CU22 - 15.1.2375.18"],
+            ["Exchange Server 2016 CU22 - 15.1.2375.17", "Exchange Server 2016 CU22 - 15.1.2375.17"],
+            ["Exchange Server 2016 CU22 - 15.1.2375.12", "Exchange Server 2016 CU22 - 15.1.2375.12"],
+            ["Exchange Server 2016 CU22 - 15.1.2375.7", "Exchange Server 2016 CU22 - 15.1.2375.7"],
+            ["Exchange Server 2016 CU21 - 15.1.2308.27", "Exchange Server 2016 CU21 - 15.1.2308.27"],
+            ["Exchange Server 2016 CU21 - 15.1.2308.21", "Exchange Server 2016 CU21 - 15.1.2308.21"],
+            ["Exchange Server 2016 CU21 - 15.1.2308.20", "Exchange Server 2016 CU21 - 15.1.2308.20"],
+            ["Exchange Server 2016 CU21 - 15.1.2308.15", "Exchange Server 2016 CU21 - 15.1.2308.15"],
+            ["Exchange Server 2016 CU21 - 15.1.2308.14", "Exchange Server 2016 CU21 - 15.1.2308.14"],
+            ["Exchange Server 2016 CU21 - 15.1.2308.8", "Exchange Server 2016 CU21 - 15.1.2308.8"],
+            ["Exchange Server 2016 CU20 - 15.1.2242.12", "Exchange Server 2016 CU20 - 15.1.2242.12"],
+            ["Exchange Server 2016 CU20 - 15.1.2242.10", "Exchange Server 2016 CU20 - 15.1.2242.10"],
+            ["Exchange Server 2016 CU20 - 15.1.2242.8", "Exchange Server 2016 CU20 - 15.1.2242.8"],
+            ["Exchange Server 2016 CU20 - 15.1.2242.4", "Exchange Server 2016 CU20 - 15.1.2242.4"],
+            ["Exchange Server 2016 CU19 - 15.1.2176.14", "Exchange Server 2016 CU19 - 15.1.2176.14"],
+            ["Exchange Server 2016 CU19 - 15.1.2176.12", "Exchange Server 2016 CU19 - 15.1.2176.12"],
+            ["Exchange Server 2016 CU19 - 15.1.2176.9", "Exchange Server 2016 CU19 - 15.1.2176.9"],
+            ["Exchange Server 2016 CU19 - 15.1.2176.2", "Exchange Server 2016 CU19 - 15.1.2176.2"],
+            ["Exchange Server 2016 CU18 - 15.1.2106.13", "Exchange Server 2016 CU18 - 15.1.2106.13"],
+            ["Exchange Server 2016 CU18 - 15.1.2106.2", "Exchange Server 2016 CU18 - 15.1.2106.2"],
+            ["Exchange Server 2016 CU17 - 15.1.2044.13", "Exchange Server 2016 CU17 - 15.1.2044.13"],
+            ["Exchange Server 2016 CU17 - 15.1.2044.4", "Exchange Server 2016 CU17 - 15.1.2044.4"],
+            ["Exchange Server 2016 CU16 - 15.1.1979.8", "Exchange Server 2016 CU16 - 15.1.1979.8"],
+            ["Exchange Server 2016 CU16 - 15.1.1979.3", "Exchange Server 2016 CU16 - 15.1.1979.3"],
+            ["Exchange Server 2016 CU15 - 15.1.1913.12", "Exchange Server 2016 CU15 - 15.1.1913.12"],
+            ["Exchange Server 2016 CU15 - 15.1.1913.5", "Exchange Server 2016 CU15 - 15.1.1913.5"],
+            ["Exchange Server 2016 CU14 - 15.1.1847.12", "Exchange Server 2016 CU14 - 15.1.1847.12"],
+            ["Exchange Server 2016 CU14 - 15.1.1847.3", "Exchange Server 2016 CU14 - 15.1.1847.3"],
+            ["Exchange Server 2016 CU13 - 15.1.1779.8", "Exchange Server 2016 CU13 - 15.1.1779.8"],
+            ["Exchange Server 2016 CU13 - 15.1.1779.2", "Exchange Server 2016 CU13 - 15.1.1779.2"],
+            ["Exchange Server 2016 CU12 - 15.1.1713.10", "Exchange Server 2016 CU12 - 15.1.1713.10"],
+            ["Exchange Server 2016 CU12 - 15.1.1713.5", "Exchange Server 2016 CU12 - 15.1.1713.5"],
+            ["Exchange Server 2016 CU11 - 15.1.1591.18", "Exchange Server 2016 CU11 - 15.1.1591.18"],
+            ["Exchange Server 2016 CU11 - 15.1.1591.10", "Exchange Server 2016 CU11 - 15.1.1591.10"],
+            ["Exchange Server 2016 CU10 - 15.1.1531.12", "Exchange Server 2016 CU10 - 15.1.1531.12"],
+            ["Exchange Server 2016 CU10 - 15.1.1531.3", "Exchange Server 2016 CU10 - 15.1.1531.3"],
+            ["Exchange Server 2016 CU9 - 15.1.1466.16", "Exchange Server 2016 CU9 - 15.1.1466.16"],
+            ["Exchange Server 2016 CU9 - 15.1.1466.3", "Exchange Server 2016 CU9 - 15.1.1466.3"],
+            ["Exchange Server 2016 CU8 - 15.1.1415.10", "Exchange Server 2016 CU8 - 15.1.1415.10"],
+            ["Exchange Server 2016 CU8 - 15.1.1415.2", "Exchange Server 2016 CU8 - 15.1.1415.2"],
+            ["Exchange Server 2016 CU7 - 15.1.1261.35", "Exchange Server 2016 CU7 - 15.1.1261.35"],
+            ["Exchange Server 2016 CU6 - 15.1.1034.26", "Exchange Server 2016 CU6 - 15.1.1034.26"],
+            ["Exchange Server 2016 CU5 - 15.1.845.34", "Exchange Server 2016 CU5 - 15.1.845.34"],
+            ["Exchange Server 2016 CU4 - 15.1.669.32", "Exchange Server 2016 CU4 - 15.1.669.32"],
+            ["Exchange Server 2016 CU3 - 15.1.544.27", "Exchange Server 2016 CU3 - 15.1.544.27"],
+            ["Exchange Server 2016 CU2 - 15.1.466.34", "Exchange Server 2016 CU2 - 15.1.466.34"],
+            ["Exchange Server 2016 CU1 - 15.1.396.30", "Exchange Server 2016 CU1 - 15.1.396.30"],
+            ["Exchange Server 2016 RTM - 15.1.225.42", "Exchange Server 2016 RTM - 15.1.225.42"],
+            ["Exchange Server 2016 Preview - 15.1.225.16", "Exchange Server 2016 Preview - 15.1.225.16"],
+            ["Exchange Server 2013 CU23 - 15.0.1497.36", "Exchange Server 2013 CU23 - 15.0.1497.36"],
+            ["Exchange Server 2013 CU23 - 15.0.1497.33", "Exchange Server 2013 CU23 - 15.0.1497.33"],
+            ["Exchange Server 2013 CU23 - 15.0.1497.28", "Exchange Server 2013 CU23 - 15.0.1497.28"],
+            ["Exchange Server 2013 CU23 - 15.0.1497.26", "Exchange Server 2013 CU23 - 15.0.1497.26"],
+            ["Exchange Server 2013 CU23 - 15.0.1497.24", "Exchange Server 2013 CU23 - 15.0.1497.24"],
+            ["Exchange Server 2013 CU23 - 15.0.1497.23", "Exchange Server 2013 CU23 - 15.0.1497.23"],
+            ["Exchange Server 2013 CU23 - 15.0.1497.18", "Exchange Server 2013 CU23 - 15.0.1497.18"],
+            ["Exchange Server 2013 CU23 - 15.0.1497.15", "Exchange Server 2013 CU23 - 15.0.1497.15"],
+            ["Exchange Server 2013 CU23 - 15.0.1497.12", "Exchange Server 2013 CU23 - 15.0.1497.12"],
+            ["Exchange Server 2013 CU23 - 15.0.1497.2", "Exchange Server 2013 CU23 - 15.0.1497.2"],
+            ["Exchange Server 2013 CU22 - 15.0.1473.6", "Exchange Server 2013 CU22 - 15.0.1473.6"],
+            ["Exchange Server 2013 CU22 - 15.0.1473.3", "Exchange Server 2013 CU22 - 15.0.1473.3"],
+            ["Exchange Server 2013 CU21 - 15.0.1395.12", "Exchange Server 2013 CU21 - 15.0.1395.12"],
+            ["Exchange Server 2013 CU21 - 15.0.1395.4", "Exchange Server 2013 CU21 - 15.0.1395.4"],
+            ["Exchange Server 2013 CU20 - 15.0.1367.3", "Exchange Server 2013 CU20 - 15.0.1367.3"],
+            ["Exchange Server 2013 CU19 - 15.0.1365.1", "Exchange Server 2013 CU19 - 15.0.1365.1"],
+            ["Exchange Server 2013 CU18 - 15.0.1347.2", "Exchange Server 2013 CU18 - 15.0.1347.2"],
+            ["Exchange Server 2013 CU17 - 15.0.1320.4", "Exchange Server 2013 CU17 - 15.0.1320.4"],
+            ["Exchange Server 2013 CU16 - 15.0.1293.2", "Exchange Server 2013 CU16 - 15.0.1293.2"],
+            ["Exchange Server 2013 CU15 - 15.0.1263.5", "Exchange Server 2013 CU15 - 15.0.1263.5"],
+            ["Exchange Server 2013 CU14 - 15.0.1236.3", "Exchange Server 2013 CU14 - 15.0.1236.3"],
+            ["Exchange Server 2013 CU13 - 15.0.1210.3", "Exchange Server 2013 CU13 - 15.0.1210.3"],
+            ["Exchange Server 2013 CU12 - 15.0.1178.4", "Exchange Server 2013 CU12 - 15.0.1178.4"],
+            ["Exchange Server 2013 CU11 - 15.0.1156.6", "Exchange Server 2013 CU11 - 15.0.1156.6"],
+            ["Exchange Server 2013 CU10 - 15.0.1130.7", "Exchange Server 2013 CU10 - 15.0.1130.7"],
+            ["Exchange Server 2013 CU9 - 15.0.1104.5", "Exchange Server 2013 CU9 - 15.0.1104.5"],
+            ["Exchange Server 2013 CU8 - 15.0.1076.9", "Exchange Server 2013 CU8 - 15.0.1076.9"],
+            ["Exchange Server 2013 CU7 - 15.0.1044.25", "Exchange Server 2013 CU7 - 15.0.1044.25"],
+            ["Exchange Server 2013 CU6 - 15.0.995.29", "Exchange Server 2013 CU6 - 15.0.995.29"],
+            ["Exchange Server 2013 CU5 - 15.0.913.22", "Exchange Server 2013 CU5 - 15.0.913.22"],
+            ["Exchange Server 2013 SP1 - 15.0.847.64", "Exchange Server 2013 SP1 - 15.0.847.64"],
+            ["Exchange Server 2013 SP1 - 15.0.847.32", "Exchange Server 2013 SP1 - 15.0.847.32"],
+            ["Exchange Server 2013 CU3 - 15.0.775.38", "Exchange Server 2013 CU3 - 15.0.775.38"],
+            ["Exchange Server 2013 CU2 - 15.0.712.24", "Exchange Server 2013 CU2 - 15.0.712.24"],
+            ["Exchange Server 2013 CU1 - 15.0.620.29", "Exchange Server 2013 CU1 - 15.0.620.29"],
+            ["Exchange Server 2013 RTM - 15.0.516.32", "Exchange Server 2013 RTM - 15.0.516.32"],
+        ];
+        // What is the Exchange Server Version?
+        createScopeQuestion('exchange-server', true, 'What exchange server version customer have?', 'select', 'Choose option', exchangeServerOptions);
+        // Hide by default
+        $("#exchange-server").hide();
+
+    // SharePoint Scoping Checkbox
+        createScopeQuestion('sharepoint-scoping', true, 'SharePoint scoping:', 'checkbox', 'SharePoint scoping:');
+        // Hide by default
+        $("#sharepoint-scoping-ul").hide();
+        $("#sharepoint-scoping-section").hide();
+        // Get sharepoint scoping checkbox input
+        sharepointScopingCheck = document.getElementById("sharepoint-scoping-data");
+        // Add listener on change, to change visibility of scoping questions
+        sharepointScopingCheck.addEventListener("input", function() {
+            if(sharepointScopingCheck.checked == false) {
+                $("#sharepoint-scoping-ul").hide();
+                $("#sharepoint-scoping-section").hide();
+            } else {
+                $("#sharepoint-scoping-ul").show();
+                $("#sharepoint-scoping-section").show();
             }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Oracle") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["0", "Choose model"],
-                ["AP 1100", "AP 1100"],
-                ["AP 3900", "AP 3900"],
-                ["AP 4600", "AP 4600"],
-                ["AP 6300", "AP 6300"],
-                ["AP 6350", "AP 6350"],
-                ["VME", "VME"],
-                ["AP 3950", "AP 3950"],
-                ["AP 4900", "AP 4900"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "TE-SYSTEMS") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["anynode", "anynode"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Metaswitch") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Perimeta SBC", "Perimeta SBC"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '<option value="'+item[0]+'">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Cisco") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["0", "Choose model"],
-                ["Cisco Unified Border Element (CUBE) for 1000 Series Integrated Services Routers", "Cisco Unified Border Element (CUBE) for 1000 Series Integrated Services Routers"],
-                ["Cisco Unified Border Element (CUBE) for 4000 Series Integrated Services Routers", "Cisco Unified Border Element (CUBE) for 4000 Series Integrated Services Routers"],
-                ["Cisco Unified Border Element (CUBE) for 1000V Series Cloud Services Router", "Cisco Unified Border Element (CUBE) for 1000V Series Cloud Services Router"],
-                ["Cisco Unified Border Element (CUBE) for 1000 Series Aggregation Services Routers", "Cisco Unified Border Element (CUBE) for 1000 Series Aggregation Services Routers"],
-                ["Cisco Unified Border Element (CUBE) for Catalyst 8000 Edge Platforms", "Cisco Unified Border Element (CUBE) for Catalyst 8000 Edge Platforms"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Avaya") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Avaya Session Border Controller for Enterprise (ASBCE)", "Avaya Session Border Controller for Enterprise (ASBCE)"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Nokia") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Nokia Session Border Controller", "Nokia Session Border Controller"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Italtel") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["NetMatch-S CI", "NetMatch-S CI"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Ericsson") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["vSBC 2.16", "vSBC 2.16"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Cataleya") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Orchid Link", "Orchid Link"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "ULTATEL") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Teams SBC", "Teams SBC"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Atos") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Atos Unify OpenScape Session Border Controller", "Atos Unify OpenScape Session Border Controller"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Sansay Inc") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["vmVSXi", "vmVSXi"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Enghouse Networks") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Dialogic BorderNet SBC", "Dialogic BorderNet SBC"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Patton Electronics Co.") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Patton SmartNode eSBC", "Patton SmartNode eSBC"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "M5 Technologies (Media5 Corporation)") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Mediatrix Sentinel Series", "Mediatrix Sentinel Series"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Ekinops") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["0", "Choose model"],
-                ["Ekinops Session Border Controller (ONeSBC)", "Ekinops Session Border Controller (ONeSBC)"],
-                ["Ekinops Virtual Session Border Controller (ONEvSBC)", "Ekinops Virtual Session Border Controller (ONEvSBC)"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "46 Labs LLC") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["Hyperconverged Voice", "Hyperconverged Voice"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        } else if (SBCVendorSelect.value == "Frafos") {
-            selectOptions = ""
-            SBCModelOptions = [
-                ["ABC SBC", "ABC SBC"]
-            ]
-            for (var item of SBCModelOptions) {
-                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
-            }
-            SBCModelSelect.innerHTML = selectOptions;
-            SBCModelSelect.dispatchEvent(new Event('change'));
-        }
-    });
+        });
 
-    createScopeQuestion('sbc-software', true, 'SBC Software Version:', 'text', '7.20A.258', '', 'Software version:');
-
-    var mediaBypassOptions = [
-        ["Customer use Media Bypass", "Yes"],
-        ["Customer don't use Media Bypass", "No"]
-    ];
-    createScopeQuestion('sbc-media-bypass', true, 'Customer use Media Bypass?', 'select', "Choose option", mediaBypassOptions);
-    mediaBypassSelect = document.getElementById("sbc-media-bypass-data");
-    mediaBypassSelect.addEventListener("change", function() {
-        if(mediaBypassSelect.value == "0" || mediaBypassSelect.value == "Customer don't use Media Bypass") {
-            $("#sbc-local-media-optimization").hide();
-        } else {
-            $("#sbc-local-media-optimization").show();
-        }
-    });
-
-    
-    var localMediaOptimizationOptions = [
-        ["Customer use Local Media Optimization", "Yes"],
-        ["Customer don't use Local Media Optimization", "No"]
-    ];
-    createScopeQuestion('sbc-local-media-optimization', true, 'Customer use Local Media Optimization?', 'select', 'Choose option', localMediaOptimizationOptions);
-    $(".direct-routing").hide();
-
-    createScopeQuestion('calling-number-from', true, 'Caller number:', 'text', '+7834326798', '', 'Caller:');
-    createScopeQuestion('calling-number-to', true, 'Callee number:', 'text', '+7834326798', '', 'Callee:');
-
-
-
-    // Device Scoping
-    createScopeQuestion('device-scoping', true, 'Device scoping:', 'checkbox', 'Device scoping:');
-    $("#device-scoping-ul").hide();
-    $("#device-scoping-section").hide();
-    deviceScopingCheck = document.getElementById("device-scoping-data");
-    deviceScopingCheck.addEventListener("input", function() {
-        if(deviceScopingCheck.checked == false) {
-            $("#device-scoping-ul").hide();
-            $("#device-scoping-section").hide();
-        } else {
-            $("#device-scoping-ul").show();
-            $("#device-scoping-section").show();
-        }
-    });
-
-    createScopeQuestion('device-manufacture', true, 'Device Manufacture:', 'text', 'Apple', '', 'Device Manufacture:');
+        // SharePoint Site URL
+        createScopeQuestion('sharepoint-site', true, 'Affected Site URL:', 'text', 'https://contoso.sharepoint/sites/contoso', '', 'Affected site:<br>');
 
 
 
 
-
-
-
-
-
-    // Exchange Scoping
-    createScopeQuestion('exchange-scoping', true, 'Exchange scoping:', 'checkbox', 'Exchange scoping:');
-    $("#exchange-scoping-ul").hide();
-    $("#exchange-scoping-section").hide();
-    exchangeScopingCheck = document.getElementById("exchange-scoping-data");
-    exchangeScopingCheck.addEventListener("input", function() {
-        if(exchangeScopingCheck.checked == false) {
-            $("#exchange-scoping-ul").hide();
-            $("#exchange-scoping-section").hide();
-        } else {
-            $("#exchange-scoping-ul").show();
-            $("#exchange-scoping-section").show();
-        }
-    });
-
-    
-    var exchangeOnlineOnPremOptions = [
-        ["Exchange Online", "Exchange Online"],
-        ["Exchange Hybrid", "Exchange Hybrid"],
-        ["Exchange On-Premise", "Exchange On-Premise"]
-    ];
-    createScopeQuestion('exchange-envoirnment', true, 'What exchange envoirnment customer have?', 'select', 'Choose option', exchangeOnlineOnPremOptions);
-    exchangeEnvoirnmentSelect = document.getElementById("exchange-envoirnment-data");
-    exchangeEnvoirnmentSelect.addEventListener("change", function() {
-        if(exchangeEnvoirnmentSelect.value == "0" || exchangeEnvoirnmentSelect.value == "Exchange Online") {
-            $("#exchange-server").hide();
-            $("#exchange-server-info").hide();
-        } else {
-            $("#exchange-server").show();
-            $("#exchange-server-info").show();
-        }
-    });
-
-    var exchangeServerOptions = [
-        ["Exchange Server 2019 CU12 - 15.2.1118.9", "Exchange Server 2019 CU12 - 15.2.1118.9"],
-        ["Exchange Server 2019 CU12 - 15.2.1118.7", "Exchange Server 2019 CU12 - 15.2.1118.7"],
-        ["Exchange Server 2019 CU11 - 15.2.986.26", "Exchange Server 2019 CU11 - 15.2.986.26"],
-        ["Exchange Server 2019 CU11 - 15.2.986.22", "Exchange Server 2019 CU11 - 15.2.986.22"],
-        ["Exchange Server 2019 CU11 - 15.2.986.15", "Exchange Server 2019 CU11 - 15.2.986.15"],
-        ["Exchange Server 2019 CU11 - 15.2.986.14", "Exchange Server 2019 CU11 - 15.2.986.14"],
-        ["Exchange Server 2019 CU11 - 15.2.986.9", "Exchange Server 2019 CU11 - 15.2.986.9"],
-        ["Exchange Server 2019 CU11 - 15.2.986.5", "Exchange Server 2019 CU11 - 15.2.986.5"],
-        ["Exchange Server 2019 CU10 - 15.2.922.27", "Exchange Server 2019 CU10 - 15.2.922.27"],
-        ["Exchange Server 2019 CU10 - 15.2.922.20", "Exchange Server 2019 CU10 - 15.2.922.20"],
-        ["Exchange Server 2019 CU10 - 15.2.922.19", "Exchange Server 2019 CU10 - 15.2.922.19"],
-        ["Exchange Server 2019 CU10 - 15.2.922.14", "Exchange Server 2019 CU10 - 15.2.922.14"],
-        ["Exchange Server 2019 CU10 - 15.2.922.13", "Exchange Server 2019 CU10 - 15.2.922.13"],
-        ["Exchange Server 2019 CU10 - 15.2.922.7", "Exchange Server 2019 CU10 - 15.2.922.7"],
-        ["Exchange Server 2019 CU9 - 15.2.858.15", "Exchange Server 2019 CU9 - 15.2.858.15"],
-        ["Exchange Server 2019 CU9 - 15.2.858.12", "Exchange Server 2019 CU9 - 15.2.858.12"],
-        ["Exchange Server 2019 CU9 - 15.2.858.10", "Exchange Server 2019 CU9 - 15.2.858.10"],
-        ["Exchange Server 2019 CU9 - 15.2.858.5", "Exchange Server 2019 CU9 - 15.2.858.5"],
-        ["Exchange Server 2019 CU8 - 15.2.792.15", "Exchange Server 2019 CU8 - 15.2.792.15"],
-        ["Exchange Server 2019 CU8 - 15.2.792.13", "Exchange Server 2019 CU8 - 15.2.792.13"],
-        ["Exchange Server 2019 CU8 - 15.2.792.10", "Exchange Server 2019 CU8 - 15.2.792.10"],
-        ["Exchange Server 2019 CU8 - 15.2.792.3", "Exchange Server 2019 CU8 - 15.2.792.3"],
-        ["Exchange Server 2019 CU7 - 15.2.721.13", "Exchange Server 2019 CU7 - 15.2.721.13"],
-        ["Exchange Server 2019 CU7 - 15.2.721.2", "Exchange Server 2019 CU7 - 15.2.721.2"],
-        ["Exchange Server 2019 CU6 - 15.2.659.12", "Exchange Server 2019 CU6 - 15.2.659.12"],
-        ["Exchange Server 2019 CU6 - 15.2.659.4", "Exchange Server 2019 CU6 - 15.2.659.4"],
-        ["Exchange Server 2019 CU5 - 15.2.595.8", "Exchange Server 2019 CU5 - 15.2.595.8"],
-        ["Exchange Server 2019 CU5 - 15.2.595.3", "Exchange Server 2019 CU5 - 15.2.595.3"],
-        ["Exchange Server 2019 CU4 - 15.2.529.13", "Exchange Server 2019 CU4 - 15.2.529.13"],
-        ["Exchange Server 2019 CU4 - 15.2.529.5", "Exchange Server 2019 CU4 - 15.2.529.5"],
-        ["Exchange Server 2019 CU3 - 15.2.464.15", "Exchange Server 2019 CU3 - 15.2.464.15"],
-        ["Exchange Server 2019 CU3 - 15.2.464.5", "Exchange Server 2019 CU3 - 15.2.464.5"],
-        ["Exchange Server 2019 CU2 - 15.2.397.11", "Exchange Server 2019 CU2 - 15.2.397.11"],
-        ["Exchange Server 2019 CU2 - 15.2.397.3", "Exchange Server 2019 CU2 - 15.2.397.3"],
-        ["Exchange Server 2019 CU1 - 15.2.330.11", "Exchange Server 2019 CU1 - 15.2.330.11"],
-        ["Exchange Server 2019 CU1 - 15.2.330.5", "Exchange Server 2019 CU1 - 15.2.330.5"],
-        ["Exchange Server 2019 RTM - 15.2.221.18", "Exchange Server 2019 RTM - 15.2.221.18"],
-        ["Exchange Server 2019 RTM - 15.2.221.12", "Exchange Server 2019 RTM - 15.2.221.12"],
-        ["Exchange Server 2019 Preview - 15.2.196.0", "Exchange Server 2019 Preview - 15.2.196.0"],
-        ["Exchange Server 2016 CU23 - 15.1.2507.9", "Exchange Server 2016 CU23 - 15.1.2507.9"],
-        ["Exchange Server 2016 CU23 - 15.1.2507.6", "Exchange Server 2016 CU23 - 15.1.2507.6"],
-        ["Exchange Server 2016 CU22 - 15.1.2375.28", "Exchange Server 2016 CU22 - 15.1.2375.28"],
-        ["Exchange Server 2016 CU22 - 15.1.2375.24", "Exchange Server 2016 CU22 - 15.1.2375.24"],
-        ["Exchange Server 2016 CU22 - 15.1.2375.18", "Exchange Server 2016 CU22 - 15.1.2375.18"],
-        ["Exchange Server 2016 CU22 - 15.1.2375.17", "Exchange Server 2016 CU22 - 15.1.2375.17"],
-        ["Exchange Server 2016 CU22 - 15.1.2375.12", "Exchange Server 2016 CU22 - 15.1.2375.12"],
-        ["Exchange Server 2016 CU22 - 15.1.2375.7", "Exchange Server 2016 CU22 - 15.1.2375.7"],
-        ["Exchange Server 2016 CU21 - 15.1.2308.27", "Exchange Server 2016 CU21 - 15.1.2308.27"],
-        ["Exchange Server 2016 CU21 - 15.1.2308.21", "Exchange Server 2016 CU21 - 15.1.2308.21"],
-        ["Exchange Server 2016 CU21 - 15.1.2308.20", "Exchange Server 2016 CU21 - 15.1.2308.20"],
-        ["Exchange Server 2016 CU21 - 15.1.2308.15", "Exchange Server 2016 CU21 - 15.1.2308.15"],
-        ["Exchange Server 2016 CU21 - 15.1.2308.14", "Exchange Server 2016 CU21 - 15.1.2308.14"],
-        ["Exchange Server 2016 CU21 - 15.1.2308.8", "Exchange Server 2016 CU21 - 15.1.2308.8"],
-        ["Exchange Server 2016 CU20 - 15.1.2242.12", "Exchange Server 2016 CU20 - 15.1.2242.12"],
-        ["Exchange Server 2016 CU20 - 15.1.2242.10", "Exchange Server 2016 CU20 - 15.1.2242.10"],
-        ["Exchange Server 2016 CU20 - 15.1.2242.8", "Exchange Server 2016 CU20 - 15.1.2242.8"],
-        ["Exchange Server 2016 CU20 - 15.1.2242.4", "Exchange Server 2016 CU20 - 15.1.2242.4"],
-        ["Exchange Server 2016 CU19 - 15.1.2176.14", "Exchange Server 2016 CU19 - 15.1.2176.14"],
-        ["Exchange Server 2016 CU19 - 15.1.2176.12", "Exchange Server 2016 CU19 - 15.1.2176.12"],
-        ["Exchange Server 2016 CU19 - 15.1.2176.9", "Exchange Server 2016 CU19 - 15.1.2176.9"],
-        ["Exchange Server 2016 CU19 - 15.1.2176.2", "Exchange Server 2016 CU19 - 15.1.2176.2"],
-        ["Exchange Server 2016 CU18 - 15.1.2106.13", "Exchange Server 2016 CU18 - 15.1.2106.13"],
-        ["Exchange Server 2016 CU18 - 15.1.2106.2", "Exchange Server 2016 CU18 - 15.1.2106.2"],
-        ["Exchange Server 2016 CU17 - 15.1.2044.13", "Exchange Server 2016 CU17 - 15.1.2044.13"],
-        ["Exchange Server 2016 CU17 - 15.1.2044.4", "Exchange Server 2016 CU17 - 15.1.2044.4"],
-        ["Exchange Server 2016 CU16 - 15.1.1979.8", "Exchange Server 2016 CU16 - 15.1.1979.8"],
-        ["Exchange Server 2016 CU16 - 15.1.1979.3", "Exchange Server 2016 CU16 - 15.1.1979.3"],
-        ["Exchange Server 2016 CU15 - 15.1.1913.12", "Exchange Server 2016 CU15 - 15.1.1913.12"],
-        ["Exchange Server 2016 CU15 - 15.1.1913.5", "Exchange Server 2016 CU15 - 15.1.1913.5"],
-        ["Exchange Server 2016 CU14 - 15.1.1847.12", "Exchange Server 2016 CU14 - 15.1.1847.12"],
-        ["Exchange Server 2016 CU14 - 15.1.1847.3", "Exchange Server 2016 CU14 - 15.1.1847.3"],
-        ["Exchange Server 2016 CU13 - 15.1.1779.8", "Exchange Server 2016 CU13 - 15.1.1779.8"],
-        ["Exchange Server 2016 CU13 - 15.1.1779.2", "Exchange Server 2016 CU13 - 15.1.1779.2"],
-        ["Exchange Server 2016 CU12 - 15.1.1713.10", "Exchange Server 2016 CU12 - 15.1.1713.10"],
-        ["Exchange Server 2016 CU12 - 15.1.1713.5", "Exchange Server 2016 CU12 - 15.1.1713.5"],
-        ["Exchange Server 2016 CU11 - 15.1.1591.18", "Exchange Server 2016 CU11 - 15.1.1591.18"],
-        ["Exchange Server 2016 CU11 - 15.1.1591.10", "Exchange Server 2016 CU11 - 15.1.1591.10"],
-        ["Exchange Server 2016 CU10 - 15.1.1531.12", "Exchange Server 2016 CU10 - 15.1.1531.12"],
-        ["Exchange Server 2016 CU10 - 15.1.1531.3", "Exchange Server 2016 CU10 - 15.1.1531.3"],
-        ["Exchange Server 2016 CU9 - 15.1.1466.16", "Exchange Server 2016 CU9 - 15.1.1466.16"],
-        ["Exchange Server 2016 CU9 - 15.1.1466.3", "Exchange Server 2016 CU9 - 15.1.1466.3"],
-        ["Exchange Server 2016 CU8 - 15.1.1415.10", "Exchange Server 2016 CU8 - 15.1.1415.10"],
-        ["Exchange Server 2016 CU8 - 15.1.1415.2", "Exchange Server 2016 CU8 - 15.1.1415.2"],
-        ["Exchange Server 2016 CU7 - 15.1.1261.35", "Exchange Server 2016 CU7 - 15.1.1261.35"],
-        ["Exchange Server 2016 CU6 - 15.1.1034.26", "Exchange Server 2016 CU6 - 15.1.1034.26"],
-        ["Exchange Server 2016 CU5 - 15.1.845.34", "Exchange Server 2016 CU5 - 15.1.845.34"],
-        ["Exchange Server 2016 CU4 - 15.1.669.32", "Exchange Server 2016 CU4 - 15.1.669.32"],
-        ["Exchange Server 2016 CU3 - 15.1.544.27", "Exchange Server 2016 CU3 - 15.1.544.27"],
-        ["Exchange Server 2016 CU2 - 15.1.466.34", "Exchange Server 2016 CU2 - 15.1.466.34"],
-        ["Exchange Server 2016 CU1 - 15.1.396.30", "Exchange Server 2016 CU1 - 15.1.396.30"],
-        ["Exchange Server 2016 RTM - 15.1.225.42", "Exchange Server 2016 RTM - 15.1.225.42"],
-        ["Exchange Server 2016 Preview - 15.1.225.16", "Exchange Server 2016 Preview - 15.1.225.16"],
-        ["Exchange Server 2013 CU23 - 15.0.1497.36", "Exchange Server 2013 CU23 - 15.0.1497.36"],
-        ["Exchange Server 2013 CU23 - 15.0.1497.33", "Exchange Server 2013 CU23 - 15.0.1497.33"],
-        ["Exchange Server 2013 CU23 - 15.0.1497.28", "Exchange Server 2013 CU23 - 15.0.1497.28"],
-        ["Exchange Server 2013 CU23 - 15.0.1497.26", "Exchange Server 2013 CU23 - 15.0.1497.26"],
-        ["Exchange Server 2013 CU23 - 15.0.1497.24", "Exchange Server 2013 CU23 - 15.0.1497.24"],
-        ["Exchange Server 2013 CU23 - 15.0.1497.23", "Exchange Server 2013 CU23 - 15.0.1497.23"],
-        ["Exchange Server 2013 CU23 - 15.0.1497.18", "Exchange Server 2013 CU23 - 15.0.1497.18"],
-        ["Exchange Server 2013 CU23 - 15.0.1497.15", "Exchange Server 2013 CU23 - 15.0.1497.15"],
-        ["Exchange Server 2013 CU23 - 15.0.1497.12", "Exchange Server 2013 CU23 - 15.0.1497.12"],
-        ["Exchange Server 2013 CU23 - 15.0.1497.2", "Exchange Server 2013 CU23 - 15.0.1497.2"],
-        ["Exchange Server 2013 CU22 - 15.0.1473.6", "Exchange Server 2013 CU22 - 15.0.1473.6"],
-        ["Exchange Server 2013 CU22 - 15.0.1473.3", "Exchange Server 2013 CU22 - 15.0.1473.3"],
-        ["Exchange Server 2013 CU21 - 15.0.1395.12", "Exchange Server 2013 CU21 - 15.0.1395.12"],
-        ["Exchange Server 2013 CU21 - 15.0.1395.4", "Exchange Server 2013 CU21 - 15.0.1395.4"],
-        ["Exchange Server 2013 CU20 - 15.0.1367.3", "Exchange Server 2013 CU20 - 15.0.1367.3"],
-        ["Exchange Server 2013 CU19 - 15.0.1365.1", "Exchange Server 2013 CU19 - 15.0.1365.1"],
-        ["Exchange Server 2013 CU18 - 15.0.1347.2", "Exchange Server 2013 CU18 - 15.0.1347.2"],
-        ["Exchange Server 2013 CU17 - 15.0.1320.4", "Exchange Server 2013 CU17 - 15.0.1320.4"],
-        ["Exchange Server 2013 CU16 - 15.0.1293.2", "Exchange Server 2013 CU16 - 15.0.1293.2"],
-        ["Exchange Server 2013 CU15 - 15.0.1263.5", "Exchange Server 2013 CU15 - 15.0.1263.5"],
-        ["Exchange Server 2013 CU14 - 15.0.1236.3", "Exchange Server 2013 CU14 - 15.0.1236.3"],
-        ["Exchange Server 2013 CU13 - 15.0.1210.3", "Exchange Server 2013 CU13 - 15.0.1210.3"],
-        ["Exchange Server 2013 CU12 - 15.0.1178.4", "Exchange Server 2013 CU12 - 15.0.1178.4"],
-        ["Exchange Server 2013 CU11 - 15.0.1156.6", "Exchange Server 2013 CU11 - 15.0.1156.6"],
-        ["Exchange Server 2013 CU10 - 15.0.1130.7", "Exchange Server 2013 CU10 - 15.0.1130.7"],
-        ["Exchange Server 2013 CU9 - 15.0.1104.5", "Exchange Server 2013 CU9 - 15.0.1104.5"],
-        ["Exchange Server 2013 CU8 - 15.0.1076.9", "Exchange Server 2013 CU8 - 15.0.1076.9"],
-        ["Exchange Server 2013 CU7 - 15.0.1044.25", "Exchange Server 2013 CU7 - 15.0.1044.25"],
-        ["Exchange Server 2013 CU6 - 15.0.995.29", "Exchange Server 2013 CU6 - 15.0.995.29"],
-        ["Exchange Server 2013 CU5 - 15.0.913.22", "Exchange Server 2013 CU5 - 15.0.913.22"],
-        ["Exchange Server 2013 SP1 - 15.0.847.64", "Exchange Server 2013 SP1 - 15.0.847.64"],
-        ["Exchange Server 2013 SP1 - 15.0.847.32", "Exchange Server 2013 SP1 - 15.0.847.32"],
-        ["Exchange Server 2013 CU3 - 15.0.775.38", "Exchange Server 2013 CU3 - 15.0.775.38"],
-        ["Exchange Server 2013 CU2 - 15.0.712.24", "Exchange Server 2013 CU2 - 15.0.712.24"],
-        ["Exchange Server 2013 CU1 - 15.0.620.29", "Exchange Server 2013 CU1 - 15.0.620.29"],
-        ["Exchange Server 2013 RTM - 15.0.516.32", "Exchange Server 2013 RTM - 15.0.516.32"],
-    ];
-    createScopeQuestion('exchange-server', true, 'What exchange server version customer have?', 'select', 'Choose option', exchangeServerOptions);
-    $("#exchange-server").hide();
-
-
-
-
-    createScopeQuestion('sharepoint-scoping', true, 'SharePoint scoping:', 'checkbox', 'SharePoint scoping:');
-    $("#sharepoint-scoping-ul").hide();
-    $("#sharepoint-scoping-section").hide();
-    sharepointScopingCheck = document.getElementById("sharepoint-scoping-data");
-    sharepointScopingCheck.addEventListener("input", function() {
-        if(sharepointScopingCheck.checked == false) {
-            $("#sharepoint-scoping-ul").hide();
-            $("#sharepoint-scoping-section").hide();
-        } else {
-            $("#sharepoint-scoping-ul").show();
-            $("#sharepoint-scoping-section").show();
-        }
-    });
-
-    createScopeQuestion('sharepoint-site', true, 'Affected Site URL:', 'text', 'https://contoso.sharepoint/sites/contoso', '', 'Affected site:<br>');
-
-
-
-
-    // Copy Buttons (Button ID, Copy Area)
-    copyText('copy-case-note', 'case-note');
-
-    copyText('copy-getCsOnlineUser-transcript', 'getCsOnlineUser-transcript');
+// Copy Buttons (Button ID, Copy Area)
+    copyText('copy-case-note', 'case-note-copy-area');
+    copyText('copy-getcsonlineuser-transcript', 'getcsonlineuser-transcript-copy-area');
     copyText('copy-calling-transcript', 'calling-transcript-copy-area');
     copyText('copy-calling-network', 'calling-network-copy-area');
 
-
 // Functions      
-// Element ID / Hide if empty on the template / label text / type text, date, textarea, select / placeholder / options for select / prepend to case note 
-function createScopeQuestion(liID, hideLi, label, inputType, placeholder, options, prepend) {
+    // Element ID / Hide if empty on the template / label text / type text, date, textarea, select / placeholder / options for select / prepend to case note 
+    function createScopeQuestion(liID, hideLi, label, inputType, placeholder, options, prepend) {
 
-    // Check the input type and set correct element
-        if (inputType == "text" || inputType == "date" || inputType == "checkbox") {
-                element = 'input';
-        } else if(inputType == "select") {
-                element = 'select';
-        } else if(inputType == "textarea") {
-                element = 'textarea';
-        }
+        // Check the input type and set correct element
+            if (inputType == "text" || inputType == "date" || inputType == "checkbox") {
+                    element = 'input';
+            } else if(inputType == "select") {
+                    element = 'select';
+            } else if(inputType == "textarea") {
+                    element = 'textarea';
+            }
 
-    // Create elements
-    const   scopeLi = document.getElementById(liID),
-            scopeLiNote = document.getElementById(liID + "-info"),
-            scopeLiRow = document.createElement("div"),
-            scopeLiColLabel = document.createElement("div"),
-            scopeLiColInfo = document.createElement("div"),
-            scopeLiLabel = document.createElement("label"),
-            scopeLiRowClearFix = document.createElement("div"),
-            scopeLiInfo = document.createElement(element);
+        // Create elements
+        const   scopeLi = document.getElementById(liID),
+                scopeLiNote = document.getElementById(liID + "-info"),
+                scopeLiRow = document.createElement("div"),
+                scopeLiColLabel = document.createElement("div"),
+                scopeLiColInfo = document.createElement("div"),
+                scopeLiLabel = document.createElement("label"),
+                scopeLiRowClearFix = document.createElement("div"),
+                scopeLiInfo = document.createElement(element);
+                
+
+        // Set attributes
+            scopeLiRow.setAttribute("class", 'row p-1');
+            scopeLiColLabel.setAttribute("class", 'col-auto');
+            scopeLiColInfo.setAttribute("class", 'col');
+            scopeLiLabel.setAttribute("class", 'control-label');
+            scopeLiLabel.setAttribute("for", liID + '-data');
+            scopeLiLabel.innerHTML = label;
+            scopeLiRowClearFix.setAttribute("class", 'clearfix');
+            scopeLiInfo.setAttribute("class", 'form-control border-danger');
+            scopeLiInfo.setAttribute("id", liID + '-data');
+            if (inputType == "text") {
+                scopeLiInfo.setAttribute("type", "text");
+                scopeLiInfo.setAttribute("placeholder",  placeholder);
+            } else if(inputType == "date") {
+                scopeLiInfo.setAttribute("type", "date");
+                scopeLiInfo.setAttribute("value",  placeholder);
+            } else if(inputType == "select") {
+                scopeLiInfo.classList.remove("form-control");
+                scopeLiInfo.classList.add("form-select");
+                scopeLiInfo.setAttribute("type", "date");
+                scopeLiInfo.setAttribute("value",  placeholder);
+            } else if(inputType == "textarea") {
+                scopeLiInfo.setAttribute("rows", 3);
+                scopeLiInfo.setAttribute("placeholder",  placeholder);
+            } else if(inputType == "checkbox") {
+                scopeLiColInfo.classList.add('form-check', 'form-switch', 'p-0');
+                scopeLiInfo.classList.remove("form-control");
+                scopeLiInfo.classList.add("form-check-input");
+                scopeLiInfo.setAttribute("style", "margin:12px 0 0 10px;");
+                scopeLiInfo.setAttribute("type", "checkbox");
+                scopeLiInfo.setAttribute("role", "switch");
+            }
+
             
-
-    // Set attributes
-        scopeLiRow.setAttribute("class", 'row p-1');
-        scopeLiColLabel.setAttribute("class", 'col-auto');
-        scopeLiColInfo.setAttribute("class", 'col');
-        scopeLiLabel.setAttribute("class", 'control-label');
-        scopeLiLabel.setAttribute("for", liID + '-data');
-        scopeLiLabel.innerHTML = label;
-        scopeLiRowClearFix.setAttribute("class", 'clearfix');
-        scopeLiInfo.setAttribute("class", 'form-control border-danger');
-        scopeLiInfo.setAttribute("id", liID + '-data');
-        if (inputType == "text") {
-            scopeLiInfo.setAttribute("type", "text");
-            scopeLiInfo.setAttribute("placeholder",  placeholder);
-        } else if(inputType == "date") {
-            scopeLiInfo.setAttribute("type", "date");
-            scopeLiInfo.setAttribute("value",  placeholder);
-        } else if(inputType == "select") {
-            scopeLiInfo.classList.remove("form-control");
-            scopeLiInfo.classList.add("form-select");
-            scopeLiInfo.setAttribute("type", "date");
-            scopeLiInfo.setAttribute("value",  placeholder);
-        } else if(inputType == "textarea") {
-            scopeLiInfo.setAttribute("rows", 3);
-            scopeLiInfo.setAttribute("placeholder",  placeholder);
-        } else if(inputType == "checkbox") {
-            scopeLiColInfo.classList.add('form-check', 'form-switch', 'p-0');
-            scopeLiInfo.classList.remove("form-control");
-            scopeLiInfo.classList.add("form-check-input");
-            scopeLiInfo.setAttribute("style", "margin:12px 0 0 10px;");
-            scopeLiInfo.setAttribute("type", "checkbox");
-            scopeLiInfo.setAttribute("role", "switch");
-        }
-
-        
-        if(hideLi == true) {
-            scopeLiNote.style.overflow = 'hidden';
-            scopeLiNote.style.maxHeight = 0;
-            scopeLiNote.style.opacity = 0;
-        }
+            if(hideLi == true) {
+                scopeLiNote.style.display = 'none';
+            }
 
 
-    // Add listeners
-        if(inputType == "text" || inputType == "textarea") {
-            scopeLiInfo.addEventListener("input", function () {
-                scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
-                if ((scopeLiInfo.value).length === 0) {
-                    scopeLiLabel.classList.remove("completed");
-                    scopeLiInfo.classList.add("border-danger");
-                    scopeLiInfo.classList.remove("border-success");
-                    scopeLiNote.innerHTML = '';
-                    if(hideLi == true) {
-                        scopeLiNote.style.overflow = 'hidden';
-                        scopeLiNote.style.maxHeight = 0;
-                        scopeLiNote.style.opacity = 0;
-                    }
-                } else {
-                    scopeLiLabel.classList.add("completed");
-                    scopeLiInfo.classList.add("border-success");
-                    scopeLiInfo.classList.remove("border-danger");
-                    if (prepend) {
-                        scopeLiNote.innerHTML = prepend + " " + scopeLiNote.getAttribute('data-text');
-                    } else {
-                        scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
-                    }
-                    if(hideLi == true) {
-                        scopeLiNote.style.maxHeight = scopeLiNote.scrollHeight + "px";
-                        scopeLiNote.style.overflow = 'visible';
-                        scopeLiNote.style.opacity = 1;
-                    }
-                }
-            });
-        } else if(inputType == "date") {
-            scopeLiInfo.addEventListener("input", function () {
-                scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
-                if ((scopeLiInfo.value).length === 0) {
-                    scopeLiLabel.classList.remove("completed");
-                    scopeLiInfo.classList.add("border-danger");
-                    scopeLiInfo.classList.remove("border-success");
-                    scopeLiNote.innerHTML = '';
-                    if(hideLi == true) {
-                        scopeLiNote.style.overflow = 'hidden';
-                        scopeLiNote.style.maxHeight = 0;
-                        scopeLiNote.style.opacity = 0;
-                    }
-                } else {
-                    var date = new Date(scopeLiNote.getAttribute('data-text')),
-                    noteDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth()+1)).slice(-2) + '/' + date.getFullYear();
-                    scopeLiLabel.classList.add("completed");
-                    scopeLiInfo.classList.add("border-success");
-                    scopeLiInfo.classList.remove("border-danger");
-                    if (prepend) {
-                        scopeLiNote.innerHTML = prepend + " " + noteDate;
-                    } else {
-                        scopeLiNote.innerHTML = noteDate;
-                    }
-                    if(hideLi == true) {
-                        scopeLiNote.style.maxHeight = scopeLiNote.scrollHeight + "px";
-                        scopeLiNote.style.overflow = 'visible';
-                        scopeLiNote.style.opacity = 1;
-                    }
-                }
-            });
-        } else if(inputType == "select") {
-            scopeLiInfo.addEventListener("change", function () {
-                scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
-                if (scopeLiInfo.value === "0") {
-                    scopeLiLabel.classList.remove("completed");
-                    scopeLiInfo.classList.add("border-danger");
-                    scopeLiInfo.classList.remove("border-success");
-                    scopeLiNote.innerHTML = '';
-                    if(hideLi == true) {
-                        scopeLiNote.style.overflow = 'hidden';
-                        scopeLiNote.style.maxHeight = 0;
-                        scopeLiNote.style.opacity = 0;
-                    }
-                } else {
-                    scopeLiLabel.classList.add("completed");
-                    scopeLiInfo.classList.add("border-success");
-                    scopeLiInfo.classList.remove("border-danger");
-                    if (prepend) {
-                        scopeLiNote.innerHTML = prepend + " " + scopeLiNote.getAttribute('data-text');
-                    } else {
-                        scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
-                    }
-                    if(hideLi == true) {
-                        scopeLiNote.style.maxHeight = scopeLiNote.scrollHeight + "px";
-                        scopeLiNote.style.overflow = 'visible';
-                        scopeLiNote.style.opacity = 1;
-                    }
-                }
-            });
-        } else if(inputType == "checkbox") {
-            scopeLiInfo.addEventListener("input", function () {
-                if (scopeLiInfo.checked == false) {
-                    scopeLiLabel.classList.remove("completed");
-                    scopeLiInfo.classList.add("border-danger");
-                    scopeLiInfo.classList.remove("border-success");
-                    scopeLiNote.innerHTML = '';
-                    if(hideLi == true) {
-                        scopeLiNote.style.overflow = 'hidden';
-                        scopeLiNote.style.maxHeight = 0;
-                        scopeLiNote.style.opacity = 0;
-                    }
-                } else {
-                    scopeLiLabel.classList.add("completed");
-                    scopeLiInfo.classList.add("border-success");
-                    scopeLiInfo.classList.remove("border-danger");
-                    scopeLiNote.innerHTML = placeholder;
-                    if(hideLi == true) {
-                        scopeLiNote.style.maxHeight = scopeLiNote.scrollHeight + "px";
-                        scopeLiNote.style.overflow = 'visible';
-                        scopeLiNote.style.opacity = 1;
-                    }
-                }
-            });
-        }
-
-    // Append elements
-        scopeLi.appendChild(scopeLiRow);
-        scopeLiRow.appendChild(scopeLiColLabel);
-        scopeLiRow.appendChild(scopeLiColInfo);
-        scopeLiColLabel.appendChild(scopeLiLabel);
-        scopeLiColInfo.appendChild(scopeLiInfo);
-        scopeLiRow.appendChild(scopeLiRowClearFix);
-        
-        if(inputType == "select") {
-            option = document.createElement("option");
-            option.setAttribute("value", 0);
-            option.innerHTML = placeholder
-            scopeLiInfo.appendChild(option);
-            options.forEach((element) => {
-                option = document.createElement("option");
-                option.setAttribute("value", element[0]);
-                option.innerHTML = element[1];
-                scopeLiInfo.appendChild(option);
-            });
-            
-        }
-}
-
-function createStepList(liID, label, placeholder, options) {
-    var   stepId = 1;
-    // Create elements
-    const   stepList = document.getElementById(liID),
-            stepListNote = document.getElementById(liID + '-info'),
-            
-            stepListLiRow = document.createElement("div"),
-            stepListLiColLabel = document.createElement("div"),
-            stepListLiColSteps = document.createElement("div"),
-            stepListLiLabel = document.createElement("label"),
-            stepListLiSteps = document.createElement("ol"),
-            stepLiAddStepButton = document.createElement("button"),
-            stepListLiRowClearFix = document.createElement("div");
-            
-    // Set attributes
-        stepLiAddStepButton.setAttribute('class', 'btn btn-link float-end mt-1');
-        stepLiAddStepButton.innerHTML = '<i class="fa-solid fa-plus"></i>'
-        stepListLiRow.setAttribute("class", 'row p-1');
-        stepListLiColLabel.setAttribute("class", 'col-auto');
-        stepListLiColSteps.setAttribute("class", 'col py-4');
-        stepListLiLabel.setAttribute("class", 'control-label');
-        stepListLiLabel.setAttribute("for", liID + '-data');
-        stepListLiLabel.innerHTML = label;
-        stepListLiRowClearFix.setAttribute("class", 'clearfix');
-        stepListLiSteps.setAttribute("id", liID + '-data');
-
-    // Add step function
-        stepLiAddStepButton.addEventListener("click", function () {
-            // Create step elements
-            const stepLi = document.createElement("li"),
-            stepLiRow = document.createElement("div"),
-            stepLiColStep = document.createElement("div"),
-            stepLiColButton = document.createElement("div"),
-            stepLiInput = document.createElement("input"),
-            stepLiButton = document.createElement("button"),
-            stepLiNote = document.createElement("li"),
-            stepLiRowClearFix = document.createElement("div");
-
-
-            // Set attributes
-            stepLi.setAttribute("id", liID+'-step-'+stepId);
-            stepLiRow.setAttribute("class", 'row my-1');
-            stepLiColStep.setAttribute("class", 'col');
-            stepLiColButton.setAttribute("class", 'col-auto');
-            stepLiInput.setAttribute("class", 'form-control border-danger');
-            stepLiInput.setAttribute("placeholder",  placeholder);
-            stepLiButton.setAttribute("class", 'btn btn-link');
-            stepLiButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-            stepLiRowClearFix.setAttribute("class", 'clearfix');
-
-            // Add step listeners
-            stepLiInput.addEventListener("input", function () {
-                        stepLiNote.setAttribute('data-text', stepLiInput.value);
-                        if ((stepLiInput.value).length === 0) {
-                            stepLi.classList.add("text-danger");
-                            stepLi.classList.remove("text-success");
-                            stepLiInput.classList.add("border-danger");
-                            stepLiInput.classList.remove("text-success");
-                            stepListLiLabel.classList.remove('completed')
-                            stepLiNote.innerHTML = '';
-                        } else {
-                            stepLi.classList.add("text-success");
-                            stepLi.classList.remove("text-danger");
-                            stepLiInput.classList.add("border-success");
-                            stepLiInput.classList.remove("border-danger");
-                            stepListLiLabel.classList.add('completed')
-                            stepLiNote.innerHTML = stepLiNote.getAttribute('data-text');
+        // Add listeners
+            if(inputType == "text" || inputType == "textarea") {
+                scopeLiInfo.addEventListener("input", function () {
+                    scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
+                    if ((scopeLiInfo.value).length === 0) {
+                        scopeLiLabel.classList.remove("completed");
+                        scopeLiInfo.classList.add("border-danger");
+                        scopeLiInfo.classList.remove("border-success");
+                        scopeLiNote.innerHTML = '';
+                        if(hideLi == true) {
+                            scopeLiNote.style.display = 'none';
                         }
-                    });
-                    stepLiButton.addEventListener("click", function () {
-                            stepLi.remove();
-                            stepLiNote.remove();
-                    });
-            // Append step elements
-            stepLi.appendChild(stepLiRow);
-            stepLiRow.appendChild(stepLiColStep);
-            stepLiRow.appendChild(stepLiColButton);
-            stepLiColStep.appendChild(stepLiInput);
-            stepLiColButton.appendChild(stepLiButton);
-            stepLiRow.appendChild(stepLiRowClearFix);
-            stepListLiSteps.appendChild(stepLi);
-            stepListNote.appendChild(stepLiNote);
+                    } else {
+                        scopeLiLabel.classList.add("completed");
+                        scopeLiInfo.classList.add("border-success");
+                        scopeLiInfo.classList.remove("border-danger");
+                        if (prepend) {
+                            scopeLiNote.innerHTML = prepend + " " + scopeLiNote.getAttribute('data-text');
+                        } else {
+                            scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
+                        }
+                        if(hideLi == true) {
+                            scopeLiNote.style.display = '';
+                        }
+                    }
+                });
+            } else if(inputType == "date") {
+                scopeLiInfo.addEventListener("input", function () {
+                    scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
+                    if ((scopeLiInfo.value).length === 0) {
+                        scopeLiLabel.classList.remove("completed");
+                        scopeLiInfo.classList.add("border-danger");
+                        scopeLiInfo.classList.remove("border-success");
+                        scopeLiNote.innerHTML = '';
+                        if(hideLi == true) {
+                            scopeLiNote.style.display = 'none';
+                        }
+                    } else {
+                        var date = new Date(scopeLiNote.getAttribute('data-text')),
+                        noteDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth()+1)).slice(-2) + '/' + date.getFullYear();
+                        scopeLiLabel.classList.add("completed");
+                        scopeLiInfo.classList.add("border-success");
+                        scopeLiInfo.classList.remove("border-danger");
+                        if (prepend) {
+                            scopeLiNote.innerHTML = prepend + " " + noteDate;
+                        } else {
+                            scopeLiNote.innerHTML = noteDate;
+                        }
+                        if(hideLi == true) {
+                            scopeLiNote.style.display = '';
+                        }
+                    }
+                });
+            } else if(inputType == "select") {
+                scopeLiInfo.addEventListener("change", function () {
+                    scopeLiNote.setAttribute('data-text', scopeLiInfo.value);
+                    if (scopeLiInfo.value === "0") {
+                        scopeLiLabel.classList.remove("completed");
+                        scopeLiInfo.classList.add("border-danger");
+                        scopeLiInfo.classList.remove("border-success");
+                        scopeLiNote.innerHTML = '';
+                        if(hideLi == true) {
+                            scopeLiNote.style.display = 'none';
+                        }
+                    } else {
+                        scopeLiLabel.classList.add("completed");
+                        scopeLiInfo.classList.add("border-success");
+                        scopeLiInfo.classList.remove("border-danger");
+                        if (prepend) {
+                            scopeLiNote.innerHTML = prepend + " " + scopeLiNote.getAttribute('data-text');
+                        } else {
+                            scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
+                        }
+                        if(hideLi == true) {
+                            scopeLiNote.style.display = '';
+                        }
+                    }
+                });
+            } else if(inputType == "checkbox") {
+                scopeLiInfo.addEventListener("input", function () {
+                    if (scopeLiInfo.checked == false) {
+                        scopeLiLabel.classList.remove("completed");
+                        scopeLiInfo.classList.add("border-danger");
+                        scopeLiInfo.classList.remove("border-success");
+                        scopeLiNote.innerHTML = '';
+                        if(hideLi == true) {
+                            scopeLiNote.style.display = 'none';
+                        }
+                    } else {
+                        scopeLiLabel.classList.add("completed");
+                        scopeLiInfo.classList.add("border-success");
+                        scopeLiInfo.classList.remove("border-danger");
+                        scopeLiNote.innerHTML = placeholder;
+                        if(hideLi == true) {
+                            scopeLiNote.style.display = '';
+                        }
+                    }
+                });
+            }
+
+        // Append elements
+            scopeLi.appendChild(scopeLiRow);
+            scopeLiRow.appendChild(scopeLiColLabel);
+            scopeLiRow.appendChild(scopeLiColInfo);
+            scopeLiColLabel.appendChild(scopeLiLabel);
+            scopeLiColInfo.appendChild(scopeLiInfo);
+            scopeLiRow.appendChild(scopeLiRowClearFix);
             
-            // Increase step counter
-            stepId++
-        });
+            if(inputType == "select") {
+                option = document.createElement("option");
+                option.setAttribute("value", 0);
+                option.innerHTML = placeholder
+                scopeLiInfo.appendChild(option);
+                options.forEach((element) => {
+                    option = document.createElement("option");
+                    option.setAttribute("value", element[0]);
+                    option.innerHTML = element[1];
+                    scopeLiInfo.appendChild(option);
+                });
+                
+            }
+    }
+    // Element ID / label text / placenolder of steps, options?
+    function createStepList(liID, label, placeholder, options) {
+        var   stepId = 1;
+        // Create elements
+        const   stepList = document.getElementById(liID),
+                stepListNote = document.getElementById(liID + '-info'),
+                
+                stepListLiRow = document.createElement("div"),
+                stepListLiColLabel = document.createElement("div"),
+                stepListLiColSteps = document.createElement("div"),
+                stepListLiLabel = document.createElement("label"),
+                stepListLiSteps = document.createElement("ol"),
+                stepLiAddStepButton = document.createElement("button"),
+                stepListLiRowClearFix = document.createElement("div");
+                
+        // Set attributes
+            stepLiAddStepButton.setAttribute('class', 'btn btn-link float-end mt-1');
+            stepLiAddStepButton.innerHTML = '<i class="fa-solid fa-plus"></i>'
+            stepListLiRow.setAttribute("class", 'row p-1');
+            stepListLiColLabel.setAttribute("class", 'col-auto');
+            stepListLiColSteps.setAttribute("class", 'col py-4');
+            stepListLiLabel.setAttribute("class", 'control-label');
+            stepListLiLabel.setAttribute("for", liID + '-data');
+            stepListLiLabel.innerHTML = label;
+            stepListLiRowClearFix.setAttribute("class", 'clearfix');
+            stepListLiSteps.setAttribute("id", liID + '-data');
 
-        stepLiAddStepButton.click();
-        stepLiAddStepButton.click();
-        stepLiAddStepButton.click();
-        
-    // Append elements
-        stepList.appendChild(stepListLiRow);
-        stepListLiRow.appendChild(stepListLiColLabel);
-        stepListLiRow.appendChild(stepListLiColSteps);
-        stepListLiColLabel.appendChild(stepListLiLabel);
-        stepListLiColSteps.appendChild(stepListLiSteps);
-        stepListLiColSteps.appendChild(stepLiAddStepButton);
-        stepListLiRow.appendChild(stepListLiRowClearFix);
-}
+        // Add step function
+            stepLiAddStepButton.addEventListener("click", function () {
+                // Create step elements
+                const stepLi = document.createElement("li"),
+                stepLiRow = document.createElement("div"),
+                stepLiColStep = document.createElement("div"),
+                stepLiColButton = document.createElement("div"),
+                stepLiInput = document.createElement("input"),
+                stepLiButton = document.createElement("button"),
+                stepLiNote = document.createElement("li"),
+                stepLiRowClearFix = document.createElement("div");
 
-// Copy Text Logic
+
+                // Set attributes
+                stepLi.setAttribute("id", liID+'-step-'+stepId);
+                stepLiRow.setAttribute("class", 'row my-1');
+                stepLiColStep.setAttribute("class", 'col');
+                stepLiColButton.setAttribute("class", 'col-auto');
+                stepLiInput.setAttribute("class", 'form-control border-danger');
+                stepLiInput.setAttribute("placeholder",  placeholder);
+                stepLiButton.setAttribute("class", 'btn btn-link');
+                stepLiButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+                stepLiRowClearFix.setAttribute("class", 'clearfix');
+
+                // Add step listeners
+                stepLiInput.addEventListener("input", function () {
+                            stepLiNote.setAttribute('data-text', stepLiInput.value);
+                            if ((stepLiInput.value).length === 0) {
+                                stepLi.classList.add("text-danger");
+                                stepLi.classList.remove("text-success");
+                                stepLiInput.classList.add("border-danger");
+                                stepLiInput.classList.remove("text-success");
+                                stepListLiLabel.classList.remove('completed')
+                                stepLiNote.innerHTML = '';
+                            } else {
+                                stepLi.classList.add("text-success");
+                                stepLi.classList.remove("text-danger");
+                                stepLiInput.classList.add("border-success");
+                                stepLiInput.classList.remove("border-danger");
+                                stepListLiLabel.classList.add('completed')
+                                stepLiNote.innerHTML = stepLiNote.getAttribute('data-text');
+                            }
+                        });
+                        stepLiButton.addEventListener("click", function () {
+                                stepLi.remove();
+                                stepLiNote.remove();
+                        });
+                // Append step elements
+                stepLi.appendChild(stepLiRow);
+                stepLiRow.appendChild(stepLiColStep);
+                stepLiRow.appendChild(stepLiColButton);
+                stepLiColStep.appendChild(stepLiInput);
+                stepLiColButton.appendChild(stepLiButton);
+                stepLiRow.appendChild(stepLiRowClearFix);
+                stepListLiSteps.appendChild(stepLi);
+                stepListNote.appendChild(stepLiNote);
+                
+                // Increase step counter
+                stepId++
+            });
+
+            stepLiAddStepButton.click();
+            stepLiAddStepButton.click();
+            stepLiAddStepButton.click();
+            
+        // Append elements
+            stepList.appendChild(stepListLiRow);
+            stepListLiRow.appendChild(stepListLiColLabel);
+            stepListLiRow.appendChild(stepListLiColSteps);
+            stepListLiColLabel.appendChild(stepListLiLabel);
+            stepListLiColSteps.appendChild(stepListLiSteps);
+            stepListLiColSteps.appendChild(stepLiAddStepButton);
+            stepListLiRow.appendChild(stepListLiRowClearFix);
+    }
+    // Copy Text Logic
     function copyText(btnID, divID) {
         const button = document.getElementById(btnID),
         content = document.getElementById(divID);
@@ -1608,80 +1690,7 @@ function createStepList(liID, label, placeholder, options) {
             }
         })
     }
-
-// Collapse
-    function collapseElement(elementID) {
-        if (typeof elementID === 'string' || elementID instanceof String) {
-            element = document.getElementById(elementID);
-            element.style.transition = 'all .3s';
-            element.style.overflow = 'hidden';
-            element.style.maxHeight = 0;
-            element.style.opacity = 0;
-        }
-        else if (isArray(elementID)) {
-            elementID.forEach(function (element) {
-                if (typeof element === 'string' || element instanceof String) {
-                    element = document.getElementById(element);
-                    element.style.transition = 'all .3s';
-                    element.style.overflow = 'hidden';
-                    element.style.maxHeight = 0;
-                    element.style.opacity = 0;
-                } else {
-                    element.style.transition = 'all .3s';
-                    element.style.overflow = 'hidden';
-                    element.style.maxHeight = 0;
-                    element.style.opacity = 0;
-                }
-            });
-        } else {
-            elementID.style.transition = 'all .3s';
-            elementID.style.overflow = 'hidden';
-            elementID.style.maxHeight = 0;
-            elementID.style.opacity = 0;
-        }
-    }
-    function expandElement(elementID) {
-        if (typeof elementID === 'string' || elementID instanceof String) {
-            element = document.getElementById(elementID);
-            element.style.maxHeight = element.scrollHeight + "px";
-            element.style.transition = 'all .3s';
-            element.style.overflow = 'visible';
-            element.style.opacity = 1;
-        } else if (isArray(elementID)) {
-            elementID.forEach(function (element) {
-                if (typeof element === 'string' || element instanceof String) {
-                    element = document.getElementById(element);
-                    element.style.maxHeight = element.scrollHeight + "px";
-                    element.style.transition = 'all .3s';
-                    element.style.overflow = 'visible';
-                    element.style.opacity = 1;
-                    setTimeout(function() {
-                        element.style.maxHeight = null;
-                    }, 300);
-                } else {
-                    element.style.maxHeight = element.scrollHeight + "px";
-                    element.style.transition = 'all .3s';
-                    element.style.overflow = 'visible';
-                    element.style.opacity = 1;
-                }
-            });
-        } else {
-            elementID.style.maxHeight = element.scrollHeight + "px";
-            elementID.style.transition = 'all .3s';
-            element.style.overflow = 'visible';
-            elementID.style.opacity = 1;
-        }
-    }
-    function toggleElement(elementID) {
-        element = document.getElementById(elementID);
-        if(!element.style.maxHeight == 0) {
-            element.style.maxHeight = 0;
-            element.style.opacity = 0;
-        } else {
-            element.style.maxHeight = element.scrollHeight + "px";
-            element.style.opacity = 1;
-        }
-    }
+    // isArray check
     function isArray(array) {
         return Object.prototype.toString.call(array) === '[object Array]';
     }
