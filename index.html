@@ -75,6 +75,9 @@
         .completed {
             opacity: 0.6;
         }
+        #case-note li {
+            transition: all .3s;
+        }
     </style>
 </head>
 <body>
@@ -82,7 +85,7 @@
     <div class="row m-0 p-0">
         <!-- FORM Column -->
         <div class="col-sm-12 col-md-7 p-5 pt-4 form-panel">
-            <h1 class="text-title-medium-70 mg-btm-40 tp-title" style="color: white!important;-webkit-text-fill-color: white;margin-bottom:20px;background-image:none;">
+            <h1 class="text-title-medium-70 tp-title" style="color: white!important;-webkit-text-fill-color: white;margin-bottom:20px;background-image:none;">
                 <i class="fa-brands fa-microsoft"></i> Microsoft Scoping
             </h1>
             <main>
@@ -92,9 +95,10 @@
                     <li id="issue-description"></li>
                     <!-- Scope Agreement Form -->
                     <li id="scope-agreement"></li>
-                    <!-- Issue Started Form -->
-                    <li><div id="first-occurance"></div>
+                    <li><label class="control-label fw-bold p-1">General scoping:</label>
                         <ul>
+                            <!-- Issue Started Form -->
+                            <li id="first-occurance"></li>
                             <!-- Did It Work Before Form -->
                             <li id="worked-before"></li>
                             <!-- Can Be Reprod On Demand Form -->
@@ -105,14 +109,11 @@
                             <li id="customer-repro-steps"></li>
                             <li id="customer-repro-steps-comment"></li>
                             <!-- Internal Repro Steps Form -->
-                            <li id="internal-repro-steps" class="collapse multi-collapse"></li>
-                            <li id="internal-repro-steps-comment" class="collapse multi-collapse"></li>
-                              <div class="clearfix"></div>
-                        </ul>
-                    </li>
-                    <!-- How Many Affected Users Form -->
-                    <li><div id="affected-users"></div>
-                        <ul>
+                            <li id="internal-repro-steps"></li>
+                            <li id="internal-repro-steps-comment"></li>
+                            <div class="clearfix"></div>
+                            <!-- How Many Affected Users Form -->
+                            <li id="affected-users"></li>
                             <!-- Example Affected User Form -->
                             <li id="example-affected"></li>
                             <!-- Example Not Affected User Form -->
@@ -120,16 +121,33 @@
                             <!-- Get-CsOnlineUser Transcript Form -->
                             <li>
                                 <div class="row">
-                                    <div id="get-csonlineuser-transcript"class="col-auto"></div>
+                                    <div id="get-csonlineuser-transcript" class="col-auto"></div>
                                     <div class="col-auto">
-                                        <button class="btn-sm btn-link"  style="margin:-5px 0 5px -50px;" type="button" data-bs-toggle="modal" data-bs-target="#getCsOnlineUserModal"><i class="fa-solid fa-circle-info"></i></button>
+                                        <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#getCsOnlineUserModal"><i class="fa-solid fa-circle-info"></i></button>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
                             </li>
                         </ul>
                     </li>
-                </ul>
+                    <!-- PSTN or teams -->
+                    <li>
+                        <div class="row">
+                            <div id="calling-scoping" class="col-auto"></div>
+                            <div class="col-auto">
+                                <button class="btn-sm btn-link" style="margin:2px 0 0 -35px;" type="button" data-bs-toggle="modal" data-bs-target="#getCsOnlineUserModal"><i class="fa-solid fa-circle-info"></i></button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <ul id="calling-scoping-ul">
+                            <li id="pstn-teams-call-kind"></li>
+                            <li id="calling-plan-license"></li>
+                            <li id="sbc-vendor"></li>
+                            <li id="sbc-model"></li>
+                            <li id="sbc-software"></li>
+                        </ul>
+                    </li>
+                </ol>
             </main>
         </div>
             
@@ -145,7 +163,7 @@
                 <p>Case status:</p>
                 <p>Activity:</p>
 
-                <ul style="margin-left:30px;">
+                <ol style="margin-left:30px;">
                     <li>
                         Issue Description:
                         <ul><li id="issue-description-info"></li></ul>
@@ -154,8 +172,7 @@
                         Scope Agreement:
                         <ul><li id="scope-agreement-info"></li></ul>
                     </li>
-                    <li>
-                        Scope:
+                    <li>Scope:
                         <ul>
                             <li>
                                 Behaviour started: <span id="first-occurance-info" class="min-width-10" data-text=""></span>
@@ -165,15 +182,18 @@
                                     <li id="internal-repro-info"></li>
                                 </ul>
                             </li>
-                            <li><p class="mb-0">Customer repro steps:</p>
+                            <li>
+                                <p class="mb-0">Customer repro steps:</p>
                                 <ol id="customer-repro-steps-info" style="margin-top: 0; padding-top: 0;" start="1"></ol>
                                 <ul><li>Additional comments:<br><i id="customer-repro-steps-comment-info"></i></li></ul>
-                            <li id="internal-repro-section" class="collapse"><p class="mb-0">Internal repro steps:</p>
-                                    <ol id="internal-repro-steps-info" style="margin-top: 0; padding-top: 0;" start="1"></ol>
-                                    <ul><li>Additional comments:<br><i id="internal-repro-steps-comment-info"></i></li></ul>
+                            </li>
+                            <li id="internal-repro-section">
+                                <p class="mb-0">Internal repro steps:</p>
+                                <ol id="internal-repro-steps-info" style="margin-top: 0; padding-top: 0;" start="1"></ol>
+                                <ul><li>Additional comments:<br><i id="internal-repro-steps-comment-info"></i></li></ul>
                             </li>
                             <li>
-                                Affected users: <span id="affected-users-info" class="min-width-10" data-text=""></span>
+                                <span id="affected-users-info" class="min-width-10" data-text=""></span> affected users
                                 <ul>
                                     <li>Example Affected:
                                         <ul><li id="example-affected-info"></li></ul>
@@ -188,7 +208,16 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
+                    <li id="calling-scoping-section"><span id="calling-scoping-info"></span>
+                        <ul>
+                            <li id="pstn-teams-call-kind-info"></li>
+                            <li id="calling-plan-license-info"></li>
+                            <li id="sbc-vendor-info"></li>
+                            <li id="sbc-model-info"></li>
+                            <li id="sbc-software-info"></li>
+                        </ul>
+                    </li>
+                </ol>
                 <p>Action on Cx:</p>
                 <p>Next contact:</p>
                 <p>Next actions:</p>
@@ -268,29 +297,23 @@
     ];
     createScopeQuestion('internal-repro', true, 'Can you reproduce problem in test envoirnment?', 'select', "Choose option", internalReproOptions);
     // Hide internal repro if n/a
-    internalReproStepsLi = document.getElementById('internal-repro-steps');
-    internalReproComment = document.getElementById("internal-repro-steps-comment");
-    internalReproSection = document.getElementById("internal-repro-section");
+    collapseElement(['internal-repro-steps', 'internal-repro-steps-comment', 'internal-repro-section']);
     internalReproSelect = document.getElementById("internal-repro-data");
     internalReproSelect.addEventListener("change", function() {
         if(internalReproSelect.value == "0" || internalReproSelect.value == "It cannot be reproduced in test envoirnment") {
-            $(internalReproStepsLi).collapse('hide');
-            $(internalReproComment).collapse('hide');
-            $(internalReproSection).collapse('hide');
+            collapseElement(['internal-repro-steps', 'internal-repro-steps-comment', 'internal-repro-section']);
         } else {
-            $(internalReproStepsLi).collapse('show');
-            $(internalReproComment).collapse('show');
-            $(internalReproSection).collapse('show');
+            expandElement(['internal-repro-steps', 'internal-repro-steps-comment', 'internal-repro-section']);
         }
     });
 
     createStepList('customer-repro-steps', 'Customer repro steps:', "Customer repro step");
 
-    createScopeQuestion('customer-repro-steps-comment', false, 'Additional comments about repro behaviour:', 'textarea', 'In comparison to web client...');
+    createScopeQuestion('customer-repro-steps-comment', false, 'Additional comments about customer repro:', 'textarea', 'In comparison to web client...');
 
     createStepList('internal-repro-steps', 'Internal repro steps:', "Internal repro step");
 
-    createScopeQuestion('internal-repro-steps-comment', false, 'Additional comments about repro behaviour:', 'textarea', 'In comparison to web client...');
+    createScopeQuestion('internal-repro-steps-comment', false, 'Additional comments about internal repro:', 'textarea', 'In comparison to customer repro...');
 
     createScopeQuestion('affected-users', false, 'How many affected users:', 'text', 'All, 10, ~100');
 
@@ -300,6 +323,338 @@
 
     createScopeQuestion('get-csonlineuser-transcript', true, 'Get-CsOnlineUser Transcript Attached?', 'checkbox', 'Get-CsOnlineUser Transcript Attached');
 
+    createScopeQuestion('calling-scoping', true, 'Calling scoping:', 'checkbox', 'Calling scoping:');
+    collapseElement(['calling-scoping-ul', 'calling-scoping-section']);
+    callingScopingCheck = document.getElementById("calling-scoping-data");
+    callingScopingCheck.addEventListener("input", function() {
+        if(callingScopingCheck.checked == false) {
+            collapseElement(['calling-scoping-ul', 'calling-scoping-section']);
+        } else {
+            expandElement(['calling-scoping-ul', 'calling-scoping-section']);
+        }
+    });
+
+    var affectedCallsOptions = [
+        ["Direct Routing Inbound", "Direct Routing Inbound"],
+        ["Direct Routing Outbound", "Direct Routing Outbound"],
+        ["Direct Routing Inbound & Outbound", "Direct Routing Inbound & Outbound"],
+        ["Calling Plan Inbound", "Calling Plan Inbound"],
+        ["Calling Plan Outbound", "Calling Plan Outbound"],
+        ["Calling Plan Inbound & Outbound", "Calling Plan Inbound & Outbound"],
+        ["Teams calls, no PSTN", "Teams to Teams calls, no PSTN"]
+    ];
+    createScopeQuestion('pstn-teams-call-kind', true, 'What kind of calls are affected?', 'select', 'Choose option', affectedCallsOptions);
+    callKindSelect = document.getElementById("pstn-teams-call-kind-data");
+    callKindSelect.addEventListener("change", function() {
+        if(callKindSelect.value == "0") {
+            collapseElement(['calling-plan-license', 'calling-plan-license-info','sbc-vendor', 'sbc-vendor-info','sbc-model', 'sbc-model-info', 'sbc-software', 'sbc-software-info']);
+        } else if (callKindSelect.value == "Direct Routing Inbound" || callKindSelect.value == "Direct Routing Outbound" || callKindSelect.value == "Direct Routing Inbound & Outbound") {
+            collapseElement(['calling-plan-license', 'calling-plan-license-info']);
+            expandElement(['sbc-vendor', 'sbc-model', 'sbc-software']);
+        } else if (callKindSelect.value == "Calling Plan Inbound" || callKindSelect.value == "Calling Plan Outbound" || callKindSelect.value == "Calling Plan Inbound & Outbound") {
+            expandElement(['calling-plan-license']);
+            collapseElement(['sbc-vendor', 'sbc-vendor-info', 'sbc-model', 'sbc-model-info', 'sbc-software', 'sbc-software-info']);
+        } else if (callKindSelect.value == "Teams calls, no PSTN") {
+            collapseElement(['calling-plan-license', 'calling-plan-license-info', 'sbc-vendor', 'sbc-vendor-info', 'sbc-model-info', 'sbc-model', 'sbc-software', 'sbc-software-info']);
+        }
+    });
+    
+    var callingPlanOptions = [
+        ["Domestic Calling Plan", "Domestic Calling Plan"],
+        ["International Calling Plan", "International Calling Plan"],
+        ["Domestic and International Calling Plan", "Domestic and International Calling Plan"]
+    ];
+    createScopeQuestion('calling-plan-license', true, 'What Calling Plan has affected user?', 'select', 'Choose plan', callingPlanOptions);
+    collapseElement(['calling-plan-license']);
+
+    var SBCVendorOptions = [
+        ["AudioCodes", "AudioCodes"],
+        ["Ribbon Communications", "Ribbon Communications"],
+        ["Thinktel", "Thinktel"],
+        ["Oracle", "Oracle"],
+        ["TE-SYSTEMS", "TE-SYSTEMS"],
+        ["Metaswitch", "Metaswitch"],
+        ["Cisco", "Cisco"],
+        ["Avaya", "Avaya"],
+        ["Nokia", "Nokia"],
+        ["Italtel", "Italtel"],
+        ["Ericsson", "Ericsson"],
+        ["Cataleya", "Cataleya"],
+        ["ULTATEL", "ULTATEL"],
+        ["Atos", "Atos"],
+        ["Sansay Inc.", "Sansay Inc."],
+        ["Enghouse Networks", "Enghouse Networks"],
+        ["Patton Electronics Co.", "Patton Electronics Co."],
+        ["M5 Technologies (Media5 Corporation)", "M5 Technologies (Media5 Corporation)"],
+        ["Ekinops", "Ekinops"],
+        ["46 Labs LLC", "46 Labs LLC"],
+        ["Frafos", "Frafos"]
+    ];
+    createScopeQuestion('sbc-vendor', true, 'SBC Vendor:', 'select', 'Choose vendor', SBCVendorOptions, 'SBC Vendor:');
+    SBCModelOptions = []
+    createScopeQuestion('sbc-model', true, 'SBC Model:', 'select', 'Choose vendor', SBCModelOptions, 'SBC Model:');
+    collapseElement(['sbc-vendor', 'sbc-model', 'sbc-software']);
+    SBCVendorSelect = document.getElementById("sbc-vendor-data");
+    SBCModelSelect = document.getElementById("sbc-model-data");
+    SBCModelNoteLi = document.getElementById("sbc-model-info");
+    SBCVendorSelect.addEventListener("change", function() {
+        if (SBCVendorSelect.value == "0") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["0", "Choose vendor"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "AudioCodes") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["0", "Choose model"],
+                ["Mediant 500 SBC", "Mediant 500 SBC"],
+                ["Mediant 800 SBC", "Mediant 800 SBC"],
+                ["Mediant 2600 SBC", "Mediant 2600 SBC"],
+                ["Mediant 4000 SBC", "Mediant 4000 SBC"],
+                ["Mediant 1000B SBC", "Mediant 1000B SBC"],
+                ["Mediant 9000 SBC", "Mediant 9000 SBC"],
+                ["Mediant Virtual Edition SBC", "Mediant Virtual Edition SBC"],
+                ["Mediant Cloud Edition SBC", "Mediant Cloud Edition SBC"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Ribbon Communications") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["0", "Choose model"],
+                ["SBC 5100/5110", "SBC 5100/5110"],
+                ["SBC 5200/5210", "SBC 5200/5210"],
+                ["SBC 5400", "SBC 5400"],
+                ["SBC 7000", "SBC 7000"],
+                ["SBC SWe", "SBC SWe"],
+                ["SBC 1000", "SBC 1000"],
+                ["SBC 2000", "SBC 2000"],
+                ["SBC SWe Lite", "SBC SWe Lite"],
+                ["EdgeMarc Series", "EdgeMarc Series"],
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Thinktel") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Think 365 SBC", "Think 365 SBC"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Oracle") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["0", "Choose model"],
+                ["AP 1100", "AP 1100"],
+                ["AP 3900", "AP 3900"],
+                ["AP 4600", "AP 4600"],
+                ["AP 6300", "AP 6300"],
+                ["AP 6350", "AP 6350"],
+                ["VME", "VME"],
+                ["AP 3950", "AP 3950"],
+                ["AP 4900", "AP 4900"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "TE-SYSTEMS") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["anynode", "anynode"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Metaswitch") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Perimeta SBC", "Perimeta SBC"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '<option value="'+item[0]+'">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Cisco") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["0", "Choose model"],
+                ["Cisco Unified Border Element (CUBE) for 1000 Series Integrated Services Routers", "Cisco Unified Border Element (CUBE) for 1000 Series Integrated Services Routers"],
+                ["Cisco Unified Border Element (CUBE) for 4000 Series Integrated Services Routers", "Cisco Unified Border Element (CUBE) for 4000 Series Integrated Services Routers"],
+                ["Cisco Unified Border Element (CUBE) for 1000V Series Cloud Services Router", "Cisco Unified Border Element (CUBE) for 1000V Series Cloud Services Router"],
+                ["Cisco Unified Border Element (CUBE) for 1000 Series Aggregation Services Routers", "Cisco Unified Border Element (CUBE) for 1000 Series Aggregation Services Routers"],
+                ["Cisco Unified Border Element (CUBE) for Catalyst 8000 Edge Platforms", "Cisco Unified Border Element (CUBE) for Catalyst 8000 Edge Platforms"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Avaya") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Avaya Session Border Controller for Enterprise (ASBCE)", "Avaya Session Border Controller for Enterprise (ASBCE)"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Nokia") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Nokia Session Border Controller", "Nokia Session Border Controller"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Italtel") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["NetMatch-S CI", "NetMatch-S CI"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Ericsson") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["vSBC 2.16", "vSBC 2.16"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Cataleya") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Orchid Link", "Orchid Link"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "ULTATEL") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Teams SBC", "Teams SBC"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Atos") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Atos Unify OpenScape Session Border Controller", "Atos Unify OpenScape Session Border Controller"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Sansay Inc") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["vmVSXi", "vmVSXi"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Enghouse Networks") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Dialogic BorderNet SBC", "Dialogic BorderNet SBC"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Patton Electronics Co.") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Patton SmartNode eSBC", "Patton SmartNode eSBC"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "M5 Technologies (Media5 Corporation)") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Mediatrix Sentinel Series", "Mediatrix Sentinel Series"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Ekinops") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["0", "Choose model"],
+                ["Ekinops Session Border Controller (ONeSBC)", "Ekinops Session Border Controller (ONeSBC)"],
+                ["Ekinops Virtual Session Border Controller (ONEvSBC)", "Ekinops Virtual Session Border Controller (ONEvSBC)"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "46 Labs LLC") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["Hyperconverged Voice", "Hyperconverged Voice"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        } else if (SBCVendorSelect.value == "Frafos") {
+            selectOptions = ""
+            SBCModelOptions = [
+                ["ABC SBC", "ABC SBC"]
+            ]
+            for (var item of SBCModelOptions) {
+                selectOptions += '"<option value="' + item[0] + '">' + item[1] + '</option>';
+            }
+            SBCModelSelect.innerHTML = selectOptions;
+            SBCModelSelect.dispatchEvent(new Event('change'));
+        }
+    });
+
+    createScopeQuestion('sbc-software', true, 'SBC Software Version:', 'text', '7.20A.258', '', 'Software version:');
 
     // Copy Buttons
     copyText('copy-case-note', 'case-note');
@@ -308,7 +663,7 @@
 
 
 // Functions         
-function createScopeQuestion(liID, hideLi, label, inputType, placeholder, options) {
+function createScopeQuestion(liID, hideLi, label, inputType, placeholder, options, prepend) {
 
     // Check the input type and set correct element
         if (inputType == "text" || inputType == "date" || inputType == "checkbox") {
@@ -355,14 +710,19 @@ function createScopeQuestion(liID, hideLi, label, inputType, placeholder, option
             scopeLiInfo.setAttribute("rows", 3);
             scopeLiInfo.setAttribute("placeholder",  placeholder);
         } else if(inputType == "checkbox") {
+            scopeLiColInfo.classList.add('form-check', 'form-switch', 'p-0');
             scopeLiInfo.classList.remove("form-control");
-            scopeLiInfo.classList.add("form-check-input", "mt-1");
+            scopeLiInfo.classList.add("form-check-input");
+            scopeLiInfo.setAttribute("style", "margin:12px 0 0 10px;");
             scopeLiInfo.setAttribute("type", "checkbox");
+            scopeLiInfo.setAttribute("role", "switch");
         }
 
         
         if(hideLi == true) {
-            scopeLiNote.classList.add('d-none');
+            scopeLiNote.style.overflow = 'hidden';
+            scopeLiNote.style.maxHeight = 0;
+            scopeLiNote.style.opacity = 0;
         }
 
 
@@ -376,15 +736,23 @@ function createScopeQuestion(liID, hideLi, label, inputType, placeholder, option
                     scopeLiInfo.classList.remove("border-success");
                     scopeLiNote.innerHTML = '';
                     if(hideLi == true) {
-                        scopeLiNote.classList.add('d-none');
+                        scopeLiNote.style.overflow = 'hidden';
+                        scopeLiNote.style.maxHeight = 0;
+                        scopeLiNote.style.opacity = 0;
                     }
                 } else {
                     scopeLiLabel.classList.add("completed");
                     scopeLiInfo.classList.add("border-success");
                     scopeLiInfo.classList.remove("border-danger");
-                    scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
+                    if (prepend) {
+                        scopeLiNote.innerHTML = prepend + " " + scopeLiNote.getAttribute('data-text');
+                    } else {
+                        scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
+                    }
                     if(hideLi == true) {
-                        scopeLiNote.classList.remove('d-none');
+                        scopeLiNote.style.maxHeight = scopeLiNote.scrollHeight + "px";
+                        scopeLiNote.style.overflow = 'visible';
+                        scopeLiNote.style.opacity = 1;
                     }
                 }
             });
@@ -397,7 +765,9 @@ function createScopeQuestion(liID, hideLi, label, inputType, placeholder, option
                     scopeLiInfo.classList.remove("border-success");
                     scopeLiNote.innerHTML = '';
                     if(hideLi == true) {
-                        scopeLiNote.classList.add('d-none');
+                        scopeLiNote.style.overflow = 'hidden';
+                        scopeLiNote.style.maxHeight = 0;
+                        scopeLiNote.style.opacity = 0;
                     }
                 } else {
                     var date = new Date(scopeLiNote.getAttribute('data-text')),
@@ -405,9 +775,15 @@ function createScopeQuestion(liID, hideLi, label, inputType, placeholder, option
                     scopeLiLabel.classList.add("completed");
                     scopeLiInfo.classList.add("border-success");
                     scopeLiInfo.classList.remove("border-danger");
-                    scopeLiNote.innerHTML = noteDate;
+                    if (prepend) {
+                        scopeLiNote.innerHTML = prepend + " " + noteDate;
+                    } else {
+                        scopeLiNote.innerHTML = noteDate;
+                    }
                     if(hideLi == true) {
-                        scopeLiNote.classList.remove('d-none');
+                        scopeLiNote.style.maxHeight = scopeLiNote.scrollHeight + "px";
+                        scopeLiNote.style.overflow = 'visible';
+                        scopeLiNote.style.opacity = 1;
                     }
                 }
             });
@@ -420,15 +796,23 @@ function createScopeQuestion(liID, hideLi, label, inputType, placeholder, option
                     scopeLiInfo.classList.remove("border-success");
                     scopeLiNote.innerHTML = '';
                     if(hideLi == true) {
-                        scopeLiNote.classList.add('d-none');
+                        scopeLiNote.style.overflow = 'hidden';
+                        scopeLiNote.style.maxHeight = 0;
+                        scopeLiNote.style.opacity = 0;
                     }
                 } else {
                     scopeLiLabel.classList.add("completed");
                     scopeLiInfo.classList.add("border-success");
                     scopeLiInfo.classList.remove("border-danger");
-                    scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
+                    if (prepend) {
+                        scopeLiNote.innerHTML = prepend + " " + scopeLiNote.getAttribute('data-text');
+                    } else {
+                        scopeLiNote.innerHTML = scopeLiNote.getAttribute('data-text');
+                    }
                     if(hideLi == true) {
-                        scopeLiNote.classList.remove('d-none');
+                        scopeLiNote.style.maxHeight = scopeLiNote.scrollHeight + "px";
+                        scopeLiNote.style.overflow = 'visible';
+                        scopeLiNote.style.opacity = 1;
                     }
                 }
             });
@@ -440,7 +824,9 @@ function createScopeQuestion(liID, hideLi, label, inputType, placeholder, option
                     scopeLiInfo.classList.remove("border-success");
                     scopeLiNote.innerHTML = '';
                     if(hideLi == true) {
-                        scopeLiNote.classList.add('d-none');
+                        scopeLiNote.style.overflow = 'hidden';
+                        scopeLiNote.style.maxHeight = 0;
+                        scopeLiNote.style.opacity = 0;
                     }
                 } else {
                     scopeLiLabel.classList.add("completed");
@@ -448,7 +834,9 @@ function createScopeQuestion(liID, hideLi, label, inputType, placeholder, option
                     scopeLiInfo.classList.remove("border-danger");
                     scopeLiNote.innerHTML = placeholder;
                     if(hideLi == true) {
-                        scopeLiNote.classList.remove('d-none');
+                        scopeLiNote.style.maxHeight = scopeLiNote.scrollHeight + "px";
+                        scopeLiNote.style.overflow = 'visible';
+                        scopeLiNote.style.opacity = 1;
                     }
                 }
             });
@@ -606,6 +994,83 @@ function createStepList(liID, label, placeholder, options) {
                 }.bind(this), 1000);
             }
         })
+    }
+
+// Collapse
+    function collapseElement(elementID) {
+        if (typeof elementID === 'string' || elementID instanceof String) {
+            element = document.getElementById(elementID);
+            element.style.transition = 'all .3s';
+            element.style.overflow = 'hidden';
+            element.style.maxHeight = 0;
+            element.style.opacity = 0;
+        }
+        else if (isArray(elementID)) {
+            elementID.forEach(function (element) {
+                if (typeof element === 'string' || element instanceof String) {
+                    element = document.getElementById(element);
+                    element.style.transition = 'all .3s';
+                    element.style.overflow = 'hidden';
+                    element.style.maxHeight = 0;
+                    element.style.opacity = 0;
+                } else {
+                    element.style.transition = 'all .3s';
+                    element.style.overflow = 'hidden';
+                    element.style.maxHeight = 0;
+                    element.style.opacity = 0;
+                }
+            });
+        } else {
+            elementID.style.transition = 'all .3s';
+            elementID.style.overflow = 'hidden';
+            elementID.style.maxHeight = 0;
+            elementID.style.opacity = 0;
+        }
+    }
+    function expandElement(elementID) {
+        if (typeof elementID === 'string' || elementID instanceof String) {
+            element = document.getElementById(elementID);
+            element.style.maxHeight = element.scrollHeight + "px";
+            element.style.transition = 'all .3s';
+            element.style.overflow = 'visible';
+            element.style.opacity = 1;
+        } else if (isArray(elementID)) {
+            elementID.forEach(function (element) {
+                if (typeof element === 'string' || element instanceof String) {
+                    element = document.getElementById(element);
+                    element.style.maxHeight = element.scrollHeight + "px";
+                    element.style.transition = 'all .3s';
+                    element.style.overflow = 'visible';
+                    element.style.opacity = 1;
+                    setTimeout(function() {
+                        element.style.maxHeight = null;
+                    }, 300);
+                } else {
+                    element.style.maxHeight = element.scrollHeight + "px";
+                    element.style.transition = 'all .3s';
+                    element.style.overflow = 'visible';
+                    element.style.opacity = 1;
+                }
+            });
+        } else {
+            elementID.style.maxHeight = element.scrollHeight + "px";
+            elementID.style.transition = 'all .3s';
+            element.style.overflow = 'visible';
+            elementID.style.opacity = 1;
+        }
+    }
+    function toggleElement(elementID) {
+        element = document.getElementById(elementID);
+        if(!element.style.maxHeight == 0) {
+            element.style.maxHeight = 0;
+            element.style.opacity = 0;
+        } else {
+            element.style.maxHeight = element.scrollHeight + "px";
+            element.style.opacity = 1;
+        }
+    }
+    function isArray(array) {
+        return Object.prototype.toString.call(array) === '[object Array]';
     }
 </script>
 </body>
